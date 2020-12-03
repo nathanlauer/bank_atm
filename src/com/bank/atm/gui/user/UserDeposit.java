@@ -3,6 +3,7 @@ package com.bank.atm.gui.user;
 import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 public class UserDeposit extends JFrame {
 
@@ -14,6 +15,9 @@ public class UserDeposit extends JFrame {
     private JLabel amountLabel;
     private JFormattedTextField depositAmountField;
 
+    /**
+     * TODO add field for choosing account to make deposit and adjust currency format according to locale of that account
+     */
     public UserDeposit(){
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -23,7 +27,7 @@ public class UserDeposit extends JFrame {
     }
 
     private void createUIComponents() {
-        depositAmountField = new JFormattedTextField(NumberFormat.getCurrencyInstance());
+        depositAmountField = new JFormattedTextField(NumberFormat.getCurrencyInstance(Locale.US));
         amountLabel.setLabelFor(depositAmountField);
     }
 }
