@@ -13,7 +13,7 @@ public class UserViewAccounts extends JFrame {
     private JPanel userViewAccountsPanel;
     public UserViewAccounts(String userID){
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(userViewAccountsPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth,frameHeight));//set width and height of our frame
         this.pack();

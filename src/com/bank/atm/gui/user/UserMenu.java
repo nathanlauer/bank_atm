@@ -20,6 +20,7 @@ public class UserMenu extends JFrame {
     private JButton withdrawButton;
     private JButton transferMoneyButton;
     private JButton loansButton;
+    private JButton addNewAccountButton;
 
     public UserMenu(String title){
         super(title);
