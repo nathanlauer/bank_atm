@@ -30,7 +30,13 @@ public class UserMenu extends JFrame {
         this.setPreferredSize(new Dimension(frameWidth,frameHeight));//set width and height of our frame
         this.pack(); //packs frame to preferred size
         usernameLabel.setText("Welcome "+getUserName()+"!");
-
+        addNewAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserAddAccount userAddAccount = new UserAddAccount(getUserID());
+                userAddAccount.setVisible(true);
+            }
+        });
         viewAccountsButton.addActionListener(new ActionListener() {
 
             @Override
@@ -39,6 +45,7 @@ public class UserMenu extends JFrame {
                 userViewAccounts.setVisible(true);
             }
         });
+
     }
 
     /**
