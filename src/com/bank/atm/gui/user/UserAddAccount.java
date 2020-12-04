@@ -48,6 +48,25 @@ public class UserAddAccount extends JFrame {
         this.setContentPane(userAddAccountPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth,frameHeight));//set width and height of our frame
         this.pack();
+
+        createAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //todo when createAccount button is clicked, create account.
+//                createAccount();
+                System.out.println("Account is being created");
+            }
+        });
+        accountTypeComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JComboBox<AccountType> comboBox = (JComboBox<AccountType>) event.getSource();
+                //change the available account options based on selected account type
+                String [] accountOptions = ((AccountType)accountTypeComboBox.getSelectedItem()).getOptions();
+                DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>( accountOptions );
+                accountOptionsComboBox.setModel( model );
+            }
+        });
     }
 
 
@@ -55,28 +74,12 @@ public class UserAddAccount extends JFrame {
 
     private void createUIComponents() {
         accountTypeComboBox = new JComboBox<AccountType>(AccountType.values());
-        accountTypeComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                JComboBox<AccountType> comboBox = (JComboBox<AccountType>) event.getSource();
-                //change the available account options based on selected account type
-                String [] accountOptions = (accountTypeComboBox.getPrototypeDisplayValue()).getOptions();
-                DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>( accountOptions );
-                accountOptionsComboBox.setModel( model );
-            }
-        });
-        String [] accountOptions = (accountTypeComboBox.getPrototypeDisplayValue()).getOptions();
+        String [] accountOptions = ((AccountType)accountTypeComboBox.getSelectedItem()).getOptions();
         accountOptionsComboBox = new JComboBox<>(accountOptions);
 
         currencyTypeComboBox = new JComboBox<>(CurrencyType.values());
 
-        createAccountButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //todo when createAccount button is clicked, create account.
-//                createAccount();
-            }
-        });
+
 
     }
 //    //TODO implement create account
