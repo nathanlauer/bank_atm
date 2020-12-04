@@ -11,6 +11,8 @@ public class UserViewAccounts extends JFrame {
     private final int frameHeight=500;
 
     private JPanel userViewAccountsPanel;
+    private JButton addNewAcountButton;
+
     public UserViewAccounts(String userID){
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
