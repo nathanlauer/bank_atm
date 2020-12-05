@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 /**
  * Interface for users to add new account
- * @author szhen
+ * @author Sandra Zhen
  */
 public class UserAddAccount extends JFrame {
     private final int frameWidth =500;

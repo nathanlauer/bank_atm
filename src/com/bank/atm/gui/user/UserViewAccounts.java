@@ -1,4 +1,9 @@
 package com.bank.atm.gui.user;
+/**
+ * Interface for user to view all accounts they have in the bank
+ * @author Sandra Zhen
+ *
+ */
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,11 +42,9 @@ public class UserViewAccounts extends JFrame {
         accountsPanel.setLayout(boxLayout);
         List<JButton> acctBtns = createAccountBtns(userID);
         for(JButton acctBtn:acctBtns) {
-
-//            acctBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            accountsPanel.add(acctBtn);
             accountsPanel.add(Box.createRigidArea(new Dimension(10, 10)));//add space padding between each btn
-
+            acctBtn.setMargin(new Insets(10,100,10,100));
+            accountsPanel.add(acctBtn);
         }
 
     }
@@ -58,6 +61,8 @@ public class UserViewAccounts extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("Replace this with go to account details: "+account);
+                    AccountDetails accountDetails= new AccountDetails();
+                    accountDetails.setVisible(true);
                 }
             });
             acctBtns.add(acctBtn);
@@ -74,7 +79,7 @@ public class UserViewAccounts extends JFrame {
     private List<String> getAccounts(String userID){
         List<String> accList = new ArrayList<>();
         for(int i = 0; i<10; i++){//todo replace this with user's actual accounts
-            accList.add("SampleAcc"+i);
+            accList.add("SampleAcc "+i+ " and details here");
 
         }
         return accList;
