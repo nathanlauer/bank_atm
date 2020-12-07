@@ -1,7 +1,12 @@
 package com.bank.atm.gui.user;
 
+import com.bank.atm.gui.transactions.DepositUI;
+import com.bank.atm.gui.transactions.WithdrawUI;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * The UI for showing the full account details
@@ -27,7 +32,20 @@ public class AccountDetails extends JFrame {
         this.setContentPane(accountDetailsMainPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
         this.pack();
-
+        depositButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DepositUI depositUI = new DepositUI();
+                depositUI.setVisible(true);
+            }
+        });
+        withdrawButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WithdrawUI withdrawUI = new WithdrawUI();
+                withdrawUI.setVisible(true);
+            }
+        });
     }
 
 
