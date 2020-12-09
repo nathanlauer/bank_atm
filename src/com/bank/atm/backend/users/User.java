@@ -1,5 +1,9 @@
 package com.bank.atm.backend.users;
 
+import com.bank.atm.backend.authentication.Credentials;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -15,6 +19,7 @@ public class User {
     private String firstName;
     private String lastName;
     private final UUID uuid;
+    private final List<Credentials> credentialsList;
 
     /**
      * Standard constructor for a user
@@ -25,6 +30,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.uuid = UUID.randomUUID();
+        this.credentialsList = new ArrayList<>();
     }
 
     /**
