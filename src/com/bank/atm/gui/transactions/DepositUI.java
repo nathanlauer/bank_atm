@@ -85,7 +85,6 @@ public class DepositUI extends JFrame {
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
         depositPanel.add(label2, gbc);
         chooseAccountComboBox = new JComboBox();
         gbc = new GridBagConstraints();

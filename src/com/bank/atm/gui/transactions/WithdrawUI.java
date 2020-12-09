@@ -13,6 +13,8 @@ public class WithdrawUI extends JFrame {
     private JComboBox accountComboBox;
     private JLabel currencyTypeLabel;
     private JFormattedTextField amountTextField;
+    private JTextField currentBalanceTextField;
+    private JTextField newBalanceTextField;
 
     /**
      * TODO add field for choosing account to withdraw from and adjust currency format according to locale of that account
@@ -72,23 +74,72 @@ public class WithdrawUI extends JFrame {
         label3.setText("Amount:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         withdrawPanel.add(label3, gbc);
         currencyTypeLabel = new JLabel();
         currencyTypeLabel.setText("USD");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         withdrawPanel.add(currencyTypeLabel, gbc);
         amountTextField = new JFormattedTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         withdrawPanel.add(amountTextField, gbc);
+        final JPanel spacer2 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        withdrawPanel.add(spacer2, gbc);
+        final JPanel spacer3 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.insets = new Insets(0, 0, 50, 0);
+        withdrawPanel.add(spacer3, gbc);
+        final JLabel label4 = new JLabel();
+        label4.setText("Current Balance");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.anchor = GridBagConstraints.WEST;
+        withdrawPanel.add(label4, gbc);
+        currentBalanceTextField = new JTextField();
+        currentBalanceTextField.setEditable(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        withdrawPanel.add(currentBalanceTextField, gbc);
+        final JLabel label5 = new JLabel();
+        label5.setText("New Balance");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        withdrawPanel.add(label5, gbc);
+        newBalanceTextField = new JTextField();
+        newBalanceTextField.setEditable(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        withdrawPanel.add(newBalanceTextField, gbc);
+        final JPanel spacer4 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        withdrawPanel.add(spacer4, gbc);
     }
 
     /**
