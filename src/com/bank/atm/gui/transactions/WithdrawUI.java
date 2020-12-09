@@ -140,6 +140,20 @@ public class WithdrawUI extends JFrame {
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.VERTICAL;
         withdrawPanel.add(spacer4, gbc);
+        final JLabel label6 = new JLabel();
+        label6.setText("USD");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 5;
+        gbc.anchor = GridBagConstraints.WEST;
+        withdrawPanel.add(label6, gbc);
+        final JLabel label7 = new JLabel();
+        label7.setText("USD");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        withdrawPanel.add(label7, gbc);
     }
 
     /**
