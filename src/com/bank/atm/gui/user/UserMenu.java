@@ -5,6 +5,7 @@ package com.bank.atm.gui.user;
  * Class represents user menu interface when user first logs in
  */
 import com.bank.atm.gui.transactions.DepositUI;
+import com.bank.atm.gui.transactions.TransferMoneyUI;
 import com.bank.atm.gui.transactions.WithdrawUI;
 
 import javax.swing.*;
@@ -60,6 +61,13 @@ public class UserMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 WithdrawUI withdrawUI = new WithdrawUI();
                 withdrawUI.setVisible(true);
+            }
+        });
+        transferMoneyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TransferMoneyUI transferMoneyUI = new TransferMoneyUI();
+                transferMoneyUI.setVisible(true);
             }
         });
 
