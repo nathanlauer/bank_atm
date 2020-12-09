@@ -10,4 +10,7 @@ public class TransferMoneyUI {
     private JLabel toAccountCurrencyType;
     private JFormattedTextField transactionFeeTextField;
     private JFormattedTextField transferAmount;
+    private JFormattedTextField convertedTransferAmount;
+    private JFormattedTextField fromAccountBalanceTextField;
+    private JFormattedTextField toAccountBalanceTextField;
 }
