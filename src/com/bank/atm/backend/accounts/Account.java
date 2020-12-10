@@ -2,6 +2,7 @@ package com.bank.atm.backend.accounts;
 
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
+import com.bank.atm.backend.currency.UnknownExchangeRateException;
 import com.bank.atm.backend.users.User;
 
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ import java.util.UUID;
 public class Account {
     private final UUID uuid;
     private final Date opened;
-    private final Currency currency;
-    private final Money money;
+    private Currency currency;
+    private Money money;
     private final List<User> managers;
     private final AccountValueDecorator decorator;
 
@@ -44,11 +45,28 @@ public class Account {
     }
 
     /**
+     * Private method which sets the Currency for this Account. It is
+     * private because it should only be called the switchCurrency() method.
+     * @param other the new Currency for this Account
+     */
+    private void setCurrency(Currency other) {
+        this.currency = other;
+    }
+
+    /**
      *
      * @return the Money object representing the Monetary value of this Account.
      */
     public Money getMoney() {
         return money;
+    }
+
+    /**
+     * Sets the Money for this Account.
+     * @param other the new Money for this Account
+     */
+    public void setMoney(Money other) {
+        this.money = other;
     }
 
     /**
@@ -102,6 +120,18 @@ public class Account {
      */
     public String displayAccountValue() {
         return decorator.displayAccountValue();
+    }
+
+    /**
+     * Switches this Account from the currency Currency to a new one.
+     * This doesn't "create" or "remove" money from an Account - the Money
+     * is exchanged from what it currently is to its exchanged value.
+     * @param next the new Currency for this Account
+     */
+    public void switchCurrencies(Currency next) throws UnknownExchangeRateException {
+        Money exchanged = Currency.exchange(this.getMoney(), this.getCurrency(), next);
+        this.setMoney(exchanged);
+        this.setCurrency(next);
     }
 
     /**
