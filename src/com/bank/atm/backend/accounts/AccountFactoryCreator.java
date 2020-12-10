@@ -12,5 +12,9 @@ import com.bank.atm.backend.accounts.Account;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public interface AccountFactoryCreator {
+    /**
+     * Creates the appropriate type of Account
+     * @return Account object of appropriate subtype.
+     */
     Account createAccount();
 }
