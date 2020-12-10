@@ -1,5 +1,6 @@
-package com.bank.atm.backend.accounts;
+package com.bank.atm.backend.accounts.savings_accounts;
 
+import com.bank.atm.backend.accounts.savings_accounts.SavingsAccount;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
@@ -7,7 +8,7 @@ import com.bank.atm.backend.users.User;
 import java.util.List;
 
 /**
- * Class HighInterestSavingsAccount
+ * Class LowInterestSavingsAccount
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu
@@ -15,14 +16,14 @@ import java.util.List;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class HighInterestSavingsAccount extends SavingsAccount {
+public class LowInterestSavingsAccount extends SavingsAccount {
     /**
-     * Standard constructor for a HighInterestSavingsAccount
+     * Standard constructor for a LowInterestSavingsAccount
      * @param currency the Currency for this Account
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public HighInterestSavingsAccount(Currency currency, Money money, List<User> managers) {
+    public LowInterestSavingsAccount(Currency currency, Money money, List<User> managers) {
         super(currency, money, managers);
     }
 }

@@ -1,4 +1,4 @@
-package com.bank.atm.backend.accounts;
+package com.bank.atm.backend.accounts.loan_accounts;
 
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;

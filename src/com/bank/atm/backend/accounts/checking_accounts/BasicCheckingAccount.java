@@ -1,5 +1,6 @@
-package com.bank.atm.backend.accounts;
+package com.bank.atm.backend.accounts.checking_accounts;
 
+import com.bank.atm.backend.accounts.checking_accounts.CheckingAccount;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
@@ -7,7 +8,7 @@ import com.bank.atm.backend.users.User;
 import java.util.List;
 
 /**
- * Class FourOhOneKAccount
+ * Class BasicCheckingAccount
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu
@@ -15,14 +16,14 @@ import java.util.List;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class FourOhOneKAccount extends InvestmentAccount {
+public class BasicCheckingAccount extends CheckingAccount {
     /**
-     * Standard constructor for a FourOhOneKAccount
+     * Standard constructor for a BasicCheckingAccount
      * @param currency the Currency for this Account
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public FourOhOneKAccount(Currency currency, Money money, List<User> managers) {
+    public BasicCheckingAccount(Currency currency, Money money, List<User> managers) {
         super(currency, money, managers);
     }
 }
