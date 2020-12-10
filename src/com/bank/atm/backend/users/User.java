@@ -66,6 +66,22 @@ public class User {
     }
 
     /**
+     *
+     * @return true if this User is an Admin, false otherwise.
+     */
+    public boolean isAnAdmin() {
+        return this instanceof Admin;
+    }
+
+    /**
+     *
+     * @return true if this User is a Client, false otherwise.
+     */
+    public boolean isAClient() {
+        return this instanceof Client;
+    }
+
+    /**
      * @return String representation of this User object.
      */
     @Override
@@ -77,7 +93,7 @@ public class User {
      * Defines equality for two User objects.
      *
      * @param o Other object in consideration for equality
-     * @return true if o is an instance of User, and TODO
+     * @return true if o is an instance of User, and this User has the same UUID.
      */
     @Override
     public boolean equals(Object o) {
