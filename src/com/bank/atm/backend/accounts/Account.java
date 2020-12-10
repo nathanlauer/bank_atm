@@ -76,6 +76,27 @@ public class Account {
     }
 
     /**
+     * Indicates whether or not a certain user has access to this Account.
+     * In general, if the user is an Admin, then they will have access (Admins
+     * have universal access).
+     * Otherwise, the user must be a Manager of this Account.
+     * @param user the User in question
+     * @return true if this User is an Admin or an Account manager, false otherwise.
+     */
+    public boolean hasAccess(User user) {
+        return user.isAnAdmin() || this.isAccountManager(user);
+    }
+
+    /**
+     * Indicates whether or not the passed in User is an Account manager.
+     * @param user the User in question
+     * @return true if the User is an Account manager, false otherwise.
+     */
+    public boolean isAccountManager(User user) {
+        return managers.contains(user);
+    }
+
+    /**
      *
      * @return a String representing the value of this Account. For example: $1,897.23
      */
