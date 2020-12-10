@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class Euro extends Currency {
+public class Euro implements Currency {
     private static Euro instance;
 
     /**
@@ -20,8 +20,7 @@ public class Euro extends Currency {
      *
      * @return the instance representing the relevant Currency.
      */
-    @Override
-    public Currency getInstance() {
+    public static Currency getInstance() {
         if(instance == null) {
             instance = new Euro();
         }
@@ -42,22 +41,6 @@ public class Euro extends Currency {
     public String displayMoney(Money money) {
         DecimalFormat formatter = new DecimalFormat("#,###.00");
         return "\u20AC" + formatter.format(money.getAmount());
-    }
-
-    /**
-     * Exchanges the passed in Money to the passed in Currency.
-     * For example, if this Currency is worth twice as much as the
-     * other Currency (meaning: Money with amount 2 in this currency
-     * is equal to Money with amount 4 in the other currency), then
-     * returns a Money with twice the value as the passed in Money.
-     *
-     * @param money the Money to be exchanged
-     * @param other the new Currency for that Money
-     * @return Money representation of the exchanged Money.
-     */
-    @Override
-    public Money exchange(Money money, Currency other) {
-        return null;
     }
 
     /**

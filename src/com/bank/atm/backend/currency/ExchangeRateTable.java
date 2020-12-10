@@ -23,7 +23,7 @@ public class ExchangeRateTable {
      *
      * @return the Singleton instance for the ExchangeRateTable class.
      */
-    public ExchangeRateTable getInstance() {
+    public static ExchangeRateTable getInstance() {
         if(instance == null) {
             instance = new ExchangeRateTable();
         }

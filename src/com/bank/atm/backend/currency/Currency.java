@@ -1,7 +1,7 @@
 package com.bank.atm.backend.currency;
 
 /**
- * Class Currency is an abstract class which represents some currency.
+ * Interface Currency is a description of the entities which represent some currency.
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu
@@ -9,20 +9,13 @@ package com.bank.atm.backend.currency;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public abstract class Currency {
-    /**
-     * Each currency is implemented as a Singleton, so this abstract method
-     * helps to enforce that.
-     * @return the instance representing the relevant Currency.
-     */
-    public abstract Currency getInstance();
-
+public interface Currency {
     /**
      * Displays the passed in Money as expected for the given Currency.
      * @param money the Money to be displayed
      * @return String representation of the Money
      */
-    public abstract String displayMoney(Money money);
+    String displayMoney(Money money);
 
     /**
      * Exchanges the passed in Money to the passed in Currency.
@@ -32,10 +25,16 @@ public abstract class Currency {
      * returns a Money with twice the value as the passed in Money.
      *
      * @param money the Money to be exchanged
-     * @param other the new Currency for that Money
+     * @param from the current Currency for that Money
+     * @param to the desired Currency for that Money
      * @return Money representation of the exchanged Money.
      */
-    public abstract Money exchange(Money money, Currency other);
+    static Money exchange(Money money, Currency from, Currency to) throws UnknownExchangeRateException {
+        ExchangeRate exchangeRate = ExchangeRateTable.getInstance().getExchangeRate(from, to);
+        double currentAmount = money.getAmount();
+        double exchangedAmount = currentAmount * exchangeRate.getRate();
+        return new Money(exchangedAmount);
+    }
 
     /**
      * Sets the exchange rate between one currency and another.
@@ -48,32 +47,25 @@ public abstract class Currency {
      * above, this method would also do the equivalent of:
      * Euro.getInstance().setExchangeRate(USD.getInstance(), 1/0.82);
      *
-     * @param other the Currency to demarcate the exchange rate
+     * @param from the Currency which is being exchanged from
+     * @param to the Currency which is being exchanged to
      * @param rate the exchange rate
      */
-    public void setExchangeRate(Currency other, double rate) {
+    static void setExchangeRate(Currency from, Currency to, double rate) {
+        ExchangeRate forward = new ExchangeRate(from, to, rate);
+        ExchangeRateTable.getInstance().addExchangeRate(from, forward);
 
+        ExchangeRate backward = new ExchangeRate(to, from, 1.0 / rate);
+        ExchangeRateTable.getInstance().addExchangeRate(to, backward);
     }
 
     /**
      *
      * @return a String representation of this Currency
      */
-    public abstract String toString();
+    @Override
+    String toString();
 
     @Override
-    public boolean equals(Object o) {
-        if(o == null) {
-            return false;
-        }
-
-        if(!(o instanceof Currency)) {
-            return false;
-        }
-
-        Currency other = (Currency)o;
-        // This will compare instances, meaning objects, so it is effectively
-        // comparing memory addresses.
-        return this.getInstance().equals(other.getInstance());
-    }
+    boolean equals(Object o);
 }

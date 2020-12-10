@@ -43,6 +43,14 @@ public class ExchangeRate {
 
     /**
      *
+     * @return the rate of exchange
+     */
+    public double getRate() {
+        return rate;
+    }
+
+    /**
+     *
      * @return the Currency being exchanges from.
      */
     public Currency getFrom() {
