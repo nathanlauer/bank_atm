@@ -21,4 +21,14 @@ public class Validations {
             throw new IllegalArgumentException();
         }
     }
+
+    /**
+     * Checks that the value is greater than 0.
+     * @param amount the amount is question
+     */
+    public static void positiveValue(double amount) {
+        if(amount <= 0) {
+            throw new IllegalArgumentException();
+        }
+    }
 }
