@@ -4,6 +4,8 @@ import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.currency.UnknownExchangeRateException;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.util.IllegalTransactionException;
+import com.bank.atm.util.Validations;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -132,6 +134,35 @@ public class Account {
         Money exchanged = Currency.exchange(this.getMoney(), this.getCurrency(), next);
         this.setMoney(exchanged);
         this.setCurrency(next);
+    }
+
+    /**
+     * Adds the amount of money passed in to this Account.
+     * Note that amount cannot be negative. If you want to remove value,
+     * please use the removeValue function
+     * @param amount the amount of Money to add.
+     */
+    public void addValue(double amount) {
+        Validations.nonNegative(amount);
+        double currentAmount = this.getMoney().getAmount();
+        this.getMoney().setAmount(currentAmount + amount);
+    }
+
+    /**
+     * Removes the amount of money passed in from this Account.
+     * Note that amount cannot be negative.
+     * @param amount the amount of money to remove
+     * @throws IllegalTransactionException if the amount of Money to be removed is greater than
+     * the amount of money in the Account.
+     */
+    public void removeValue(double amount) throws IllegalTransactionException {
+        Validations.nonNegative(amount);
+        double currentAmount = this.getMoney().getAmount();
+        if(amount > currentAmount) {
+            throw new IllegalTransactionException("Not enough Money in this Account in order to remove " + amount);
+        }
+
+        this.getMoney().setAmount(currentAmount - amount);
     }
 
     /**
