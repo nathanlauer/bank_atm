@@ -1,5 +1,7 @@
 package com.bank.atm.backend.accounts.savings_accounts;
 
+import com.bank.atm.backend.accounts.interest.InterestEarnable;
+import com.bank.atm.backend.accounts.interest.InterestEarningExecutor;
 import com.bank.atm.backend.accounts.savings_accounts.SavingsAccount;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
@@ -16,7 +18,9 @@ import java.util.List;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class LowInterestSavingsAccount extends SavingsAccount {
+public class LowInterestSavingsAccount extends SavingsAccount implements InterestEarnable {
+    private InterestEarningExecutor interestEarningExecutor;
+
     /**
      * Standard constructor for a LowInterestSavingsAccount
      * @param currency the Currency for this Account
@@ -25,5 +29,27 @@ public class LowInterestSavingsAccount extends SavingsAccount {
      */
     public LowInterestSavingsAccount(Currency currency, Money money, List<User> managers) {
         super(currency, money, managers);
+    }
+
+    /**
+     * Any entity which can earn interest must be able to provide
+     * an instance of an InterestEarningExecutor, which computes
+     * the interest for said entity.
+     *
+     * @return the InterestEarningExecutor associated with the relevant Account.
+     */
+    @Override
+    public InterestEarningExecutor getInterestEarningExecutor() {
+        return interestEarningExecutor;
+    }
+
+    /**
+     * Sets the InterestEarningExecutor for this Account
+     *
+     * @param executor the new InterestEarningExecutor for this Account
+     */
+    @Override
+    public void setInterestEarningExecutor(InterestEarningExecutor executor) {
+        interestEarningExecutor = executor;
     }
 }

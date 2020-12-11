@@ -2,6 +2,10 @@ package com.bank.atm.backend.accounts.loan_accounts;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactoryCreator;
+import com.bank.atm.backend.accounts.interest.InterestCompoundedDaily;
+import com.bank.atm.backend.accounts.interest.InterestCompoundedMonthly;
+import com.bank.atm.backend.accounts.interest.InterestEarnable;
+import com.bank.atm.backend.accounts.interest.InterestEarningExecutor;
 import com.bank.atm.backend.accounts.investment_accounts.FourOhOneKAccount;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
@@ -9,6 +13,7 @@ import com.bank.atm.backend.users.User;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,7 +49,16 @@ public class GenericLoanAccountFactory implements AccountFactoryCreator {
      */
     @Override
     public Account createAccount() {
+        // First, build the basic loan account
         List<User> managers = new ArrayList<>(Collections.singletonList(user));
-        return new GenericLoanAccount(currency, new Money(initialAmount), managers);
+        Account account = new GenericLoanAccount(currency, new Money(initialAmount), managers);
+
+        // This account earns interest for the bank: 17% interest per year, and it's compounded daily.
+        double apy = 17;
+        InterestEarningExecutor interestEarningExecutor = new InterestCompoundedDaily(account, new Date(), apy);
+        InterestEarnable earnable = (InterestEarnable)account;
+        earnable.setInterestEarningExecutor(interestEarningExecutor);
+
+        return account;
     }
 }
