@@ -18,4 +18,10 @@ public interface InterestEarnable {
      * @return the InterestEarningExecutor associated with the relevant Account.
      */
     InterestEarningExecutor getInterestEarningExecutor();
+
+    /**
+     * Sets the InterestEarningExecutor for this Account
+     * @param executor the new InterestEarningExecutor for this Account
+     */
+    void setInterestEarningExecutor(InterestEarningExecutor executor);
 }
