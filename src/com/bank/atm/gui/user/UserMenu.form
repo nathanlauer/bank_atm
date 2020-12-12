@@ -85,15 +85,6 @@
           <text value="Transfer Money"/>
         </properties>
       </component>
-      <component id="5cb7e" class="javax.swing.JButton" binding="loansButton" default-binding="true">
-        <constraints>
-          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <text value="Loans"/>
-        </properties>
-      </component>
       <component id="7682e" class="javax.swing.JLabel" binding="usernameLabel">
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
@@ -115,6 +106,33 @@
           <gridbag top="0" left="50" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
       </hspacer>
+      <component id="5cb7e" class="javax.swing.JButton" binding="viewLoansButton">
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="View Loans"/>
+        </properties>
+      </component>
+      <component id="a3e69" class="javax.swing.JButton" binding="payLoansButton" default-binding="true">
+        <constraints>
+          <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Pay Loans"/>
+        </properties>
+      </component>
+      <component id="a9656" class="javax.swing.JButton" binding="requestLoansButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Request Loans"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
