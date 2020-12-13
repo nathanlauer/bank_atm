@@ -4,6 +4,9 @@ package com.bank.atm.gui.user;
  * @author Sandra Zhen
  * Class represents user menu interface when user first logs in
  */
+import com.bank.atm.gui.loans.PayLoanUI;
+import com.bank.atm.gui.loans.RequestLoansUI;
+import com.bank.atm.gui.loans.ViewLoansUI;
 import com.bank.atm.gui.transactions.DepositUI;
 import com.bank.atm.gui.transactions.TransferMoneyUI;
 import com.bank.atm.gui.transactions.WithdrawUI;
@@ -72,7 +75,27 @@ public class UserMenu extends JFrame {
                 transferMoneyUI.setVisible(true);
             }
         });
-
+        requestLoansButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RequestLoansUI requestLoansUI = new RequestLoansUI();
+                requestLoansUI.setVisible(true);
+            }
+        });
+        viewLoansButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewLoansUI viewLoansUI = new ViewLoansUI();
+                viewLoansUI.setVisible(true);
+            }
+        });
+        payLoansButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PayLoanUI payLoanUI = new PayLoanUI();
+                payLoanUI.setVisible(true);
+            }
+        });
     }
 
     /**
@@ -179,13 +202,6 @@ public class UserMenu extends JFrame {
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userMenuPanel.add(transferMoneyButton, gbc);
-        viewLoansButton = new JButton();
-        viewLoansButton.setText("Loans");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 4;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        userMenuPanel.add(viewLoansButton, gbc);
         usernameLabel = new JLabel();
         usernameLabel.setText("Welcome");
         gbc = new GridBagConstraints();
@@ -206,6 +222,27 @@ public class UserMenu extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 50, 0, 0);
         userMenuPanel.add(spacer7, gbc);
+        viewLoansButton = new JButton();
+        viewLoansButton.setText("View Loans");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userMenuPanel.add(viewLoansButton, gbc);
+        payLoansButton = new JButton();
+        payLoansButton.setText("Pay Loans");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 6;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userMenuPanel.add(payLoansButton, gbc);
+        requestLoansButton = new JButton();
+        requestLoansButton.setText("Request Loans");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userMenuPanel.add(requestLoansButton, gbc);
     }
 
     /**

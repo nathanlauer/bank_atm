@@ -176,5 +176,4 @@ public class DepositUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return depositPanel;
     }
-
 }
