@@ -75,6 +75,8 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
             }
             ois.close();
             fis.close();
+        } catch (EOFException e) {
+            // This is fine, just means we read EOF (end of file)
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("Failed to read in all users from serialized file");
@@ -88,7 +90,7 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
      * @param obj the Object to be saved
      */
     @Override
-    public void save(Account obj) {
+    public void save(Account obj) throws IOException {
 
     }
 
@@ -127,14 +129,6 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
     }
 
     /**
-     * Closes the CollectionManager as a resource
-     */
-    @Override
-    public void close() {
-
-    }
-
-    /**
      * Adds the passed in Element to the Collection.
      * Internally, this will also call the save method, so the element is
      * persisted
@@ -142,7 +136,7 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
      * @param element the Element to add to the Collection.
      */
     @Override
-    public void add(Account element) {
+    public void add(Account element) throws IOException {
 
     }
 }

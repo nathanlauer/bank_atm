@@ -2,6 +2,7 @@ package com.bank.atm.backend.collections;
 
 import com.bank.atm.util.ID;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,7 +24,7 @@ public interface CollectionManager<T> {
      * Saves the passed in obj to a persisted location
      * @param obj the Object to be saved
      */
-    public void save(T obj);
+    public void save(T obj) throws IOException;
 
     /**
      * Finds the object identified by id
@@ -48,15 +49,10 @@ public interface CollectionManager<T> {
     public List<T> all();
 
     /**
-     * Closes the CollectionManager as a resource
-     */
-    public void close();
-
-    /**
      * Adds the passed in Element to the Collection.
      * Internally, this will also call the save method, so the element is
      * persisted
      * @param element the Element to add to the Collection.
      */
-    public void add(T element);
+    public void add(T element) throws IOException;
 }

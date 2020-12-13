@@ -1,13 +1,10 @@
 package com.bank.atm.backend.collections;
 
-import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Class UsersCollectionManager
@@ -20,13 +17,8 @@ import java.util.NoSuchElementException;
  */
 public class UsersCollectionManager implements CollectionManager<User> {
     private static UsersCollectionManager instance;
-    private static final String dataFileName = "data/users.ser";
-    private final List<User> users;
-    private FileOutputStream fos;
-    private FileInputStream fis;
-    private ObjectOutputStream oos;
-    private ObjectInputStream ois;
-    private boolean closed;
+    public static final String dataFileName = "data/users.ser";
+    private final Set<User> users;
 
     public static UsersCollectionManager getInstance() {
         if(instance == null) {
@@ -39,19 +31,7 @@ public class UsersCollectionManager implements CollectionManager<User> {
      * Private constructor for a UsersCollectionManager
      */
     public UsersCollectionManager() {
-        users = new ArrayList<>();
-        closed = false;
-        try {
-            fos = new FileOutputStream(UsersCollectionManager.dataFileName);
-            fis = new FileInputStream(UsersCollectionManager.dataFileName);
-            oos = new ObjectOutputStream(fos);
-            ois = new ObjectInputStream(fis);
-        } catch (IOException e) {
-            // Shouldn't happen
-            e.printStackTrace();
-            System.out.println("Failed to instantiate file or object input/output streams in UsersCollectionManager");
-            System.exit(-1);
-        }
+        users = new HashSet<>();
         init();
     }
 
@@ -61,18 +41,14 @@ public class UsersCollectionManager implements CollectionManager<User> {
     private void init() {
         boolean finished = false;
         try {
-            FileInputStream fis = new FileInputStream(UsersCollectionManager.dataFileName);
+            File outputFile = new File(UsersCollectionManager.dataFileName);
+            outputFile.createNewFile(); // if it does not exist
+            FileInputStream fis = new FileInputStream(outputFile);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            while(!finished) {
-                Object obj = ois.readObject();
-                if(obj != null) {
-                    users.add((User) obj);
-                } else {
-                    finished = true;
-                }
-            }
-            ois.close();
-            fis.close();
+            Set<User> readInUsers = (HashSet<User>)ois.readObject();
+            users.addAll(readInUsers);
+        } catch (EOFException e) {
+            // This is fine, just means we read EOF (end of file)
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("Failed to read in all users from serialized file");
@@ -86,18 +62,38 @@ public class UsersCollectionManager implements CollectionManager<User> {
      * @param obj the Object to be saved
      */
     @Override
-    public void save(User obj) {
-        if(closed) {
-            return;
-        }
+    public void save(User obj) throws IOException {
+        // Not super efficient, but for the purposes of this project it's simple enough
+        // to serialize the entire list just to save one object.
+        try{
+            // First, clear the contents of the file
+            clearFileContents();
 
-        try {
-            oos.writeObject(obj);
+            FileOutputStream fos = new FileOutputStream(UsersCollectionManager.dataFileName);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            users.add(obj); // ensure the passed in object is contained in the local cache
+            oos.writeObject(users);
+            oos.close();
+            fos.close();
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Failed to save User!");
-            System.exit(-1);
+            users.remove(obj);
+            throw new IOException(e.getMessage());
         }
+    }
+
+    /**
+     * Helper method which clears the output file's contents
+     */
+    private void clearFileContents() {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new File(UsersCollectionManager.dataFileName));
+        } catch (FileNotFoundException e) {
+            // Shouldn't happen
+            e.printStackTrace();
+        }
+        writer.print("");
+        writer.close();
     }
 
     /**
@@ -141,23 +137,7 @@ public class UsersCollectionManager implements CollectionManager<User> {
      */
     @Override
     public List<User> all() {
-        return users;
-    }
-
-    /**
-     * Closes the CollectionManager as a resource
-     */
-    @Override
-    public void close() {
-        closed = true;
-        try {
-            fos.close();
-            oos.close();
-        } catch (IOException e) {
-            // Shouldn't happen
-            e.printStackTrace();
-            System.exit(-1);
-        }
+        return new ArrayList<>(users);
     }
 
     /**
@@ -168,11 +148,7 @@ public class UsersCollectionManager implements CollectionManager<User> {
      * @param element the Element to add to the Collection.
      */
     @Override
-    public void add(User element) {
-        if(closed) {
-            return;
-        }
-
+    public void add(User element) throws IOException {
         // Save the user first, so that if an error occurs, we don't have
         // an erroneous user in memory
         this.save(element);
