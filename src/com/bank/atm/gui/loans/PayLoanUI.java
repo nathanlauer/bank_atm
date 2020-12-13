@@ -130,4 +130,5 @@ public class PayLoanUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return payLoanPanel;
     }
+
 }

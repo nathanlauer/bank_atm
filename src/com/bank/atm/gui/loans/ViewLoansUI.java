@@ -64,34 +64,82 @@ public class ViewLoansUI extends JFrame {
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.fill = GridBagConstraints.VERTICAL;
         viewLoansPanel.add(spacer3, gbc);
         final JLabel label3 = new JLabel();
         label3.setText("Pending Loans");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         viewLoansPanel.add(label3, gbc);
         currentLoansScrollPane = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.fill = GridBagConstraints.BOTH;
         viewLoansPanel.add(currentLoansScrollPane, gbc);
         currentLoansPanel = new JPanel();
         currentLoansPanel.setLayout(new GridBagLayout());
         currentLoansScrollPane.setViewportView(currentLoansPanel);
+        currentLoansList = new JList();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        currentLoansPanel.add(currentLoansList, gbc);
+        final JPanel spacer4 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        currentLoansPanel.add(spacer4, gbc);
+        final JPanel spacer5 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        currentLoansPanel.add(spacer5, gbc);
         pendingLoansScrollPane = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 8;
         gbc.fill = GridBagConstraints.BOTH;
         viewLoansPanel.add(pendingLoansScrollPane, gbc);
         pendingLoansPanel = new JPanel();
         pendingLoansPanel.setLayout(new GridBagLayout());
         pendingLoansScrollPane.setViewportView(pendingLoansPanel);
+        pendingLoansList = new JList();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        pendingLoansPanel.add(pendingLoansList, gbc);
+        final JPanel spacer6 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        pendingLoansPanel.add(spacer6, gbc);
+        final JPanel spacer7 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        pendingLoansPanel.add(spacer7, gbc);
+        final JPanel spacer8 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        viewLoansPanel.add(spacer8, gbc);
+        final JPanel spacer9 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        viewLoansPanel.add(spacer9, gbc);
     }
 
     /**
@@ -100,4 +148,5 @@ public class ViewLoansUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return viewLoansPanel;
     }
+
 }
