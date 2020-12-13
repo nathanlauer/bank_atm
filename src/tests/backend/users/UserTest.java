@@ -2,13 +2,11 @@ package tests.backend.users;
 
 import com.bank.atm.backend.users.Client;
 import com.bank.atm.backend.users.User;
-import com.bank.atm.backend.users.UserID;
-import org.junit.jupiter.api.BeforeAll;
+import com.bank.atm.util.ID;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class UserTest {
-    private final static UserID userId = new UserID();
+    private final static ID userId = new ID();
     private final User user;
 
     public UserTest() {
@@ -71,6 +69,6 @@ public class UserTest {
         assertTrue(user.isAClient());
         assertFalse(user.isAnAdmin());
         assertEquals("Nathan Lauer", user.toString());
-        assertEquals(user.getUserID(), readInUser.getUserID());
+        assertEquals(user.getID(), readInUser.getID());
     }
 }
