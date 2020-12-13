@@ -1,5 +1,6 @@
 package tests.backend.collections;
 
+import com.bank.atm.backend.collections.CollectionsUtil;
 import com.bank.atm.backend.collections.UsersCollectionManager;
 import com.bank.atm.backend.users.Admin;
 import com.bank.atm.backend.users.Client;
@@ -42,15 +43,11 @@ public class UsersCollectionManagerTest {
         users.addAll(Arrays.asList(firstClient, secondClient, admin));
 
         // Clear the output file
-        PrintWriter writer = null;
         try {
-            writer = new PrintWriter(new File(UsersCollectionManager.dataFileName));
-        } catch (FileNotFoundException e) {
-            // Shouldn't happen
+            CollectionsUtil.clearFileContents(UsersCollectionManager.dataFileName);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        writer.print("");
-        writer.close();
     }
 
     @Test
