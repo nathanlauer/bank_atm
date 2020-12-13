@@ -22,7 +22,7 @@ public class FourOhOneKAccount extends InvestmentAccount {
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public FourOhOneKAccount(Currency currency, Money money, List<ID> managers) {
-        super(currency, money, managers);
+    public FourOhOneKAccount(Currency currency, Money money, List<ID> managers, ID accountId) {
+        super(currency, money, managers, accountId);
     }
 }

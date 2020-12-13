@@ -26,8 +26,8 @@ public class HighInterestSavingsAccount extends SavingsAccount implements Intere
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public HighInterestSavingsAccount(Currency currency, Money money, List<ID> managers) {
-        super(currency, money, managers);
+    public HighInterestSavingsAccount(Currency currency, Money money, List<ID> managers, ID accountId) {
+        super(currency, money, managers, accountId);
     }
 
     /**

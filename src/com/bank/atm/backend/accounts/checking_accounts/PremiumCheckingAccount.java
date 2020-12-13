@@ -25,8 +25,8 @@ public class PremiumCheckingAccount extends CheckingAccount implements InterestE
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public PremiumCheckingAccount(Currency currency, Money money, List<ID> managers) {
-        super(currency, money, managers);
+    public PremiumCheckingAccount(Currency currency, Money money, List<ID> managers, ID accountId) {
+        super(currency, money, managers, accountId);
     }
 
     /**

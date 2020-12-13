@@ -45,7 +45,7 @@ public class UsersCollectionManager implements CollectionManager<User> {
             if(!outputFile.createNewFile()) {
                 System.out.println("File does not exist!");
             }
-            
+
             FileInputStream fis = new FileInputStream(outputFile);
             ObjectInputStream ois = new ObjectInputStream(fis);
             Set<User> readInUsers = (HashSet<User>)ois.readObject();
@@ -70,7 +70,7 @@ public class UsersCollectionManager implements CollectionManager<User> {
         // to serialize the entire list just to save one object.
         try{
             // First, clear the contents of the file
-            clearFileContents();
+            CollectionsUtil.clearFileContents(UsersCollectionManager.dataFileName);
 
             FileOutputStream fos = new FileOutputStream(UsersCollectionManager.dataFileName);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -82,22 +82,6 @@ public class UsersCollectionManager implements CollectionManager<User> {
             users.remove(obj);
             throw new IOException(e.getMessage());
         }
-    }
-
-    /**
-     * Helper method which clears the output file's contents
-     */
-    private void clearFileContents() {
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(new File(UsersCollectionManager.dataFileName));
-        } catch (FileNotFoundException e) {
-            // Shouldn't happen
-            e.printStackTrace();
-        }
-        assert writer != null;
-        writer.print("");
-        writer.close();
     }
 
     /**

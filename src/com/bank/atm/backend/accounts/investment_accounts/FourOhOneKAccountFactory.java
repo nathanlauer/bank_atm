@@ -23,6 +23,7 @@ public class FourOhOneKAccountFactory implements AccountFactoryCreator {
     private final Currency currency;
     private final double initialAmount;
     private final User user;
+    private final ID accountId;
 
     /**
      * Standard constructor
@@ -30,10 +31,11 @@ public class FourOhOneKAccountFactory implements AccountFactoryCreator {
      * @param initialAmount the initial monetary value for this account
      * @param user the User creating this Account.
      */
-    public FourOhOneKAccountFactory(Currency currency, double initialAmount, User user) {
+    public FourOhOneKAccountFactory(Currency currency, double initialAmount, User user, ID accountId) {
         this.currency = currency;
         this.initialAmount = initialAmount;
         this.user = user;
+        this.accountId = accountId;
     }
 
     /**
@@ -44,6 +46,6 @@ public class FourOhOneKAccountFactory implements AccountFactoryCreator {
     @Override
     public Account createAccount() {
         List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
-        return new FourOhOneKAccount(currency, new Money(initialAmount), managers);
+        return new FourOhOneKAccount(currency, new Money(initialAmount), managers, accountId);
     }
 }

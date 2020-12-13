@@ -27,6 +27,7 @@ public class HighInterestSavingsAccountFactory implements AccountFactoryCreator 
     private final Currency currency;
     private final double initialAmount;
     private final User user;
+    private final ID accountId;
 
     /**
      * Standard constructor
@@ -34,10 +35,11 @@ public class HighInterestSavingsAccountFactory implements AccountFactoryCreator 
      * @param initialAmount the initial monetary value for this account
      * @param user the User creating this Account.
      */
-    public HighInterestSavingsAccountFactory(Currency currency, double initialAmount, User user) {
+    public HighInterestSavingsAccountFactory(Currency currency, double initialAmount, User user, ID accountId) {
         this.currency = currency;
         this.initialAmount = initialAmount;
         this.user = user;
+        this.accountId = accountId;
     }
 
     /**
@@ -49,7 +51,7 @@ public class HighInterestSavingsAccountFactory implements AccountFactoryCreator 
     public Account createAccount() {
         // First, create the Account
         List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
-        Account account = new HighInterestSavingsAccount(currency, new Money(initialAmount), managers);
+        Account account = new HighInterestSavingsAccount(currency, new Money(initialAmount), managers, accountId);
 
         // This account earns interest: 3% interest per year
         double apy = 3;

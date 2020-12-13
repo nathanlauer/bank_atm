@@ -24,8 +24,8 @@ public class CheckingAccount extends Account {
      * @param money the initial Monetary value of this Account
      * @param managers List of Account managers
      */
-    public CheckingAccount(Currency currency, Money money, List<ID> managers) {
-        this(new Date(), currency, money, managers);
+    public CheckingAccount(Currency currency, Money money, List<ID> managers, ID accountId) {
+        this(new Date(), currency, money, managers, accountId);
     }
 
     /**
@@ -35,7 +35,7 @@ public class CheckingAccount extends Account {
      * @param money the initial Monetary value of this Account
      * @param managers List of Users that are managers for this Account
      */
-    public CheckingAccount(Date opened, Currency currency, Money money, List<ID> managers) {
-        super(opened, currency, money, managers);
+    public CheckingAccount(Date opened, Currency currency, Money money, List<ID> managers, ID accountId) {
+        super(opened, currency, money, managers, accountId);
     }
 }

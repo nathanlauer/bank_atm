@@ -27,6 +27,7 @@ public class GenericLoanAccountFactory implements AccountFactoryCreator {
     private final Currency currency;
     private final double initialAmount;
     private final User user;
+    private final ID accountId;
 
     /**
      * Standard constructor
@@ -34,10 +35,11 @@ public class GenericLoanAccountFactory implements AccountFactoryCreator {
      * @param initialAmount the initial monetary value for this account
      * @param user the User creating this Account.
      */
-    public GenericLoanAccountFactory(Currency currency, double initialAmount, User user) {
+    public GenericLoanAccountFactory(Currency currency, double initialAmount, User user, ID accountId) {
         this.currency = currency;
         this.initialAmount = initialAmount;
         this.user = user;
+        this.accountId = accountId;
     }
 
     /**
@@ -49,7 +51,7 @@ public class GenericLoanAccountFactory implements AccountFactoryCreator {
     public Account createAccount() {
         // First, build the basic loan account
         List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
-        Account account = new GenericLoanAccount(currency, new Money(initialAmount), managers);
+        Account account = new GenericLoanAccount(currency, new Money(initialAmount), managers, accountId);
 
         // This account earns interest for the bank: 17% interest per year, and it's compounded daily.
         double apy = 17;

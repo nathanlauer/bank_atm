@@ -27,6 +27,7 @@ public class PremiumCheckingAccountFactory implements AccountFactoryCreator {
     private final Currency currency;
     private final double initialAmount;
     private final User user;
+    private final ID accountId;
 
     /**
      * Standard constructor
@@ -34,10 +35,11 @@ public class PremiumCheckingAccountFactory implements AccountFactoryCreator {
      * @param initialAmount the initial monetary value for this account
      * @param user the User creating this Account.
      */
-    public PremiumCheckingAccountFactory(Currency currency, double initialAmount, User user) {
+    public PremiumCheckingAccountFactory(Currency currency, double initialAmount, User user, ID accountId) {
         this.currency = currency;
         this.initialAmount = initialAmount;
         this.user = user;
+        this.accountId = accountId;
     }
 
     /**
@@ -49,7 +51,7 @@ public class PremiumCheckingAccountFactory implements AccountFactoryCreator {
     public Account createAccount() {
         // First, build the basic account
         List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
-        Account account = new PremiumCheckingAccount(currency, new Money(initialAmount), managers);
+        Account account = new PremiumCheckingAccount(currency, new Money(initialAmount), managers, accountId);
 
         // Premium checking accounts earn a small amount of interest: 0.5% interest per year
         double apy = 0.5;

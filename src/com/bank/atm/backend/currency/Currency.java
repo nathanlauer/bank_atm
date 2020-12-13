@@ -1,5 +1,7 @@
 package com.bank.atm.backend.currency;
 
+import java.io.Serializable;
+
 /**
  * Interface Currency is a description of the entities which represent some currency.
  *
@@ -9,7 +11,7 @@ package com.bank.atm.backend.currency;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public interface Currency {
+public interface Currency extends Serializable {
     /**
      * Displays the passed in Money as expected for the given Currency.
      * @param money the Money to be displayed

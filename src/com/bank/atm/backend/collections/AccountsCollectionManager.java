@@ -5,9 +5,7 @@ import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,12 +20,8 @@ import java.util.stream.Stream;
  */
 public class AccountsCollectionManager implements CollectionManager<Account>  {
     private static AccountsCollectionManager instance;
-    private final List<Account> accounts;
-    private static final String dataFileName = "data/accounts.ser";
-    private FileOutputStream fos;
-    private ObjectOutputStream oos;
-    private boolean closed;
-
+    public static final String dataFileName = "data/accounts.ser";
+    private final Set<Account> accounts;
 
     /**
      *
@@ -44,16 +38,7 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
      * Private constructor
      */
     private AccountsCollectionManager() {
-        accounts = new ArrayList<>();
-        try {
-            fos = new FileOutputStream(AccountsCollectionManager.dataFileName);
-            oos = new ObjectOutputStream(fos);
-        } catch (IOException e) {
-            // Shouldn't happen
-            e.printStackTrace();
-            System.out.println("Failed to instantiate file or object input/output streams in AccountsCollectionManager");
-            System.exit(-1);
-        }
+        accounts = new HashSet<>();
         init();
     }
 
@@ -61,20 +46,17 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
      * Private helper method which reads all Accounts from disk into memory.
      */
     private void init() {
-        boolean finished = false;
         try {
-            FileInputStream fis = new FileInputStream(AccountsCollectionManager.dataFileName);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            while(!finished) {
-                Object obj = ois.readObject();
-                if(obj != null) {
-                    accounts.add((Account) obj);
-                } else {
-                    finished = true;
-                }
+            // Create the file if it does not exist
+            File outputFile = new File(AccountsCollectionManager.dataFileName);
+            if(!outputFile.createNewFile()) {
+                System.out.println("File does not exist!");
             }
-            ois.close();
-            fis.close();
+
+            FileInputStream fis = new FileInputStream(outputFile);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Set<Account> readInAccounts = (HashSet<Account>)ois.readObject();
+            accounts.addAll(readInAccounts);
         } catch (EOFException e) {
             // This is fine, just means we read EOF (end of file)
         } catch (IOException | ClassNotFoundException e) {
@@ -91,7 +73,22 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
      */
     @Override
     public void save(Account obj) throws IOException {
+        // Not super efficient, but for the purposes of this project it's simple enough
+        // to serialize the entire list just to save one object.
+        try{
+            // First, clear the contents of the file
+            CollectionsUtil.clearFileContents(AccountsCollectionManager.dataFileName);
 
+            FileOutputStream fos = new FileOutputStream(AccountsCollectionManager.dataFileName);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            accounts.add(obj); // ensure the passed in object is contained in the local cache
+            oos.writeObject(accounts);
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            accounts.remove(obj);
+            throw new IOException(e.getMessage());
+        }
     }
 
     /**
@@ -102,6 +99,11 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
      */
     @Override
     public Account find(ID id) throws NoSuchElementException {
+        for(Account account : accounts) {
+            if(account.hasID(id)) {
+                return account;
+            }
+        }
         return null;
     }
 
@@ -125,7 +127,7 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
      */
     @Override
     public List<Account> all() {
-        return accounts;
+        return new ArrayList<>(accounts);
     }
 
     /**
@@ -137,6 +139,9 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
      */
     @Override
     public void add(Account element) throws IOException {
-
+        // Save the Account first, so that if an error occurs, we don't have
+        // an erroneous Account in memory
+        this.save(element);
+        this.accounts.add(element);
     }
 }
