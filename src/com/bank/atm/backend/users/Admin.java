@@ -1,5 +1,7 @@
 package com.bank.atm.backend.users;
 
+import com.bank.atm.util.ID;
+
 /**
  * Class Admin is a concrete type of User, specifically a worker who has high level
  * authorization rights for the bank.
@@ -17,16 +19,16 @@ public class Admin extends User {
      * @param lastName the last name of the Admin
      */
     public Admin(String firstName, String lastName) {
-        this(firstName, lastName, new UserID());
+        this(firstName, lastName, new ID());
     }
 
     /**
      * Standard constructor for a Admin, that includes a specific UUID
      * @param firstName the first name of this Admin
      * @param lastName the last name of this Admin
-     * @param userID the UserID of this Admin
+     * @param userID the ID of this Admin
      */
-    public Admin(String firstName, String lastName, UserID userID) {
+    public Admin(String firstName, String lastName, ID userID) {
         super(firstName, lastName, userID);
     }
 

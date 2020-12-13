@@ -9,7 +9,7 @@ import com.bank.atm.backend.accounts.interest.InterestEarningExecutor;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
-import com.bank.atm.backend.users.UserID;
+import com.bank.atm.util.ID;
 
 import java.util.Date;
 import java.util.List;
@@ -48,7 +48,7 @@ public class HighInterestSavingsAccountFactory implements AccountFactoryCreator 
     @Override
     public Account createAccount() {
         // First, create the Account
-        List<UserID> managers = AccountsUtil.buildManagerListFromUser(user);
+        List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
         Account account = new HighInterestSavingsAccount(currency, new Money(initialAmount), managers);
 
         // This account earns interest: 3% interest per year

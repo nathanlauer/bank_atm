@@ -1,5 +1,7 @@
 package com.bank.atm.backend.users;
 
+import com.bank.atm.util.ID;
+
 /**
  * Class Client is a concrete type of User, representing a client of the bank.
  *
@@ -16,16 +18,16 @@ public class Client extends User {
      * @param lastName the last name of this Client
      */
     public Client(String firstName, String lastName) {
-        this(firstName, lastName, new UserID());
+        this(firstName, lastName, new ID());
     }
 
     /**
      * Standard constructor for a Client, that includes a specific UUID
      * @param firstName the first name of this Client
      * @param lastName the last name of this Client
-     * @param userID the UserID of this Client
+     * @param userID the ID of this Client
      */
-    public Client(String firstName, String lastName, UserID userID) {
+    public Client(String firstName, String lastName, ID userID) {
         super(firstName, lastName, userID);
     }
 

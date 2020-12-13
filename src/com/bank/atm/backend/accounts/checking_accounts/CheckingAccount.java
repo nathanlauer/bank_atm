@@ -3,7 +3,7 @@ package com.bank.atm.backend.accounts.checking_accounts;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
-import com.bank.atm.backend.users.UserID;
+import com.bank.atm.util.ID;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +24,7 @@ public class CheckingAccount extends Account {
      * @param money the initial Monetary value of this Account
      * @param managers List of Account managers
      */
-    public CheckingAccount(Currency currency, Money money, List<UserID> managers) {
+    public CheckingAccount(Currency currency, Money money, List<ID> managers) {
         this(new Date(), currency, money, managers);
     }
 
@@ -35,7 +35,7 @@ public class CheckingAccount extends Account {
      * @param money the initial Monetary value of this Account
      * @param managers List of Users that are managers for this Account
      */
-    public CheckingAccount(Date opened, Currency currency, Money money, List<UserID> managers) {
+    public CheckingAccount(Date opened, Currency currency, Money money, List<ID> managers) {
         super(opened, currency, money, managers);
     }
 }

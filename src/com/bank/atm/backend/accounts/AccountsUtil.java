@@ -1,7 +1,7 @@
 package com.bank.atm.backend.accounts;
 
 import com.bank.atm.backend.users.User;
-import com.bank.atm.backend.users.UserID;
+import com.bank.atm.util.ID;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,9 +20,9 @@ public class AccountsUtil {
     /**
      * Given a User, returns a list of Account managers that includes this User.
      * @param user the User to be a manager for some Account
-     * @return list of UserIDs of Account managers that includes this User's UserID.
+     * @return list of IDs of Account managers that includes this User's ID.
      */
-    public static List<UserID> buildManagerListFromUser(User user) {
-        return new ArrayList<>(Collections.singletonList(user.getUserID()));
+    public static List<ID> buildManagerListFromUser(User user) {
+        return new ArrayList<>(Collections.singletonList(user.getID()));
     }
 }

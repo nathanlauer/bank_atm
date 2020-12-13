@@ -4,7 +4,7 @@ import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.currency.UnknownExchangeRateException;
 import com.bank.atm.backend.users.User;
-import com.bank.atm.backend.users.UserID;
+import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 import com.bank.atm.util.Validations;
 
@@ -27,10 +27,10 @@ public class Account {
     private final Date opened;
     private Currency currency;
     private Money money;
-    private final List<UserID> managers;
+    private final List<ID> managers;
     private final AccountValueDecorator decorator;
 
-    public Account(Date opened, Currency currency, Money money, List<UserID> managers) {
+    public Account(Date opened, Currency currency, Money money, List<ID> managers) {
         this.uuid = UUID.randomUUID();
         this.opened = opened;
         this.currency = currency;
@@ -85,7 +85,7 @@ public class Account {
      * @param manager the new User to be authorized as a manager for this Account.
      */
     public void addManager(User manager) {
-        managers.add(manager.getUserID());
+        managers.add(manager.getID());
     }
 
     /**
@@ -93,7 +93,7 @@ public class Account {
      * @param manager the User to be removed
      */
     public void removeManager(User manager) {
-        managers.remove(manager.getUserID());
+        managers.remove(manager.getID());
     }
 
     /**
@@ -114,7 +114,7 @@ public class Account {
      * @return true if the User is an Account manager, false otherwise.
      */
     public boolean isAccountManager(User user) {
-        return managers.contains(user.getUserID());
+        return managers.contains(user.getID());
     }
 
     /**

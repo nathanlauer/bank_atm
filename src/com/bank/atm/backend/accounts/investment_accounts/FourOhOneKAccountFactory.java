@@ -6,7 +6,7 @@ import com.bank.atm.backend.accounts.AccountsUtil;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
-import com.bank.atm.backend.users.UserID;
+import com.bank.atm.util.ID;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class FourOhOneKAccountFactory implements AccountFactoryCreator {
      */
     @Override
     public Account createAccount() {
-        List<UserID> managers = AccountsUtil.buildManagerListFromUser(user);
+        List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
         return new FourOhOneKAccount(currency, new Money(initialAmount), managers);
     }
 }

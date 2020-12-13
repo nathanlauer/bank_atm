@@ -1,6 +1,7 @@
 package com.bank.atm.backend.users;
 
 import com.bank.atm.backend.authentication.Credentials;
+import com.bank.atm.util.ID;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 public class User implements Serializable {
     private String firstName;
     private String lastName;
-    private final UserID userID;
+    private final ID userID;
     private final List<Credentials> credentialsList;
 
     /**
@@ -27,16 +28,16 @@ public class User implements Serializable {
      * @param lastName the user's last name
      */
     public User(String firstName, String lastName) {
-        this(firstName, lastName, new UserID());
+        this(firstName, lastName, new ID());
     }
 
     /**
      * Standard constructor that initializes a User with a specific UUID
      * @param firstName the first name of this User
      * @param lastName the User's last name
-     * @param userID the UserID of this User
+     * @param userID the ID of this User
      */
-    public User(String firstName, String lastName, UserID userID) {
+    public User(String firstName, String lastName, ID userID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userID = userID;
@@ -45,9 +46,9 @@ public class User implements Serializable {
 
     /**
      *
-     * @return the UserID of this User
+     * @return the ID of this User
      */
-    public UserID getUserID() {
+    public ID getID() {
         return userID;
     }
 

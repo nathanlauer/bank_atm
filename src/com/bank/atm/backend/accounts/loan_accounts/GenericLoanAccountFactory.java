@@ -9,7 +9,7 @@ import com.bank.atm.backend.accounts.interest.InterestEarningExecutor;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
-import com.bank.atm.backend.users.UserID;
+import com.bank.atm.util.ID;
 
 import java.util.Date;
 import java.util.List;
@@ -48,7 +48,7 @@ public class GenericLoanAccountFactory implements AccountFactoryCreator {
     @Override
     public Account createAccount() {
         // First, build the basic loan account
-        List<UserID> managers = AccountsUtil.buildManagerListFromUser(user);
+        List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
         Account account = new GenericLoanAccount(currency, new Money(initialAmount), managers);
 
         // This account earns interest for the bank: 17% interest per year, and it's compounded daily.

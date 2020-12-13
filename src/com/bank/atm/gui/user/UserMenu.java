@@ -39,7 +39,7 @@ public class UserMenu extends JFrame {
         addNewAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserAddAccount userAddAccount = new UserAddAccount(getUserID());
+                UserAddAccount userAddAccount = new UserAddAccount(getID());
                 userAddAccount.setVisible(true);
             }
         });
@@ -47,7 +47,7 @@ public class UserMenu extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserViewAccounts userViewAccounts = new UserViewAccounts(getUserID());
+                UserViewAccounts userViewAccounts = new UserViewAccounts(getID());
                 userViewAccounts.setVisible(true);
             }
         });
@@ -85,7 +85,7 @@ public class UserMenu extends JFrame {
         return "Name";
     }
 
-    private String getUserID() {
+    private String getID() {
         //TODO retrieve and return userID from oauth
         return "98454598";
     }
