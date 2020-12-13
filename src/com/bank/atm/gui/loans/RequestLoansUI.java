@@ -28,8 +28,8 @@ public class RequestLoansUI extends JFrame {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridBagLayout());
+        requestLoansPanel = new JPanel();
+        requestLoansPanel.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
         label1.setText("Amount Requested:");
         GridBagConstraints gbc;
@@ -37,46 +37,46 @@ public class RequestLoansUI extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
-        panel1.add(label1, gbc);
+        requestLoansPanel.add(label1, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(spacer1, gbc);
+        requestLoansPanel.add(spacer1, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel1.add(spacer2, gbc);
+        requestLoansPanel.add(spacer2, gbc);
         loanAmountRequested = new JFormattedTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(loanAmountRequested, gbc);
+        requestLoansPanel.add(loanAmountRequested, gbc);
         final JLabel label2 = new JLabel();
         label2.setText("Collateral:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
-        panel1.add(label2, gbc);
+        requestLoansPanel.add(label2, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel1.add(spacer3, gbc);
+        requestLoansPanel.add(spacer3, gbc);
         final JLabel label3 = new JLabel();
         label3.setText("Interest");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
-        panel1.add(label3, gbc);
+        requestLoansPanel.add(label3, gbc);
         formattedTextField1 = new JFormattedTextField();
         formattedTextField1.setEditable(false);
         gbc = new GridBagConstraints();
@@ -84,32 +84,39 @@ public class RequestLoansUI extends JFrame {
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(formattedTextField1, gbc);
+        requestLoansPanel.add(formattedTextField1, gbc);
         requestLoanButton = new JButton();
         requestLoanButton.setText("Request Loan");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 8;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(requestLoanButton, gbc);
+        requestLoansPanel.add(requestLoanButton, gbc);
         final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel1.add(spacer4, gbc);
+        requestLoansPanel.add(spacer4, gbc);
         final JLabel label4 = new JLabel();
         label4.setText("Request Loan");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        panel1.add(label4, gbc);
+        requestLoansPanel.add(label4, gbc);
         final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
-        panel1.add(spacer5, gbc);
+        requestLoansPanel.add(spacer5, gbc);
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return requestLoansPanel;
     }
 }
