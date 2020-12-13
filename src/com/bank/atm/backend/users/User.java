@@ -1,12 +1,10 @@
 package com.bank.atm.backend.users;
 
 import com.bank.atm.backend.authentication.Credentials;
-import com.bank.atm.util.Identifiable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Class User is an abstract class that represents someone interacting with the bank.
@@ -17,10 +15,10 @@ import java.util.UUID;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class User implements Identifiable, Serializable {
+public class User implements Serializable {
     private String firstName;
     private String lastName;
-    private final UUID uuid;
+    private final UserID userID;
     private final List<Credentials> credentialsList;
 
     /**
@@ -29,20 +27,28 @@ public class User implements Identifiable, Serializable {
      * @param lastName the user's last name
      */
     public User(String firstName, String lastName) {
-        this(firstName, lastName, UUID.randomUUID());
+        this(firstName, lastName, new UserID());
     }
 
     /**
      * Standard constructor that initializes a User with a specific UUID
      * @param firstName the first name of this User
      * @param lastName the User's last name
-     * @param uuid the UUID of this user
+     * @param userID the UserID of this User
      */
-    public User(String firstName, String lastName, UUID uuid) {
+    public User(String firstName, String lastName, UserID userID) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.uuid = uuid;
+        this.userID = userID;
         this.credentialsList = new ArrayList<>();
+    }
+
+    /**
+     *
+     * @return the UserID of this User
+     */
+    public UserID getUserID() {
+        return userID;
     }
 
     /**
@@ -118,14 +124,6 @@ public class User implements Identifiable, Serializable {
         }
 
         User other = (User) o;
-        return this.uuid.equals(other.uuid);
-    }
-
-    /**
-     * @return the UUID of this entity
-     */
-    @Override
-    public UUID getUUID() {
-        return uuid;
+        return this.userID.equals(other.userID);
     }
 }

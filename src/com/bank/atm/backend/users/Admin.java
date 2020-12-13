@@ -19,17 +19,17 @@ public class Admin extends User {
      * @param lastName the last name of the Admin
      */
     public Admin(String firstName, String lastName) {
-        this(firstName, lastName, UUID.randomUUID());
+        this(firstName, lastName, new UserID());
     }
 
     /**
      * Standard constructor for a Admin, that includes a specific UUID
      * @param firstName the first name of this Admin
      * @param lastName the last name of this Admin
-     * @param uuid the UUID of this Admin
+     * @param userID the UserID of this Admin
      */
-    public Admin(String firstName, String lastName, UUID uuid) {
-        super(firstName, lastName, uuid);
+    public Admin(String firstName, String lastName, UserID userID) {
+        super(firstName, lastName, userID);
     }
 
     /**

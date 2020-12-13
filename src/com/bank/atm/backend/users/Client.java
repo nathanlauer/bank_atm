@@ -18,17 +18,17 @@ public class Client extends User {
      * @param lastName the last name of this Client
      */
     public Client(String firstName, String lastName) {
-        this(firstName, lastName, UUID.randomUUID());
+        this(firstName, lastName, new UserID());
     }
 
     /**
      * Standard constructor for a Client, that includes a specific UUID
      * @param firstName the first name of this Client
      * @param lastName the last name of this Client
-     * @param uuid the UUID of this Client
+     * @param userID the UserID of this Client
      */
-    public Client(String firstName, String lastName, UUID uuid) {
-        super(firstName, lastName, uuid);
+    public Client(String firstName, String lastName, UserID userID) {
+        super(firstName, lastName, userID);
     }
 
     /**
