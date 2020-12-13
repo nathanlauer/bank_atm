@@ -40,4 +40,23 @@ public interface CollectionManager<T> {
      * @return List of all objects in this collection that are associated with ownerId.
      */
     public List<T> findByOwnerID(ID ownerId);
+
+    /**
+     *
+     * @return a List of every Object in this Collection.
+     */
+    public List<T> all();
+
+    /**
+     * Closes the CollectionManager as a resource
+     */
+    public void close();
+
+    /**
+     * Adds the passed in Element to the Collection.
+     * Internally, this will also call the save method, so the element is
+     * persisted
+     * @param element the Element to add to the Collection.
+     */
+    public void add(T element);
 }

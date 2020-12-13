@@ -2,6 +2,7 @@ package com.bank.atm.backend.users;
 
 import com.bank.atm.backend.authentication.Credentials;
 import com.bank.atm.util.ID;
+import com.bank.atm.util.Identifiable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class User implements Serializable {
+public class User implements Serializable, Identifiable {
     private String firstName;
     private String lastName;
     private final ID userID;
@@ -50,6 +51,17 @@ public class User implements Serializable {
      */
     public ID getID() {
         return userID;
+    }
+
+    /**
+     * Indicates whether or not this Identifiable has the passed in id.
+     *
+     * @param id the ID in question
+     * @return true if this entity has the same id, false otherwise
+     */
+    @Override
+    public boolean hasID(ID id) {
+        return userID.equals(id);
     }
 
     /**
