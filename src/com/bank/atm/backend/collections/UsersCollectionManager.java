@@ -39,10 +39,13 @@ public class UsersCollectionManager implements CollectionManager<User> {
      * Helper function which reads in all Users from disk.
      */
     private void init() {
-        boolean finished = false;
         try {
+            // Create the file if it does not exist
             File outputFile = new File(UsersCollectionManager.dataFileName);
-            outputFile.createNewFile(); // if it does not exist
+            if(!outputFile.createNewFile()) {
+                System.out.println("File does not exist!");
+            }
+            
             FileInputStream fis = new FileInputStream(outputFile);
             ObjectInputStream ois = new ObjectInputStream(fis);
             Set<User> readInUsers = (HashSet<User>)ois.readObject();
@@ -92,6 +95,7 @@ public class UsersCollectionManager implements CollectionManager<User> {
             // Shouldn't happen
             e.printStackTrace();
         }
+        assert writer != null;
         writer.print("");
         writer.close();
     }
