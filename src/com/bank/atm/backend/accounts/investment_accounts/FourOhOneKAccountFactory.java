@@ -2,10 +2,12 @@ package com.bank.atm.backend.accounts.investment_accounts;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactoryCreator;
+import com.bank.atm.backend.accounts.AccountsUtil;
 import com.bank.atm.backend.accounts.checking_accounts.PremiumCheckingAccount;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.backend.users.UserID;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,7 +46,7 @@ public class FourOhOneKAccountFactory implements AccountFactoryCreator {
      */
     @Override
     public Account createAccount() {
-        List<User> managers = new ArrayList<>(Collections.singletonList(user));
+        List<UserID> managers = AccountsUtil.buildManagerListFromUser(user);
         return new FourOhOneKAccount(currency, new Money(initialAmount), managers);
     }
 }

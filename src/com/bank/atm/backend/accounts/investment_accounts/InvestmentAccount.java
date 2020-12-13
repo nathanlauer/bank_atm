@@ -4,6 +4,7 @@ import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.backend.users.UserID;
 
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ public class InvestmentAccount extends Account {
      * @param money the initial Monetary value of this Account
      * @param managers List of Account managers
      */
-    public InvestmentAccount(Currency currency, Money money, List<User> managers) {
+    public InvestmentAccount(Currency currency, Money money, List<UserID> managers) {
         this(new Date(), currency, money, managers);
     }
 
@@ -35,7 +36,7 @@ public class InvestmentAccount extends Account {
      * @param money the initial Monetary value of this Account
      * @param managers List of Users that are managers for this Account
      */
-    public InvestmentAccount(Date opened, Currency currency, Money money, List<User> managers) {
+    public InvestmentAccount(Date opened, Currency currency, Money money, List<UserID> managers) {
         super(opened, currency, money, managers);
     }
 }

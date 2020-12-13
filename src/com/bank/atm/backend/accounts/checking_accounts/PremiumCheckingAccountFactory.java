@@ -2,12 +2,14 @@ package com.bank.atm.backend.accounts.checking_accounts;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactoryCreator;
+import com.bank.atm.backend.accounts.AccountsUtil;
 import com.bank.atm.backend.accounts.interest.InterestCompoundedYearly;
 import com.bank.atm.backend.accounts.interest.InterestEarnable;
 import com.bank.atm.backend.accounts.interest.InterestEarningExecutor;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.backend.users.UserID;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +50,7 @@ public class PremiumCheckingAccountFactory implements AccountFactoryCreator {
     @Override
     public Account createAccount() {
         // First, build the basic account
-        List<User> managers = new ArrayList<>(Collections.singletonList(user));
+        List<UserID> managers = AccountsUtil.buildManagerListFromUser(user);
         Account account = new PremiumCheckingAccount(currency, new Money(initialAmount), managers);
 
         // Premium checking accounts earn a small amount of interest: 0.5% interest per year

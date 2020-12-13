@@ -3,6 +3,7 @@ package com.bank.atm.backend.accounts.investment_accounts;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.backend.users.UserID;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class FourOhOneKAccount extends InvestmentAccount {
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public FourOhOneKAccount(Currency currency, Money money, List<User> managers) {
+    public FourOhOneKAccount(Currency currency, Money money, List<UserID> managers) {
         super(currency, money, managers);
     }
 }

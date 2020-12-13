@@ -6,6 +6,7 @@ import com.bank.atm.backend.accounts.interest.InterestEarningExecutor;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.backend.users.UserID;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class PremiumCheckingAccount extends CheckingAccount implements InterestE
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public PremiumCheckingAccount(Currency currency, Money money, List<User> managers) {
+    public PremiumCheckingAccount(Currency currency, Money money, List<UserID> managers) {
         super(currency, money, managers);
     }
 

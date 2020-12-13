@@ -6,6 +6,7 @@ import com.bank.atm.backend.accounts.savings_accounts.SavingsAccount;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.backend.users.UserID;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class LowInterestSavingsAccount extends SavingsAccount implements Interes
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public LowInterestSavingsAccount(Currency currency, Money money, List<User> managers) {
+    public LowInterestSavingsAccount(Currency currency, Money money, List<UserID> managers) {
         super(currency, money, managers);
     }
 
