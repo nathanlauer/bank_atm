@@ -3,8 +3,10 @@ package tests.backend.users;
 import com.bank.atm.backend.users.Client;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.*;
 
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserTest {
     private final static ID userId = new ID();
     private final User user;

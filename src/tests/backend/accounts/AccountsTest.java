@@ -9,9 +9,12 @@ import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.currency.USD;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-import java.io.IOException;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AccountsTest {
     private final static ID accountId = new ID();
     private final static ID userId = new ID();
@@ -39,7 +43,7 @@ public class AccountsTest {
             // Shouldn't happen
             fail();
         }
-        account = AccountFactory.createAccount(AccountType.BASIC_CHECKING_ACCOUNT, USD.getInstance(), 1000.0, user.getID());
+        account = AccountFactory.createAccount(AccountType.BASIC_CHECKING_ACCOUNT, USD.getInstance(), 1000.0, userId, accountId);
     }
 
     @Test
@@ -49,7 +53,44 @@ public class AccountsTest {
         assertEquals(money, account.getMoney());
         assertTrue(account.hasAccess(user));
         assertTrue(account.isAccountManager(user));
-        assertEquals("$1000.00", account.displayAccountValue());
+        assertEquals("$1,000.00", account.displayAccountValue());
         assertTrue(account.hasID(accountId));
+    }
+
+    @Test
+    @Order(1)
+    public void serialize() {
+        // Passes as long as the object is successfully serialized
+        try {
+            FileOutputStream fos = new FileOutputStream("data/account.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(account);
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    @Order(2)
+    public void deserialization() {
+        Account readInAccount = null;
+        try {
+            FileInputStream fis = new FileInputStream("data/account.ser");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            readInAccount = (Account) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            fail();
+        }
+        assertEquals(new Money(1000.0), readInAccount.getMoney());
+        assertTrue(readInAccount.hasAccess(user));
+        assertTrue(readInAccount.isAccountManager(user));
+        assertEquals("$1,000.00", readInAccount.displayAccountValue());
+        assertTrue(readInAccount.hasID(accountId));
     }
 }
