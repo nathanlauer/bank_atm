@@ -1,5 +1,7 @@
 package com.bank.atm.backend.users;
 
+import java.util.UUID;
+
 /**
  * Class Client is a concrete type of User, representing a client of the bank.
  *
@@ -16,15 +18,17 @@ public class Client extends User {
      * @param lastName the last name of this Client
      */
     public Client(String firstName, String lastName) {
-        super(firstName, lastName);
+        this(firstName, lastName, UUID.randomUUID());
     }
 
     /**
-     * @return String representation of this Client object.
+     * Standard constructor for a Client, that includes a specific UUID
+     * @param firstName the first name of this Client
+     * @param lastName the last name of this Client
+     * @param uuid the UUID of this Client
      */
-    @Override
-    public String toString() {
-        return "Client " + super.toString();
+    public Client(String firstName, String lastName, UUID uuid) {
+        super(firstName, lastName, uuid);
     }
 
     /**

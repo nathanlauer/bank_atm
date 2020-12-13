@@ -1,7 +1,9 @@
 package com.bank.atm.backend.users;
 
 import com.bank.atm.backend.authentication.Credentials;
+import com.bank.atm.util.Identifiable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,7 +17,7 @@ import java.util.UUID;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class User {
+public class User implements Identifiable, Serializable {
     private String firstName;
     private String lastName;
     private final UUID uuid;
@@ -27,9 +29,19 @@ public class User {
      * @param lastName the user's last name
      */
     public User(String firstName, String lastName) {
+        this(firstName, lastName, UUID.randomUUID());
+    }
+
+    /**
+     * Standard constructor that initializes a User with a specific UUID
+     * @param firstName the first name of this User
+     * @param lastName the User's last name
+     * @param uuid the UUID of this user
+     */
+    public User(String firstName, String lastName, UUID uuid) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.uuid = UUID.randomUUID();
+        this.uuid = uuid;
         this.credentialsList = new ArrayList<>();
     }
 
@@ -86,7 +98,7 @@ public class User {
      */
     @Override
     public String toString() {
-        return firstName + " " + lastName;
+        return getFirstName() + " " + getLastName();
     }
 
     /**
@@ -107,5 +119,13 @@ public class User {
 
         User other = (User) o;
         return this.uuid.equals(other.uuid);
+    }
+
+    /**
+     * @return the UUID of this entity
+     */
+    @Override
+    public UUID getUUID() {
+        return uuid;
     }
 }
