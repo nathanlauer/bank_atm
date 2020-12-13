@@ -1,7 +1,5 @@
 package com.bank.atm.backend.accounts;
 
-import com.bank.atm.backend.currency.Money;
-
 /**
  * Class AccountValueDecorator is a class which acts as a Decorator for displaying the
  * value in an account. It is expected to be composed within an Account, so the nominal

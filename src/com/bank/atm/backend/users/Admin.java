@@ -1,7 +1,5 @@
 package com.bank.atm.backend.users;
 
-import java.util.UUID;
-
 /**
  * Class Admin is a concrete type of User, specifically a worker who has high level
  * authorization rights for the bank.

@@ -2,10 +2,8 @@ package com.bank.atm.backend.accounts.savings_accounts;
 
 import com.bank.atm.backend.accounts.interest.InterestEarnable;
 import com.bank.atm.backend.accounts.interest.InterestEarningExecutor;
-import com.bank.atm.backend.accounts.savings_accounts.SavingsAccount;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
-import com.bank.atm.backend.users.User;
 import com.bank.atm.backend.users.UserID;
 
 import java.util.List;

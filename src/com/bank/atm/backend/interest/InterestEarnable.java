@@ -1,7 +1,5 @@
 package com.bank.atm.backend.interest;
 
-import java.util.Date;
-
 /**
  * Interface InterestEarnable
  *

@@ -3,7 +3,6 @@ package com.bank.atm.backend.accounts.checking_accounts;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
-import com.bank.atm.backend.users.User;
 import com.bank.atm.backend.users.UserID;
 
 import java.util.Date;

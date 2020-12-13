@@ -11,8 +11,6 @@ import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.backend.users.UserID;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 

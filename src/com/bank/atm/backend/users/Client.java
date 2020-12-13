@@ -1,7 +1,5 @@
 package com.bank.atm.backend.users;
 
-import java.util.UUID;
-
 /**
  * Class Client is a concrete type of User, representing a client of the bank.
  *
