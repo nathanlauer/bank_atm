@@ -23,8 +23,10 @@ public class UserMenu extends JFrame {
     private JButton depositButton;
     private JButton withdrawButton;
     private JButton transferMoneyButton;
-    private JButton loansButton;
+    private JButton viewLoansButton;
     private JButton addNewAccountButton;
+    private JButton payLoansButton;
+    private JButton requestLoansButton;
 
     public UserMenu(String title) {
         super(title);
@@ -177,13 +179,13 @@ public class UserMenu extends JFrame {
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userMenuPanel.add(transferMoneyButton, gbc);
-        loansButton = new JButton();
-        loansButton.setText("Loans");
+        viewLoansButton = new JButton();
+        viewLoansButton.setText("Loans");
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        userMenuPanel.add(loansButton, gbc);
+        userMenuPanel.add(viewLoansButton, gbc);
         usernameLabel = new JLabel();
         usernameLabel.setText("Welcome");
         gbc = new GridBagConstraints();
