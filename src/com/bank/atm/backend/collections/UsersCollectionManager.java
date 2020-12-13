@@ -42,9 +42,7 @@ public class UsersCollectionManager implements CollectionManager<User> {
         try {
             // Create the file if it does not exist
             File outputFile = new File(UsersCollectionManager.dataFileName);
-            if(!outputFile.createNewFile()) {
-                System.out.println("File does not exist!");
-            }
+            outputFile.createNewFile();
 
             FileInputStream fis = new FileInputStream(outputFile);
             ObjectInputStream ois = new ObjectInputStream(fis);
