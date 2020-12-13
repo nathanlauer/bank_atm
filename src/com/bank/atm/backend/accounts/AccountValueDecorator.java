@@ -1,5 +1,7 @@
 package com.bank.atm.backend.accounts;
 
+import java.io.Serializable;
+
 /**
  * Class AccountValueDecorator is a class which acts as a Decorator for displaying the
  * value in an account. It is expected to be composed within an Account, so the nominal
@@ -13,7 +15,7 @@ package com.bank.atm.backend.accounts;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class AccountValueDecorator {
+public class AccountValueDecorator implements Serializable {
     private final Account account;
 
     /**
