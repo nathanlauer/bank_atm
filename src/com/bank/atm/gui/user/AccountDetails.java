@@ -3,6 +3,7 @@ package com.bank.atm.gui.user;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.gui.transactions.DepositUI;
 import com.bank.atm.gui.transactions.WithdrawUI;
+import com.bank.atm.util.Formatter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,11 +38,10 @@ public class AccountDetails extends JFrame {
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
         this.pack();
         accountNameLabel.setText("Account " + account.getID() + " Details");
-        accountTypeValueLabel.setText(account.getClass().getSimpleName());
+        accountTypeValueLabel.setText(Formatter.splitCamelCase(account.getClass().getSimpleName()));
         currencyTypeLabel.setText(account.getCurrency().toString());
-        balanceValueLabel.setText("" + account.getMoney().getAmount());
+        balanceValueLabel.setText(account.displayAccountValue());
         dateOpenedTextField.setText("" + account.getOpened());
-        System.out.println("Account money is " + account.getMoney());
 
         depositButton.addActionListener(new ActionListener() {
             @Override
@@ -58,6 +58,7 @@ public class AccountDetails extends JFrame {
             }
         });
     }
+
 
 
     {

@@ -12,9 +12,9 @@ import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Euro;
 import com.bank.atm.backend.currency.JPY;
 import com.bank.atm.backend.currency.USD;
-import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +23,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -187,9 +188,29 @@ public class UserAddAccount extends JFrame {
         });
     }
 
+    /**
+     * returns the possible account types that the user can create
+     *
+     * @return
+     */
+    private AccountType[] getAvailableAccountTypes() {
+
+        List<AccountType> accountTypeList = new ArrayList<>();
+        for (AccountType accountType : AccountType.values()) {
+            if (accountType != AccountType.GENERIC_LOAN_ACCOUNT) {
+                accountTypeList.add(accountType);
+            }
+        }
+        //convert list to array
+        AccountType[] accountTypes = new AccountType[accountTypeList.size()];
+        for (int i = 0; i < accountTypeList.size(); i++) {
+            accountTypes[i] = accountTypeList.get(i);
+        }
+        return accountTypes;
+    }
 
     private void createUIComponents() {
-        accountTypeComboBox = new JComboBox<AccountType>(AccountType.values());
+        accountTypeComboBox = new JComboBox<AccountType>(getAvailableAccountTypes());
 
         currencyTypeComboBox = new JComboBox<>(CurrencyType.values());
         //todo change locale to the currency type of account
