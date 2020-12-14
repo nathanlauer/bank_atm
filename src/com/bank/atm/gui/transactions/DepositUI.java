@@ -56,12 +56,19 @@ public class DepositUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 Account account = (Account) chooseAccountComboBox.getSelectedItem();
-                makeDeposit(account);
+                double amt = makeDeposit(account);
+                JOptionPane.showMessageDialog(DepositUI.this, amt + " has been deposited to Account ID " + account.getID()+".\nNew Balance: "+account.displayAccountValue());
             }
         });
     }
 
-    private void makeDeposit(Account account) {
+    /**
+     * makes a deposit to the specified account
+     *
+     * @param account
+     * @return amount of money that has been deposited
+     */
+    private double makeDeposit(Account account) {
         double depositAmt = 0;
         try {
             depositAmt = ((Number) depositAmountField.getValue()).doubleValue();
@@ -73,6 +80,7 @@ public class DepositUI extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return depositAmt;
     }
 
     private void createUIComponents() {
@@ -245,4 +253,5 @@ public class DepositUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return depositPanel;
     }
+
 }
