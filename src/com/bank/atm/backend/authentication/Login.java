@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class Login {
+    public final static String invalidCredentials = "Invalid login credentials!";
     private final String username;
     private final String password;
 
@@ -38,7 +39,7 @@ public class Login {
         try {
             credentials = CredentialsCollectionManager.getInstance().matchesUsernameAndPassword(username, password);
         } catch (NoSuchElementException e) {
-            throw new AuthenticationException("Invalid login credentials!");
+            throw new AuthenticationException(invalidCredentials);
         }
         return credentials.getUserId();
     }
