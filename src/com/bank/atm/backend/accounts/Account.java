@@ -4,13 +4,15 @@ import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.currency.UnknownExchangeRateException;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.util.ID;
+import com.bank.atm.util.Identifiable;
 import com.bank.atm.util.IllegalTransactionException;
 import com.bank.atm.util.Validations;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Class Account
@@ -21,16 +23,25 @@ import java.util.UUID;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class Account {
-    private final UUID uuid;
+public class Account implements Serializable, Identifiable {
+    private final ID accountId;
     private final Date opened;
     private Currency currency;
     private Money money;
-    private final List<User> managers;
+    private final List<ID> managers;
     private final AccountValueDecorator decorator;
 
-    public Account(Date opened, Currency currency, Money money, List<User> managers) {
-        this.uuid = UUID.randomUUID();
+    /**
+     * Standard constructor. Note that the ID is expected to be passed in.
+     * Please use the AccountFactory in order to properly create an Account.
+     * @param opened the Date when this Account was opened
+     * @param currency the Currency for this Account
+     * @param money the initial Money in this Account
+     * @param managers List of managers for this Account
+     * @param accountId the ID of this Account
+     */
+    public Account(Date opened, Currency currency, Money money, List<ID> managers, ID accountId) {
+        this.accountId = accountId;
         this.opened = opened;
         this.currency = currency;
         this.money = money;
@@ -84,7 +95,7 @@ public class Account {
      * @param manager the new User to be authorized as a manager for this Account.
      */
     public void addManager(User manager) {
-        managers.add(manager);
+        managers.add(manager.getID());
     }
 
     /**
@@ -92,7 +103,7 @@ public class Account {
      * @param manager the User to be removed
      */
     public void removeManager(User manager) {
-        managers.remove(manager);
+        managers.remove(manager.getID());
     }
 
     /**
@@ -113,7 +124,7 @@ public class Account {
      * @return true if the User is an Account manager, false otherwise.
      */
     public boolean isAccountManager(User user) {
-        return managers.contains(user);
+        return managers.contains(user.getID());
     }
 
     /**
@@ -182,6 +193,25 @@ public class Account {
         }
 
         Account other = (Account) o;
-        return this.uuid.equals(other.uuid);
+        return this.getID().equals(other.getID());
+    }
+
+    /**
+     * @return the ID of this Identifiable entity
+     */
+    @Override
+    public ID getID() {
+        return accountId;
+    }
+
+    /**
+     * Indicates whether or not this Identifiable has the passed in id.
+     *
+     * @param id the ID in question
+     * @return true if this entity has the same id, false otherwise
+     */
+    @Override
+    public boolean hasID(ID id) {
+        return getID().equals(id);
     }
 }

@@ -2,9 +2,6 @@ package com.bank.atm.backend.currency;
 
 import com.bank.atm.util.Validations;
 
-import java.util.HashMap;
-import java.util.Objects;
-
 /**
  * Class ExchangeRate is a class that represents a rate of exchange between two Currencies.
  *

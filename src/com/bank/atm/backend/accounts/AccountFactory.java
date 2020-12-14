@@ -6,8 +6,10 @@ import com.bank.atm.backend.accounts.investment_accounts.FourOhOneKAccountFactor
 import com.bank.atm.backend.accounts.loan_accounts.GenericLoanAccountFactory;
 import com.bank.atm.backend.accounts.savings_accounts.HighInterestSavingsAccountFactory;
 import com.bank.atm.backend.accounts.savings_accounts.LowInterestSavingsAccountFactory;
+import com.bank.atm.backend.collections.UsersCollectionManager;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.util.ID;
 
 /**
  * Class AccountFactory is a Factory that constructs an appropriate type of Account.
@@ -25,30 +27,46 @@ public class AccountFactory {
      * @param accountType the Type of Account to create
      * @return an Account of the appropriate subtype.
      */
-    public static Account createAccount(AccountType accountType, Currency currency, double initialValue, User user) throws UnknownAccountTypeException {
-        Account account;
+    public static Account createAccount(AccountType accountType, Currency currency, double initialValue, ID userId) throws UnknownAccountTypeException {
+        ID accountId = new ID();
+        return AccountFactory.createAccount(accountType, currency, initialValue, userId, accountId);
+    }
+
+    /**
+     * Creates an Account, with the passed in accountId, for the User specified by userId.
+     * @param accountType the type of Account
+     * @param currency the Currency for this Account
+     * @param initialValue the initial value of this Account
+     * @param userId the ID of the User creating this Account
+     * @param accountId the ID of the Account to be created
+     * @return an Account of the appropriate subtype
+     * @throws UnknownAccountTypeException if requesting an unknown type of Account
+     */
+    public static Account createAccount(AccountType accountType, Currency currency, double initialValue, ID userId, ID accountId) throws UnknownAccountTypeException {
+        User user = UsersCollectionManager.getInstance().find(userId);
+        AccountFactoryCreator factory;
         switch (accountType) {
             case GENERIC_LOAN_ACCOUNT:
-                account = new GenericLoanAccountFactory(currency, initialValue, user).createAccount();
+                factory = new GenericLoanAccountFactory(currency, initialValue, user, accountId);
                 break;
             case FOUR_OH_ONE_K_ACCOUNT:
-                account = new FourOhOneKAccountFactory(currency, initialValue, user).createAccount();
+                factory = new FourOhOneKAccountFactory(currency, initialValue, user, accountId);
                 break;
             case BASIC_CHECKING_ACCOUNT:
-                account = new BasicCheckingAccountFactory(currency, initialValue, user).createAccount();
+                factory = new BasicCheckingAccountFactory(currency, initialValue, user, accountId);
                 break;
             case PREMIUM_CHECKING_ACCOUNT:
-                account = new PremiumCheckingAccountFactory(currency, initialValue, user).createAccount();
+                factory = new PremiumCheckingAccountFactory(currency, initialValue, user, accountId);
                 break;
             case LOW_INTEREST_SAVINGS_ACCOUNT:
-                account = new LowInterestSavingsAccountFactory(currency, initialValue, user).createAccount();
+                factory = new LowInterestSavingsAccountFactory(currency, initialValue, user, accountId);
                 break;
             case HIGH_INTEREST_SAVINGS_ACCOUNT:
-                account = new HighInterestSavingsAccountFactory(currency, initialValue, user).createAccount();
+                factory = new HighInterestSavingsAccountFactory(currency, initialValue, user, accountId);
                 break;
             default:
                 throw new UnknownAccountTypeException("Unknown type of Account!");
         }
-        return account;
+        return factory.createAccount();
     }
 }

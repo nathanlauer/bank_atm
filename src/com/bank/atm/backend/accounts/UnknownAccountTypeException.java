@@ -10,7 +10,7 @@ package com.bank.atm.backend.accounts;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class UnknownAccountTypeException extends Exception {
+public class UnknownAccountTypeException extends RuntimeException {
     public UnknownAccountTypeException(String message) {
         super(message);
     }

@@ -3,6 +3,8 @@ package com.bank.atm.backend.currency;
 import com.bank.atm.util.IllegalTransactionException;
 import com.bank.atm.util.Validations;
 
+import java.io.Serializable;
+
 /**
  * Class Money is an abstract representation of Money - that is, it's just a number.
  * It is up to the various currency classes to display this Money in a meaningful
@@ -14,7 +16,7 @@ import com.bank.atm.util.Validations;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class Money implements Comparable<Money> {
+public class Money implements Serializable, Comparable<Money> {
     private double amount;
 
     /**

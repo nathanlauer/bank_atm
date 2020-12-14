@@ -1,4 +1,4 @@
-package com.bank.atm.backend.accounts.interest;
+package com.bank.atm.backend.interest;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.util.Validations;
@@ -6,7 +6,7 @@ import com.bank.atm.util.Validations;
 import java.util.Date;
 
 /**
- * Class InterestCompoundedYearly
+ * Class InterestCompoundedDaily
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu
@@ -14,8 +14,8 @@ import java.util.Date;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class InterestCompoundedYearly implements InterestEarningExecutor {
-    private final Account account;
+public class InterestCompoundedDaily implements InterestEarningExecutor {
+    transient private final Account account;
     private Date lastCompounded;
     private final int intervalDays;
     private final int numCompoundingsPerYear;
@@ -33,12 +33,12 @@ public class InterestCompoundedYearly implements InterestEarningExecutor {
      *            For example, apy = 3 means that the account will grow by approximately
      *            3% over the course of one year.
      */
-    public InterestCompoundedYearly(Account account, Date lastCompounded, double apy) {
+    public InterestCompoundedDaily(Account account, Date lastCompounded, double apy) {
         Validations.nonNegative(apy);
         this.account = account;
         this.lastCompounded = lastCompounded;
-        this.intervalDays = 365;
-        this.numCompoundingsPerYear = 1;
+        this.intervalDays = 1;
+        this.numCompoundingsPerYear = 365;
     }
 
     /**
@@ -48,16 +48,7 @@ public class InterestCompoundedYearly implements InterestEarningExecutor {
      */
     @Override
     public void computeInterest() {
-        // Ensure that enough time has passed
-        if(InterestEarningExecutor.compoundingIntervalHasNotPassed(lastCompounded, intervalDays)) {
-            return;
-        }
-
-        // Otherwise, we need to compute the interest earned.
-        double interestEarned = InterestEarningExecutor.calculateInterestEarned(account, apy, numCompoundingsPerYear);
-        double accountValue = account.getMoney().getAmount() + interestEarned;
-        account.getMoney().setAmount(accountValue);
-        lastCompounded = new Date();
+        InterestEarningExecutor.computeInterestAndUpdateAccount(this);
     }
 
     /**
