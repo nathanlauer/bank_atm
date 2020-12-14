@@ -5,6 +5,10 @@ package com.bank.atm.gui.user;
  *
  */
 
+import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.util.ID;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +25,7 @@ public class UserViewAccounts extends JFrame {
     private JButton addNewAcountButton;
     private JPanel accountsPanel;
 
-    public UserViewAccounts(String userID) {
+    public UserViewAccounts(ID userID) {
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(userViewAccountsPanel);//sets content to our menu panel
@@ -37,7 +41,7 @@ public class UserViewAccounts extends JFrame {
         initAccountsPanel(userID);
     }
 
-    private void initAccountsPanel(String userID) {
+    private void initAccountsPanel(ID userID) {
         BoxLayout boxLayout = new BoxLayout(accountsPanel, BoxLayout.Y_AXIS);
         accountsPanel.setLayout(boxLayout);
         List<JButton> acctBtns = createAccountBtns(userID);
@@ -55,15 +59,14 @@ public class UserViewAccounts extends JFrame {
      * @param userID
      * @return
      */
-    private List<JButton> createAccountBtns(String userID) {
+    private List<JButton> createAccountBtns(ID userID) {
         List<JButton> acctBtns = new ArrayList<>();
-        for (String account : getAccounts(userID)) {//todo replace string with account obj
-            JButton acctBtn = new JButton(account);
+        for (Account account : getAccounts(userID)) {//todo replace string with account obj
+            JButton acctBtn = new JButton(account.getID() + "");
             acctBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("Replace this with go to account details: " + account);
-                    AccountDetails accountDetails = new AccountDetails();
+                    AccountDetails accountDetails = new AccountDetails(account);
                     accountDetails.setVisible(true);
                 }
             });
@@ -80,13 +83,8 @@ public class UserViewAccounts extends JFrame {
      * @return list of accounts of the user
      */
     //TODO replace String with Account model if one is created later
-    private List<String> getAccounts(String userID) {
-        List<String> accList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {//todo replace this with user's actual accounts
-            accList.add("SampleAcc " + i + " and details here");
-
-        }
-        return accList;
+    private List<Account> getAccounts(ID userID) {
+        return AccountsCollectionManager.getInstance().findByOwnerID(userID);
     }
 
 
@@ -173,4 +171,5 @@ public class UserViewAccounts extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return userViewAccountsPanel;
     }
+
 }

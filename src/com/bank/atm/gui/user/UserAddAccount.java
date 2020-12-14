@@ -7,10 +7,13 @@ package com.bank.atm.gui.user;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactory;
 import com.bank.atm.backend.accounts.AccountType;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Euro;
 import com.bank.atm.backend.currency.JPY;
 import com.bank.atm.backend.currency.USD;
+import com.bank.atm.backend.users.User;
+import com.bank.atm.util.ID;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -167,7 +171,7 @@ public class UserAddAccount extends JFrame {
     /**
      * @param userID - ID of user to add account for
      */
-    public UserAddAccount(String userID) {
+    public UserAddAccount(ID userID) {
 
         $$$setupUI$$$();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -178,9 +182,15 @@ public class UserAddAccount extends JFrame {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //todo when createAccount button is clicked, create account.
-                createAccount();
-                System.out.println("Account is being created");
+                Account createdAccount = createAccount(userID);
+                if (createdAccount != null) {
+                    try {
+                        AccountsCollectionManager.getInstance().save(createAccount(userID));
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    System.out.println("Account is being created");
+                }
             }
         });
 
@@ -204,6 +214,7 @@ public class UserAddAccount extends JFrame {
         currencyTypeComboBox = new JComboBox<>(CurrencyType.values());
         //todo change locale to the currency type of account
         initialBalanceTextField = new JFormattedTextField(NumberFormat.getNumberInstance());
+        initialBalanceTextField.setText("0");//default starting balance to 0
 
 
     }
@@ -211,12 +222,14 @@ public class UserAddAccount extends JFrame {
     /**
      * Calls the account factory to create the appropriate account
      *
-     * @return
+     * @param userID - user to create account for
+     * @return created account
      */
-    private Account createAccount() {
+    private Account createAccount(ID userID) {
+        double initBalance = ((Number) initialBalanceTextField.getValue()).doubleValue();
 
         Currency currency = null;
-        switch (currencyTypeComboBox.getPrototypeDisplayValue()) {
+        switch ((CurrencyType) currencyTypeComboBox.getSelectedItem()) {
             case USD:
                 currency = USD.getInstance();
                 break;
@@ -227,7 +240,7 @@ public class UserAddAccount extends JFrame {
                 currency = Euro.getInstance();
                 break;
         }
-        return null;//AccountFactory.createAccount(accountTypeComboBox.getPrototypeDisplayValue(),currency,0,user);
+        return AccountFactory.createAccount((AccountType) accountTypeComboBox.getSelectedItem(), currency, initBalance, userID);
     }
 
 }
