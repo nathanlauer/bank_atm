@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
  *
  * @author Sandra Zhen
  */
-public class AccountDetails extends JFrame {
+public class AccountDetails extends JDialog {
     private final int frameWidth = 500;
     private final int frameHeight = 500;
 
@@ -31,8 +31,8 @@ public class AccountDetails extends JFrame {
     private JTextArea dateOpenedTextField;
     private JLabel accountNameLabel;
 
-    public AccountDetails(Account account) {
-
+    public AccountDetails(JFrame owner, Account account) {
+        super(owner);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(accountDetailsMainPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
@@ -58,7 +58,6 @@ public class AccountDetails extends JFrame {
 //            }
 //        });
     }
-
 
 
     {
