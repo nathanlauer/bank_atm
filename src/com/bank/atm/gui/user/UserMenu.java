@@ -39,7 +39,7 @@ public class UserMenu extends JFrame {
         addNewAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserAddAccount userAddAccount = new UserAddAccount(getUserID());
+                UserAddAccount userAddAccount = new UserAddAccount(getID());
                 userAddAccount.setVisible(true);
             }
         });
@@ -47,7 +47,7 @@ public class UserMenu extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserViewAccounts userViewAccounts = new UserViewAccounts(getUserID());
+                UserViewAccounts userViewAccounts = new UserViewAccounts(getID());
                 userViewAccounts.setVisible(true);
             }
         });
@@ -85,7 +85,7 @@ public class UserMenu extends JFrame {
         return "Name";
     }
 
-    private String getUserID() {
+    private String getID() {
         //TODO retrieve and return userID from oauth
         return "98454598";
     }
@@ -179,13 +179,6 @@ public class UserMenu extends JFrame {
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userMenuPanel.add(transferMoneyButton, gbc);
-        viewLoansButton = new JButton();
-        viewLoansButton.setText("Loans");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 4;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        userMenuPanel.add(viewLoansButton, gbc);
         usernameLabel = new JLabel();
         usernameLabel.setText("Welcome");
         gbc = new GridBagConstraints();
@@ -206,6 +199,27 @@ public class UserMenu extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 50, 0, 0);
         userMenuPanel.add(spacer7, gbc);
+        viewLoansButton = new JButton();
+        viewLoansButton.setText("View Loans");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userMenuPanel.add(viewLoansButton, gbc);
+        payLoansButton = new JButton();
+        payLoansButton.setText("Pay Loans");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 6;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userMenuPanel.add(payLoansButton, gbc);
+        requestLoansButton = new JButton();
+        requestLoansButton.setText("Request Loans");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userMenuPanel.add(requestLoansButton, gbc);
     }
 
     /**
@@ -214,4 +228,5 @@ public class UserMenu extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return userMenuPanel;
     }
+
 }

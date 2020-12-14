@@ -100,7 +100,7 @@ public class TransferMoneyUI extends JFrame {
         transferMoneyPanel.add(label3, gbc);
         toAccountComboBox = new JComboBox();
         gbc = new GridBagConstraints();
-        gbc.gridx = 6;
+        gbc.gridx = 7;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -129,7 +129,7 @@ public class TransferMoneyUI extends JFrame {
         toAccountCurrencyType = new JLabel();
         toAccountCurrencyType.setText("JPY");
         gbc = new GridBagConstraints();
-        gbc.gridx = 7;
+        gbc.gridx = 8;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         transferMoneyPanel.add(toAccountCurrencyType, gbc);
@@ -165,7 +165,7 @@ public class TransferMoneyUI extends JFrame {
         convertedTransferAmount = new JFormattedTextField();
         convertedTransferAmount.setEditable(false);
         gbc = new GridBagConstraints();
-        gbc.gridx = 6;
+        gbc.gridx = 7;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -181,7 +181,7 @@ public class TransferMoneyUI extends JFrame {
         toAccountBalanceTextField = new JFormattedTextField();
         toAccountBalanceTextField.setEditable(false);
         gbc = new GridBagConstraints();
-        gbc.gridx = 6;
+        gbc.gridx = 7;
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -194,10 +194,16 @@ public class TransferMoneyUI extends JFrame {
         transferMoneyPanel.add(spacer5, gbc);
         final JPanel spacer6 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 6;
+        gbc.gridx = 7;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.VERTICAL;
         transferMoneyPanel.add(spacer6, gbc);
+        final JPanel spacer7 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 6;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        transferMoneyPanel.add(spacer7, gbc);
     }
 
     /**

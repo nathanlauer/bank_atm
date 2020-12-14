@@ -1,9 +1,8 @@
 package com.bank.atm.backend.accounts.checking_accounts;
 
-import com.bank.atm.backend.accounts.checking_accounts.CheckingAccount;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
-import com.bank.atm.backend.users.User;
+import com.bank.atm.util.ID;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class BasicCheckingAccount extends CheckingAccount {
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public BasicCheckingAccount(Currency currency, Money money, List<User> managers) {
-        super(currency, money, managers);
+    public BasicCheckingAccount(Currency currency, Money money, List<ID> managers, ID accountId) {
+        super(currency, money, managers, accountId);
     }
 }
