@@ -59,7 +59,7 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
             // This is fine, just means we read EOF (end of file)
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            System.out.println("Failed to read in all users from serialized file");
+            System.out.println("Failed to read in all accounts from serialized file");
             System.exit(-1);
         }
     }

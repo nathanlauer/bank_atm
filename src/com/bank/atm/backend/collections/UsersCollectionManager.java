@@ -22,6 +22,10 @@ public class UsersCollectionManager implements CollectionManager<User> {
     public static final String dataFileName = "data/users.ser";
     private final Set<User> users;
 
+    /**
+     *
+     * @return the Singleton instance of this class
+     */
     public static UsersCollectionManager getInstance() {
         if(instance == null) {
             instance = new UsersCollectionManager();
