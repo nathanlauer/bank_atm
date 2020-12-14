@@ -74,8 +74,9 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
         // Not super efficient, but for the purposes of this project it's simple enough
         // to serialize the entire list just to save one object.
         try{
-            // First, clear the contents of the file
-            CollectionsUtil.clearFileContents(AccountsCollectionManager.dataFileName);
+            // First, create the output File if it doesn't exist
+            File outputFile = new File(UsersCollectionManager.dataFileName);
+            outputFile.createNewFile();
 
             FileOutputStream fos = new FileOutputStream(AccountsCollectionManager.dataFileName);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
