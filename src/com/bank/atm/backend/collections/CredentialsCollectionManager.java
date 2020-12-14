@@ -148,4 +148,35 @@ public class CredentialsCollectionManager implements CollectionManager<Credentia
     public void clear() {
         this.credentials.clear();
     }
+
+    /**
+     * Indicates whether or not the passed in username is already being used by
+     * some other User
+     * @param username the username in question
+     * @return true if this username already exists, false otherwise
+     */
+    public boolean usernameAlreadyExists(String username) {
+        for(Credentials creds: credentials) {
+            if(creds.matchesUsername(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Finds the Credentials set that matches username and password
+     * @param username the username in question
+     * @param password the password in question
+     * @return the Credentials set that matches both the username and the password
+     * @throws NoSuchElementException if no such Credentials set exists
+     */
+    public Credentials matchesUsernameAndPassword(String username, String password) throws NoSuchElementException {
+        for(Credentials creds : credentials) {
+            if(creds.hasCorrectCredentials(username, password)) {
+                return creds;
+            }
+        }
+        throw new NoSuchElementException("No credentials that match username and password!");
+    }
 }

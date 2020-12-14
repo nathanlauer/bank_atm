@@ -80,4 +80,36 @@ public class Credentials implements Identifiable, Serializable {
     public boolean hasUserId(ID userId) {
         return getUserId().equals(userId);
     }
+
+    /**
+     * Indicates whether or not this Credentials matches the passed in username
+     * @param inputUsername the username in question
+     * @return true if the username equals this username, false otherwise
+     */
+    public boolean matchesUsername(String inputUsername) {
+        return username.equals(inputUsername);
+    }
+
+    /**
+     * Indicates whether or not this Credentials matches the passed in password
+     * @param inputPassword the password in question
+     * @return true if the password equals this password, false otherwise.
+     */
+    public boolean matchesPassword(String inputPassword) {
+        // Hash the input password, just as we hashed the stored password
+        String hashedInputPassword = PasswordHash.hashPassword(inputPassword);
+        return passwordHash.equals(hashedInputPassword);
+    }
+
+    /**
+     * Indicates whether or not the passed in pair of username and password are correct
+     * credentials.
+     * @param inputUsername the username entered by the User
+     * @param inputPassword the password entered by the User
+     * @return true if the username/password combo match, false otherwise.
+     */
+    public boolean hasCorrectCredentials(String inputUsername, String inputPassword) {
+        return matchesUsername(inputUsername) && matchesPassword(inputPassword);
+    }
+    // TODO: unique username on register
 }

@@ -89,7 +89,11 @@ public class Register {
         }
 
         if(missingSpecialCharacters()) {
-            throw new AuthenticationException("Password is missing special characterse!");
+            throw new AuthenticationException("Password is missing special characters!");
+        }
+
+        if(CredentialsCollectionManager.getInstance().usernameAlreadyExists(username)) {
+            throw new AuthenticationException("Username is already taken!");
         }
     }
 
