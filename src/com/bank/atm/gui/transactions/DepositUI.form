@@ -28,7 +28,7 @@
           <gridbag top="0" left="0" bottom="50" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
       </vspacer>
-      <component id="7a760" class="javax.swing.JTextField" binding="depositAmountField">
+      <component id="43cdc" class="javax.swing.JFormattedTextField" binding="depositAmountField" custom-create="true">
         <constraints>
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -150,6 +150,21 @@
       <vspacer id="f6765">
         <constraints>
           <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+      </vspacer>
+      <component id="430c5" class="javax.swing.JButton" binding="makeDepositButton" default-binding="true">
+        <constraints>
+          <grid row="10" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Make Deposit"/>
+        </properties>
+      </component>
+      <vspacer id="b28d4">
+        <constraints>
+          <grid row="9" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
       </vspacer>

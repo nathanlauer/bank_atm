@@ -1,14 +1,10 @@
 package com.bank.atm.gui.user;
 
 import com.bank.atm.backend.accounts.Account;
-import com.bank.atm.gui.transactions.DepositUI;
-import com.bank.atm.gui.transactions.WithdrawUI;
 import com.bank.atm.util.Formatter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * The UI for showing the full account details

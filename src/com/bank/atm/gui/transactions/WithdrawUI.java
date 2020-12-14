@@ -8,9 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class WithdrawUI extends JFrame {
 
@@ -50,6 +48,7 @@ public class WithdrawUI extends JFrame {
 
     private void createUIComponents() {
         accountComboBox = new JComboBox<Account>(getUserAccounts());
+        accountComboBox.setRenderer(new AccountListRenderer());
     }
 
     private Account[] getUserAccounts() {

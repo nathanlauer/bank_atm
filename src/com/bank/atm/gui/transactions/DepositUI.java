@@ -6,11 +6,13 @@ import com.bank.atm.util.ID;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class DepositUI extends JFrame {
 
@@ -21,11 +23,12 @@ public class DepositUI extends JFrame {
 
     private JPanel depositPanel;
     private JLabel amountLabel;
-    private JTextField depositAmountField;
-    private JComboBox chooseAccountComboBox;
+    private JFormattedTextField depositAmountField;
+    private JComboBox<? extends Account> chooseAccountComboBox;
     private JLabel currencyTypeLabel;
     private JTextField currentBalanceTextField;
     private JTextField newBalanceTextField;
+    private JButton makeDepositButton;
 
     /**
      * TODO add field for choosing account to make deposit and adjust currency format according to locale of that account
@@ -48,6 +51,45 @@ public class DepositUI extends JFrame {
                 super.keyTyped(e);
             }
         });
+
+        makeDepositButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                Account account = (Account) chooseAccountComboBox.getSelectedItem();
+                makeDeposit(account);
+            }
+        });
+    }
+
+    private void makeDeposit(Account account) {
+        double depositAmt = 0;
+        try {
+            depositAmt = ((Number) depositAmountField.getValue()).doubleValue();
+        } catch (NullPointerException ignored) {
+        }
+        account.addValue(depositAmt);
+        try {
+            AccountsCollectionManager.getInstance().save(account);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createUIComponents() {
+        chooseAccountComboBox = new JComboBox<Account>(getUserAccounts());
+        chooseAccountComboBox.setRenderer(new AccountListRenderer());
+
+        depositAmountField = new JFormattedTextField(NumberFormat.getNumberInstance());
+        depositAmountField.setText("0");//default starting balance to 0
+    }
+
+    private Account[] getUserAccounts() {
+        List<Account> accountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
+        Account[] accounts = new Account[accountList.size()];
+        for (int i = 0; i < accountList.size(); i++) {
+            accounts[i] = accountList.get(i);
+        }
+        return accounts;
     }
 
 
@@ -82,7 +124,6 @@ public class DepositUI extends JFrame {
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.insets = new Insets(0, 0, 50, 0);
         depositPanel.add(spacer2, gbc);
-        depositAmountField = new JTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 4;
@@ -183,6 +224,19 @@ public class DepositUI extends JFrame {
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.VERTICAL;
         depositPanel.add(spacer6, gbc);
+        makeDepositButton = new JButton();
+        makeDepositButton.setText("Make Deposit");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 10;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        depositPanel.add(makeDepositButton, gbc);
+        final JPanel spacer7 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 9;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        depositPanel.add(spacer7, gbc);
     }
 
     /**
@@ -191,19 +245,4 @@ public class DepositUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return depositPanel;
     }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-        chooseAccountComboBox = new JComboBox<Account>(getUserAccounts());
-    }
-
-    private Account[] getUserAccounts() {
-        List<Account> accountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
-        Account[] accounts = new Account[accountList.size()];
-        for (int i = 0; i < accountList.size(); i++) {
-            accounts[i] = accountList.get(i);
-        }
-        return accounts;
-    }
-
 }

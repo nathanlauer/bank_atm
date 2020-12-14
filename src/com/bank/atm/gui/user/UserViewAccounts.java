@@ -7,6 +7,7 @@ package com.bank.atm.gui.user;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.gui.transactions.AccountListRenderer;
 import com.bank.atm.util.Formatter;
 import com.bank.atm.util.ID;
 
@@ -17,7 +18,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserViewAccounts extends JFrame {
@@ -49,6 +49,7 @@ public class UserViewAccounts extends JFrame {
 
     private void initAccountsPanel(ID userID) {
         accountsList.setListData(getAccounts(userID).toArray());
+        accountsList.setCellRenderer(new AccountListRenderer());
         accountsList.setBorder(new EmptyBorder(10, 10, 10, 10));
         accountsList.addListSelectionListener(new ListSelectionListener() {
             @Override
