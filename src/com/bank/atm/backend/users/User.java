@@ -137,6 +137,6 @@ public class User implements Serializable, Identifiable {
         }
 
         User other = (User) o;
-        return this.userID.equals(other.userID);
+        return this.getID().equals(other.getID());
     }
 }
