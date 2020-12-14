@@ -1,7 +1,7 @@
 package com.bank.atm.backend.accounts.loan_accounts;
 
-import com.bank.atm.backend.accounts.interest.InterestEarnable;
-import com.bank.atm.backend.accounts.interest.InterestEarningExecutor;
+import com.bank.atm.backend.interest.InterestEarnable;
+import com.bank.atm.backend.interest.InterestEarningExecutor;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.util.ID;
