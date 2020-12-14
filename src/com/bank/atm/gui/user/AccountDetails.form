@@ -30,12 +30,13 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
           </vspacer>
-          <component id="ac402" class="javax.swing.JLabel" binding="balanceValueLabel">
+          <component id="24d57" class="javax.swing.JTextField" binding="balanceValueLabel">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag top="20" left="20" bottom="20" right="20" weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <editable value="false"/>
               <text value="0.00"/>
             </properties>
           </component>
@@ -48,13 +49,6 @@
               <text value="Currency Type:"/>
             </properties>
           </component>
-          <component id="aa647" class="javax.swing.JComboBox" binding="currencyTypeComboBox" custom-create="true">
-            <constraints>
-              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="0.0"/>
-            </constraints>
-            <properties/>
-          </component>
           <component id="56503" class="javax.swing.JLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -64,12 +58,13 @@
               <text value="Account Type:"/>
             </properties>
           </component>
-          <component id="e1321" class="javax.swing.JLabel" binding="accountTypeValueLabel">
+          <component id="b31a0" class="javax.swing.JTextField" binding="accountTypeValueLabel">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <editable value="false"/>
               <text value="Checkings"/>
             </properties>
           </component>
@@ -79,9 +74,46 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
           </vspacer>
+          <component id="f8d2" class="javax.swing.JFormattedTextField" binding="currencyTypeLabel">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <editable value="false"/>
+            </properties>
+          </component>
+          <vspacer id="718e7">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
+          <component id="d280c" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag top="0" left="10" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="Date Opened:"/>
+            </properties>
+          </component>
+          <component id="78b48" class="javax.swing.JTextField" binding="dateOpenedTextField">
+            <constraints>
+              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <editable value="false"/>
+            </properties>
+          </component>
         </children>
       </grid>
-      <component id="71515" class="javax.swing.JLabel">
+      <component id="71515" class="javax.swing.JLabel" binding="accountNameLabel">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
