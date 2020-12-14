@@ -1,9 +1,10 @@
 package com.bank.atm.backend.collections;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 /**
  * Class CollectionsUtil
@@ -16,13 +17,7 @@ import java.io.PrintWriter;
  */
 public class CollectionsUtil {
     public static void clearFileContents(String fileName) throws IOException {
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(new File(fileName));
-        } catch (FileNotFoundException e) {
-            throw new IOException(e.getMessage());
-        }
-        writer.print("");
-        writer.close();
+        Path path = FileSystems.getDefault().getPath(fileName);
+        Files.newInputStream(path, StandardOpenOption.TRUNCATE_EXISTING);
     }
 }
