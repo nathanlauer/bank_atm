@@ -1,5 +1,6 @@
 package com.bank.atm.backend.collections;
 
+import com.bank.atm.backend.authentication.Credentials;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 
@@ -9,56 +10,56 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Class UsersCollectionManager
+ * Class CredentialsCollectionManager is a class that managers the collection of all Credentials.
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu
- * Creation Date: 12/13/20
+ * Creation Date: 12/14/20
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class UsersCollectionManager implements CollectionManager<User> {
-    private static UsersCollectionManager instance;
-    public static final String dataFileName = "data/users.ser";
-    private final Set<User> users;
+public class CredentialsCollectionManager implements CollectionManager<Credentials> {
+    private static CredentialsCollectionManager instance;
+    public static final String dataFileName = "data/credentials.ser";
+    private final Set<Credentials> credentials;
 
     /**
      *
      * @return the Singleton instance of this class
      */
-    public static UsersCollectionManager getInstance() {
+    public static CredentialsCollectionManager getInstance() {
         if(instance == null) {
-            instance = new UsersCollectionManager();
+            instance = new CredentialsCollectionManager();
         }
         return instance;
     }
 
     /**
-     * Private constructor for a UsersCollectionManager
+     * Private constructor
      */
-    public UsersCollectionManager() {
-        users = new HashSet<>();
+    private CredentialsCollectionManager() {
+        credentials = new HashSet<>();
         init();
     }
 
     /**
-     * Helper function which reads in all Users from disk.
+     * Init helper method that reads in all credentials from disk.
      */
     private void init() {
         try {
             // Create the file if it does not exist
-            File outputFile = new File(UsersCollectionManager.dataFileName);
+            File outputFile = new File(CredentialsCollectionManager.dataFileName);
             outputFile.createNewFile();
 
             FileInputStream fis = new FileInputStream(outputFile);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            Set<User> readInUsers = (HashSet<User>)ois.readObject();
-            users.addAll(readInUsers);
+            Set<Credentials> readInCredentials = (HashSet<Credentials>)ois.readObject();
+            credentials.addAll(readInCredentials);
         } catch (EOFException e) {
             // This is fine, just means we read EOF (end of file)
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            System.out.println("Failed to read in all users from serialized file");
+            System.out.println("Failed to read in all credentials from serialized file");
             System.exit(-1);
         }
     }
@@ -69,22 +70,22 @@ public class UsersCollectionManager implements CollectionManager<User> {
      * @param obj the Object to be saved
      */
     @Override
-    public void save(User obj) throws IOException {
+    public void save(Credentials obj) throws IOException {
         // Not super efficient, but for the purposes of this project it's simple enough
         // to serialize the entire list just to save one object.
         try{
             // First, create the output File if it doesn't exist
-            File outputFile = new File(UsersCollectionManager.dataFileName);
+            File outputFile = new File(CredentialsCollectionManager.dataFileName);
             outputFile.createNewFile();
 
-            FileOutputStream fos = new FileOutputStream(UsersCollectionManager.dataFileName);
+            FileOutputStream fos = new FileOutputStream(CredentialsCollectionManager.dataFileName);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            users.add(obj); // ensure the passed in object is contained in the local cache
-            oos.writeObject(users);
+            credentials.add(obj); // ensure the passed in object is contained in the local cache
+            oos.writeObject(credentials);
             oos.close();
             fos.close();
         } catch (IOException e) {
-            users.remove(obj);
+            credentials.remove(obj);
             throw new IOException(e.getMessage());
         }
     }
@@ -93,16 +94,16 @@ public class UsersCollectionManager implements CollectionManager<User> {
      * Finds the object identified by id
      *
      * @param id the unique ID identifying the desired object to be found
-     * @return the Object identified by ID, or null if not found
+     * @return the Object identified by ID
      */
     @Override
-    public User find(ID id) throws NoSuchElementException {
-        for(User user : users) {
-            if(user.hasID(id)) {
-                return user;
+    public Credentials find(ID id) throws NoSuchElementException {
+        for(Credentials creds : credentials) {
+            if(creds.hasID(id)) {
+                return creds;
             }
         }
-        throw new NoSuchElementException("User with id " + id + " can't be found!");
+        throw new NoSuchElementException("Credentials with id " + id + " can't be found!");
     }
 
     /**
@@ -114,41 +115,17 @@ public class UsersCollectionManager implements CollectionManager<User> {
      * @return List of all objects in this collection that are associated with ownerId.
      */
     @Override
-    public List<User> findByOwnerID(ID ownerId) {
-        // In this case, there should only be one User returned in the list
-        List<User> output = new ArrayList<>();
-        for(User user : users) {
-            if(user.hasID(ownerId)) {
-                output.add(user);
-            }
-        }
-        return output;
+    public List<Credentials> findByOwnerID(ID ownerId) {
+        Stream<Credentials> credentialsStream = credentials.stream().filter(creds -> creds.hasUserId(ownerId));
+        return credentialsStream.collect(Collectors.toList());
     }
 
     /**
      * @return a List of every Object in this Collection.
      */
     @Override
-    public List<User> all() {
-        return new ArrayList<>(users);
-    }
-
-    /**
-     *
-     * @return a List of all clients
-     */
-    public List<User> allClients() {
-        Stream<User> clientStream = all().stream().filter(User::isAClient);
-        return clientStream.collect(Collectors.toList());
-    }
-
-    /**
-     *
-     * @return a List of all Admins
-     */
-    public List<User> allAdmins() {
-        Stream<User> adminStream = all().stream().filter(User::isAnAdmin);
-        return adminStream.collect(Collectors.toList());
+    public List<Credentials> all() {
+        return new ArrayList<>(credentials);
     }
 
     /**
@@ -159,11 +136,9 @@ public class UsersCollectionManager implements CollectionManager<User> {
      * @param element the Element to add to the Collection.
      */
     @Override
-    public void add(User element) throws IOException {
-        // Save the user first, so that if an error occurs, we don't have
-        // an erroneous user in memory
+    public void add(Credentials element) throws IOException {
         this.save(element);
-        this.users.add(element);
+        this.credentials.add(element);
     }
 
     /**
@@ -171,6 +146,6 @@ public class UsersCollectionManager implements CollectionManager<User> {
      */
     @Override
     public void clear() {
-        this.users.clear();
+        this.credentials.clear();
     }
 }

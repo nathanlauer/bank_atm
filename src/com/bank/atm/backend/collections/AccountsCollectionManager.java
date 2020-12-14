@@ -103,7 +103,7 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
                 return account;
             }
         }
-        return null;
+        throw new NoSuchElementException("Account with id " + id + " can't be found!");
     }
 
     /**
