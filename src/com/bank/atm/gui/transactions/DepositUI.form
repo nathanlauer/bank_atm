@@ -28,7 +28,7 @@
           <gridbag top="0" left="0" bottom="50" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
       </vspacer>
-      <component id="722ea" class="javax.swing.JFormattedTextField" binding="depositAmountField">
+      <component id="7a760" class="javax.swing.JTextField" binding="depositAmountField">
         <constraints>
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -86,7 +86,7 @@
           <text value="Current Balance:"/>
         </properties>
       </component>
-      <component id="99ff" class="javax.swing.JFormattedTextField" binding="currentBalanceTextField">
+      <component id="5be8a" class="javax.swing.JTextField" binding="currentBalanceTextField">
         <constraints>
           <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -106,7 +106,7 @@
           <text value="New Balance:"/>
         </properties>
       </component>
-      <component id="a046" class="javax.swing.JFormattedTextField" binding="newBalanceTextField">
+      <component id="52f6" class="javax.swing.JTextField" binding="newBalanceTextField">
         <constraints>
           <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>

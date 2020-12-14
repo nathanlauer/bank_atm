@@ -16,7 +16,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class UserAddAccount extends JFrame {
@@ -111,7 +115,7 @@ public class UserAddAccount extends JFrame {
         createAccountButton.setText("Create Account");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 9;
+        gbc.gridy = 11;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userAddAccountPanel.add(createAccountButton, gbc);
         final JLabel label4 = new JLabel();
@@ -121,6 +125,25 @@ public class UserAddAccount extends JFrame {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.NORTHWEST;
         userAddAccountPanel.add(label4, gbc);
+        final JLabel label5 = new JLabel();
+        label5.setText("Initial Balance:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.anchor = GridBagConstraints.WEST;
+        userAddAccountPanel.add(label5, gbc);
+        final JPanel spacer6 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 10;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        userAddAccountPanel.add(spacer6, gbc);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 9;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userAddAccountPanel.add(initialBalanceTextField, gbc);
     }
 
     /**
@@ -139,6 +162,7 @@ public class UserAddAccount extends JFrame {
     private JComboBox<CurrencyType> currencyTypeComboBox;
     private JTextArea accountNameTextArea;
     private JButton createAccountButton;
+    private JFormattedTextField initialBalanceTextField;
 
     /**
      * @param userID - ID of user to add account for
@@ -160,6 +184,17 @@ public class UserAddAccount extends JFrame {
             }
         });
 
+        initialBalanceTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                //do not allow user to enter any characters besides digits and backspace/delete
+                if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '.')) {
+                    e.consume();
+                }
+                super.keyTyped(e);
+            }
+        });
     }
 
 
@@ -167,6 +202,8 @@ public class UserAddAccount extends JFrame {
         accountTypeComboBox = new JComboBox<AccountType>(AccountType.values());
 
         currencyTypeComboBox = new JComboBox<>(CurrencyType.values());
+        //todo change locale to the currency type of account
+        initialBalanceTextField = new JFormattedTextField(NumberFormat.getNumberInstance());
 
 
     }
@@ -178,21 +215,7 @@ public class UserAddAccount extends JFrame {
      */
     private Account createAccount() {
 
-        switch (accountTypeComboBox.getPrototypeDisplayValue()) {
-            case BASIC_CHECKING_ACCOUNT:
-                break;
-            case FOUR_OH_ONE_K_ACCOUNT:
-                break;
-            case GENERIC_LOAN_ACCOUNT:
-                break;
-            case HIGH_INTEREST_SAVINGS_ACCOUNT:
-                break;
-            case LOW_INTEREST_SAVINGS_ACCOUNT:
-                break;
-            case PREMIUM_CHECKING_ACCOUNT:
-                break;
-        }
-        Currency currency;
+        Currency currency = null;
         switch (currencyTypeComboBox.getPrototypeDisplayValue()) {
             case USD:
                 currency = USD.getInstance();
@@ -204,7 +227,7 @@ public class UserAddAccount extends JFrame {
                 currency = Euro.getInstance();
                 break;
         }
-        return null;//AccountFactory.createAccount(,currency,0,user);
+        return null;//AccountFactory.createAccount(accountTypeComboBox.getPrototypeDisplayValue(),currency,0,user);
     }
 
 }

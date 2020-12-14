@@ -2,6 +2,8 @@ package com.bank.atm.gui.transactions;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -26,6 +28,17 @@ public class WithdrawUI extends JFrame {
         this.setContentPane(withdrawPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
         this.pack(); //packs frame to preferred size
+        amountTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                //do not allow user to enter any characters besides digits and backspace/delete
+                if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '.')) {
+                    e.consume();
+                }
+                super.keyTyped(e);
+            }
+        });
     }
 
     private void createUIComponents() {
