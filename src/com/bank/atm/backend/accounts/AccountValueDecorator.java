@@ -1,6 +1,6 @@
 package com.bank.atm.backend.accounts;
 
-import com.bank.atm.backend.currency.Money;
+import java.io.Serializable;
 
 /**
  * Class AccountValueDecorator is a class which acts as a Decorator for displaying the
@@ -15,7 +15,7 @@ import com.bank.atm.backend.currency.Money;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class AccountValueDecorator {
+public class AccountValueDecorator implements Serializable {
     private final Account account;
 
     /**

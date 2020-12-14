@@ -1,4 +1,4 @@
-package com.bank.atm.backend.accounts.interest;
+package com.bank.atm.backend.interest;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.util.Validations;
@@ -15,7 +15,7 @@ import java.util.Date;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class InterestCompoundedMonthly implements InterestEarningExecutor {
-    private final Account account;
+    transient private final Account account;
     private Date lastCompounded;
     private final int intervalDays;
     private final int numCompoundingsPerYear;

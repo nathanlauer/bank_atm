@@ -1,7 +1,5 @@
 package com.bank.atm.backend.accounts;
 
-import com.bank.atm.backend.accounts.Account;
-
 /**
  * Class AccountFactoryCreator is an interface that describes all Account Factories.
  *

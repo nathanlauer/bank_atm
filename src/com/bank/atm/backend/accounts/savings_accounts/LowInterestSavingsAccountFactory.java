@@ -2,15 +2,15 @@ package com.bank.atm.backend.accounts.savings_accounts;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactoryCreator;
-import com.bank.atm.backend.accounts.interest.InterestCompoundedMonthly;
-import com.bank.atm.backend.accounts.interest.InterestEarnable;
-import com.bank.atm.backend.accounts.interest.InterestEarningExecutor;
+import com.bank.atm.backend.accounts.AccountsUtil;
+import com.bank.atm.backend.interest.InterestCompoundedMonthly;
+import com.bank.atm.backend.interest.InterestEarnable;
+import com.bank.atm.backend.interest.InterestEarningExecutor;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.util.ID;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +27,7 @@ public class LowInterestSavingsAccountFactory implements AccountFactoryCreator {
     private final Currency currency;
     private final double initialAmount;
     private final User user;
+    private final ID accountId;
 
     /**
      * Standard constructor
@@ -34,10 +35,11 @@ public class LowInterestSavingsAccountFactory implements AccountFactoryCreator {
      * @param initialAmount the initial monetary value for this account
      * @param user the User creating this Account.
      */
-    public LowInterestSavingsAccountFactory(Currency currency, double initialAmount, User user) {
+    public LowInterestSavingsAccountFactory(Currency currency, double initialAmount, User user, ID accountId) {
         this.currency = currency;
         this.initialAmount = initialAmount;
         this.user = user;
+        this.accountId = accountId;
     }
 
     /**
@@ -48,8 +50,8 @@ public class LowInterestSavingsAccountFactory implements AccountFactoryCreator {
     @Override
     public Account createAccount() {
         // First, build the basic account
-        List<User> managers = new ArrayList<>(Collections.singletonList(user));
-        Account account = new LowInterestSavingsAccount(currency, new Money(initialAmount), managers);
+        List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
+        Account account = new LowInterestSavingsAccount(currency, new Money(initialAmount), managers, accountId);
 
         // This account earns interest: 1.5% interest per year
         double apy = 1.5;

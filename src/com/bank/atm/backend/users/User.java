@@ -1,10 +1,12 @@
 package com.bank.atm.backend.users;
 
 import com.bank.atm.backend.authentication.Credentials;
+import com.bank.atm.util.ID;
+import com.bank.atm.util.Identifiable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Class User is an abstract class that represents someone interacting with the bank.
@@ -15,10 +17,10 @@ import java.util.UUID;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class User {
+public class User implements Serializable, Identifiable {
     private String firstName;
     private String lastName;
-    private final UUID uuid;
+    private final ID userID;
     private final List<Credentials> credentialsList;
 
     /**
@@ -27,10 +29,39 @@ public class User {
      * @param lastName the user's last name
      */
     public User(String firstName, String lastName) {
+        this(firstName, lastName, new ID());
+    }
+
+    /**
+     * Standard constructor that initializes a User with a specific UUID
+     * @param firstName the first name of this User
+     * @param lastName the User's last name
+     * @param userID the ID of this User
+     */
+    public User(String firstName, String lastName, ID userID) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.uuid = UUID.randomUUID();
+        this.userID = userID;
         this.credentialsList = new ArrayList<>();
+    }
+
+    /**
+     *
+     * @return the ID of this User
+     */
+    public ID getID() {
+        return userID;
+    }
+
+    /**
+     * Indicates whether or not this Identifiable has the passed in id.
+     *
+     * @param id the ID in question
+     * @return true if this entity has the same id, false otherwise
+     */
+    @Override
+    public boolean hasID(ID id) {
+        return userID.equals(id);
     }
 
     /**
@@ -86,7 +117,7 @@ public class User {
      */
     @Override
     public String toString() {
-        return firstName + " " + lastName;
+        return getFirstName() + " " + getLastName();
     }
 
     /**
@@ -106,6 +137,6 @@ public class User {
         }
 
         User other = (User) o;
-        return this.uuid.equals(other.uuid);
+        return this.getID().equals(other.getID());
     }
 }

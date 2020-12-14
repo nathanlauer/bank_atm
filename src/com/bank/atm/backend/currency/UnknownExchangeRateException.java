@@ -10,7 +10,7 @@ package com.bank.atm.backend.currency;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class UnknownExchangeRateException extends Exception {
+public class UnknownExchangeRateException extends RuntimeException {
     public UnknownExchangeRateException(String message) {
         super(message);
     }

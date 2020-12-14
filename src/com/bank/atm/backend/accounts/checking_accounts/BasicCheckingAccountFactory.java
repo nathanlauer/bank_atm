@@ -2,12 +2,12 @@ package com.bank.atm.backend.accounts.checking_accounts;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactoryCreator;
+import com.bank.atm.backend.accounts.AccountsUtil;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.util.ID;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,6 +23,7 @@ public class BasicCheckingAccountFactory implements AccountFactoryCreator {
     private final Currency currency;
     private final double initialAmount;
     private final User user;
+    private final ID accountId;
 
     /**
      * Standard constructor
@@ -30,10 +31,11 @@ public class BasicCheckingAccountFactory implements AccountFactoryCreator {
      * @param initialAmount the initial monetary value for this account
      * @param user the User creating this Account.
      */
-    public BasicCheckingAccountFactory(Currency currency, double initialAmount, User user) {
+    public BasicCheckingAccountFactory(Currency currency, double initialAmount, User user, ID accountId) {
         this.currency = currency;
         this.initialAmount = initialAmount;
         this.user = user;
+        this.accountId = accountId;
     }
 
     /**
@@ -43,7 +45,7 @@ public class BasicCheckingAccountFactory implements AccountFactoryCreator {
      */
     @Override
     public Account createAccount() {
-        List<User> managers = new ArrayList<>(Collections.singletonList(user));
-        return new BasicCheckingAccount(currency, new Money(initialAmount), managers);
+        List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
+        return new BasicCheckingAccount(currency, new Money(initialAmount), managers, accountId);
     }
 }
