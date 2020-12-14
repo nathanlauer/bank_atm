@@ -194,10 +194,10 @@ public class DepositUI extends JFrame {
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-        chooseAccountComboBox = new JComboBox<Account>(getUserAccountIDs());
+        chooseAccountComboBox = new JComboBox<Account>(getUserAccounts());
     }
 
-    private Account[] getUserAccountIDs() {
+    private Account[] getUserAccounts() {
         List<Account> accountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
         Account[] accounts = new Account[accountList.size()];
         for (int i = 0; i < accountList.size(); i++) {

@@ -4,10 +4,7 @@ import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.currency.UnknownExchangeRateException;
 import com.bank.atm.backend.users.User;
-import com.bank.atm.util.ID;
-import com.bank.atm.util.Identifiable;
-import com.bank.atm.util.IllegalTransactionException;
-import com.bank.atm.util.Validations;
+import com.bank.atm.util.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -214,4 +211,6 @@ public class Account implements Serializable, Identifiable {
     public boolean hasID(ID id) {
         return getID().equals(id);
     }
+
+
 }

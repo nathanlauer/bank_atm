@@ -95,7 +95,7 @@ public class UserViewAccounts extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         userViewAccountsPanel.add(panel1, gbc);
         final JLabel label1 = new JLabel();
-        label1.setText("Label");
+        label1.setText("View Accounts");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
