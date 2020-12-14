@@ -21,13 +21,13 @@ public class AccountDetails extends JFrame {
     private JButton depositButton;
     private JButton withdrawButton;
     private JPanel transactionPanel;
-    private JTextField balanceValueLabel;
+    private JTextArea balanceValueLabel;
     private JComboBox currencyTypeComboBox;
     private JPanel accountDetailsPanel;
-    private JTextField accountTypeValueLabel;
+    private JTextArea accountTypeValueLabel;
     private JPanel accountDetailsMainPanel;
-    private JFormattedTextField currencyTypeLabel;
-    private JTextField dateOpenedTextField;
+    private JTextArea currencyTypeLabel;
+    private JTextArea dateOpenedTextField;
     private JLabel accountNameLabel;
 
     public AccountDetails(Account account) {
@@ -37,10 +37,11 @@ public class AccountDetails extends JFrame {
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
         this.pack();
         accountNameLabel.setText("Account " + account.getID() + " Details");
-        accountTypeValueLabel.setText(account.getClass().toString());
-        balanceValueLabel.setText("" + account.getMoney());
+        accountTypeValueLabel.setText(account.getClass().getSimpleName());
+        currencyTypeLabel.setText(account.getCurrency().toString());
+        balanceValueLabel.setText("" + account.getMoney().getAmount());
         dateOpenedTextField.setText("" + account.getOpened());
-
+        System.out.println("Account money is " + account.getMoney());
 
         depositButton.addActionListener(new ActionListener() {
             @Override
@@ -98,7 +99,7 @@ public class AccountDetails extends JFrame {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.VERTICAL;
         accountDetailsPanel.add(spacer1, gbc);
-        balanceValueLabel = new JTextField();
+        balanceValueLabel = new JTextArea();
         balanceValueLabel.setEditable(false);
         balanceValueLabel.setText("0.00");
         gbc = new GridBagConstraints();
@@ -123,7 +124,7 @@ public class AccountDetails extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 10, 0, 10);
         accountDetailsPanel.add(label3, gbc);
-        accountTypeValueLabel = new JTextField();
+        accountTypeValueLabel = new JTextArea();
         accountTypeValueLabel.setEditable(false);
         accountTypeValueLabel.setText("Checkings");
         gbc = new GridBagConstraints();
@@ -137,7 +138,7 @@ public class AccountDetails extends JFrame {
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.VERTICAL;
         accountDetailsPanel.add(spacer2, gbc);
-        currencyTypeLabel = new JFormattedTextField();
+        currencyTypeLabel = new JTextArea();
         currencyTypeLabel.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -158,8 +159,9 @@ public class AccountDetails extends JFrame {
         gbc.gridy = 5;
         gbc.insets = new Insets(0, 10, 0, 10);
         accountDetailsPanel.add(label4, gbc);
-        dateOpenedTextField = new JTextField();
+        dateOpenedTextField = new JTextArea();
         dateOpenedTextField.setEditable(false);
+        dateOpenedTextField.setEnabled(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 5;
@@ -203,4 +205,5 @@ public class AccountDetails extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return accountDetailsMainPanel;
     }
+
 }

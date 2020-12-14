@@ -49,23 +49,16 @@ public class UserAddAccount extends JFrame {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userAddAccountPanel.add(spacer1, gbc);
-        final JPanel spacer2 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.insets = new Insets(20, 0, 0, 0);
-        userAddAccountPanel.add(spacer2, gbc);
         final JLabel label1 = new JLabel();
         label1.setText("Type of Account:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         userAddAccountPanel.add(label1, gbc);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 5;
+        gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userAddAccountPanel.add(accountTypeComboBox, gbc);
@@ -73,28 +66,22 @@ public class UserAddAccount extends JFrame {
         label2.setText("Currency Type:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         userAddAccountPanel.add(label2, gbc);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 7;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userAddAccountPanel.add(currencyTypeComboBox, gbc);
-        final JLabel label3 = new JLabel();
-        label3.setText("Account Name:");
+        final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.WEST;
-        userAddAccountPanel.add(label3, gbc);
-        accountNameTextArea = new JTextArea();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.BOTH;
-        userAddAccountPanel.add(accountNameTextArea, gbc);
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.insets = new Insets(20, 0, 0, 0);
+        userAddAccountPanel.add(spacer2, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -107,44 +94,37 @@ public class UserAddAccount extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.insets = new Insets(20, 0, 0, 0);
         userAddAccountPanel.add(spacer4, gbc);
+        createAccountButton = new JButton();
+        createAccountButton.setText("Create Account");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 9;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userAddAccountPanel.add(createAccountButton, gbc);
+        final JLabel label3 = new JLabel();
+        label3.setText("Create New Account");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        userAddAccountPanel.add(label3, gbc);
+        final JLabel label4 = new JLabel();
+        label4.setText("Initial Balance:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        userAddAccountPanel.add(label4, gbc);
         final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 8;
         gbc.fill = GridBagConstraints.VERTICAL;
         userAddAccountPanel.add(spacer5, gbc);
-        createAccountButton = new JButton();
-        createAccountButton.setText("Create Account");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 11;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        userAddAccountPanel.add(createAccountButton, gbc);
-        final JLabel label4 = new JLabel();
-        label4.setText("Create New Account");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        userAddAccountPanel.add(label4, gbc);
-        final JLabel label5 = new JLabel();
-        label5.setText("Initial Balance:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 9;
-        gbc.anchor = GridBagConstraints.WEST;
-        userAddAccountPanel.add(label5, gbc);
-        final JPanel spacer6 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 10;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        userAddAccountPanel.add(spacer6, gbc);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 9;
+        gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userAddAccountPanel.add(initialBalanceTextField, gbc);
@@ -164,7 +144,6 @@ public class UserAddAccount extends JFrame {
     private JPanel userAddAccountPanel;
     private JComboBox<AccountType> accountTypeComboBox;
     private JComboBox<CurrencyType> currencyTypeComboBox;
-    private JTextArea accountNameTextArea;
     private JButton createAccountButton;
     private JFormattedTextField initialBalanceTextField;
 
@@ -172,7 +151,6 @@ public class UserAddAccount extends JFrame {
      * @param userID - ID of user to add account for
      */
     public UserAddAccount(ID userID) {
-
         $$$setupUI$$$();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(userAddAccountPanel);//sets content to our menu panel
@@ -183,13 +161,15 @@ public class UserAddAccount extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Account createdAccount = createAccount(userID);
-                if (createdAccount != null) {
+                if (createdAccount != null) {//if successfully created account, save it
                     try {
-                        AccountsCollectionManager.getInstance().save(createAccount(userID));
+                        AccountsCollectionManager.getInstance().save(createdAccount);
+                        JOptionPane.showMessageDialog(UserAddAccount.this,
+                                "Account has been created with ID " + createdAccount.getID() + "");
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
-                    System.out.println("Account is being created");
+                    System.out.println("Account has been created.");
                 }
             }
         });
@@ -226,8 +206,11 @@ public class UserAddAccount extends JFrame {
      * @return created account
      */
     private Account createAccount(ID userID) {
-        double initBalance = ((Number) initialBalanceTextField.getValue()).doubleValue();
-
+        double initBalance = 0;
+        try {
+            initBalance = ((Number) initialBalanceTextField.getValue()).doubleValue();
+        } catch (NullPointerException e) {
+        }
         Currency currency = null;
         switch ((CurrencyType) currencyTypeComboBox.getSelectedItem()) {
             case USD:
