@@ -1,6 +1,7 @@
 package com.bank.atm.backend.authentication;
 
 import com.bank.atm.backend.collections.CredentialsCollectionManager;
+import com.bank.atm.backend.collections.UsersCollectionManager;
 import com.bank.atm.backend.users.Admin;
 import com.bank.atm.backend.users.Client;
 import com.bank.atm.backend.users.User;
@@ -20,6 +21,11 @@ import java.io.IOException;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class Register {
+    public final static String passwordAndConfirmationDoNotMatch = "Password and PasswordConfirmation are not the same!";
+    public final static String passwordTooShort = "Password is too short!";
+    public final static String missingCapitalLetters = "Password is missing capital letters!";
+    public final static String missingSpecialCharacters = "Password is missing special characters!";
+    public final static String usernameAlreadyTaken = "Username is already taken!";
     private final String firstName;
     private final String lastName;
     private final String username;
@@ -64,6 +70,13 @@ public class Register {
                 throw new AuthenticationException("Unknown user type!");
         }
 
+        // Update the UserCollectionManager with this user
+        try {
+            UsersCollectionManager.getInstance().add(user);
+        } catch (IOException e) {
+            throw new AuthenticationException("Unable to save User set to disk!");
+        }
+
         // Build a new Credentials for this User, and add it to the CredentialsCollectionManager
         Credentials credentials = new Credentials(username, password, user.getID());
         try {
@@ -77,23 +90,23 @@ public class Register {
 
     private void runChecks() throws AuthenticationException {
         if(passwordTooShort()) {
-            throw new AuthenticationException("Password is too short!");
+            throw new AuthenticationException(passwordTooShort);
         }
 
         if(passwordAndConfirmationDoNotMatch()) {
-            throw new AuthenticationException("Password and PasswordConfirmation are not the same!");
+            throw new AuthenticationException(passwordAndConfirmationDoNotMatch);
         }
 
         if(missingCapitalLetters()) {
-            throw new AuthenticationException("Password is missing capital letters!");
+            throw new AuthenticationException(missingCapitalLetters);
         }
 
         if(missingSpecialCharacters()) {
-            throw new AuthenticationException("Password is missing special characters!");
+            throw new AuthenticationException(missingSpecialCharacters);
         }
 
         if(CredentialsCollectionManager.getInstance().usernameAlreadyExists(username)) {
-            throw new AuthenticationException("Username is already taken!");
+            throw new AuthenticationException(usernameAlreadyTaken);
         }
     }
 
