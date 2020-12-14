@@ -5,6 +5,8 @@ import com.bank.atm.util.ID;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Class UsersCollectionManager
@@ -67,8 +69,9 @@ public class UsersCollectionManager implements CollectionManager<User> {
         // Not super efficient, but for the purposes of this project it's simple enough
         // to serialize the entire list just to save one object.
         try{
-            // First, clear the contents of the file
-            CollectionsUtil.clearFileContents(UsersCollectionManager.dataFileName);
+            // First, create the output File if it doesn't exist
+            File outputFile = new File(UsersCollectionManager.dataFileName);
+            outputFile.createNewFile();
 
             FileOutputStream fos = new FileOutputStream(UsersCollectionManager.dataFileName);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -124,6 +127,24 @@ public class UsersCollectionManager implements CollectionManager<User> {
     @Override
     public List<User> all() {
         return new ArrayList<>(users);
+    }
+
+    /**
+     *
+     * @return a List of all clients
+     */
+    public List<User> allClients() {
+        Stream<User> clientStream = all().stream().filter(User::isAClient);
+        return clientStream.collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @return a List of all Admins
+     */
+    public List<User> allAdmins() {
+        Stream<User> adminStream = all().stream().filter(User::isAnAdmin);
+        return adminStream.collect(Collectors.toList());
     }
 
     /**
