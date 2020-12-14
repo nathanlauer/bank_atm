@@ -9,10 +9,7 @@ import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.currency.USD;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 import java.io.*;
 
@@ -44,6 +41,11 @@ public class AccountsTest {
             fail();
         }
         account = AccountFactory.createAccount(AccountType.BASIC_CHECKING_ACCOUNT, USD.getInstance(), 1000.0, userId, accountId);
+    }
+
+    @AfterAll
+    public static void clear() {
+        UsersCollectionManager.getInstance().clear();
     }
 
     @Test

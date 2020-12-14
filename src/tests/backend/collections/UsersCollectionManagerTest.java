@@ -1,5 +1,6 @@
 package tests.backend.collections;
 
+import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.collections.CollectionsUtil;
 import com.bank.atm.backend.collections.UsersCollectionManager;
 import com.bank.atm.backend.users.Admin;
@@ -32,7 +33,7 @@ public class UsersCollectionManagerTest {
     private final static List<User> users = new ArrayList<>();
 
     @BeforeAll
-    public static void init() {
+    public static void init() throws IOException {
         // Create a few users, and store them
         User firstClient = new Client("Nathan", "Lauer", firstId);
         User secondClient = new Client("Danny", "Lauer", secondId);
@@ -40,11 +41,13 @@ public class UsersCollectionManagerTest {
         users.addAll(Arrays.asList(firstClient, secondClient, admin));
 
         // Clear the output file
-        try {
-            CollectionsUtil.clearFileContents(UsersCollectionManager.dataFileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        CollectionsUtil.clearFileContents(UsersCollectionManager.dataFileName);
+    }
+
+    @AfterAll
+    public static void clear() {
+        UsersCollectionManager.getInstance().clear();
+        AccountsCollectionManager.getInstance().clear();
     }
 
     @Test
