@@ -74,4 +74,10 @@ public class UserTest {
         assertEquals("Nathan Lauer", user.toString());
         assertEquals(user.getID(), readInUser.getID());
     }
+
+    @Test
+    public void equality() {
+        User other = new User("Nathan", "Lauer", userId);
+        assertEquals(other, user);
+    }
 }

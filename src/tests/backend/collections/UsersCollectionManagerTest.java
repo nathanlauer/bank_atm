@@ -41,7 +41,7 @@ public class UsersCollectionManagerTest {
         users.addAll(Arrays.asList(firstClient, secondClient, admin));
 
         // Clear the output file
-        CollectionsUtil.clearFileContents(UsersCollectionManager.dataFileName);
+        CollectionsUtil.deleteFile(UsersCollectionManager.dataFileName);
     }
 
     @AfterAll
@@ -89,6 +89,26 @@ public class UsersCollectionManagerTest {
         assertEquals(UsersCollectionManagerTest.users.size(), allUsers.size());
         for(User user : allUsers) {
             assertTrue(UsersCollectionManagerTest.users.contains(user));
+        }
+    }
+
+    @Test
+    @Order(4)
+    public void testClients() {
+        List<User> clients = UsersCollectionManager.getInstance().allClients();
+        assertEquals(2, clients.size());
+        for(User client : clients) {
+            assertTrue(users.contains(client));
+        }
+    }
+
+    @Test
+    @Order(5)
+    public void testAdmins() {
+        List<User> admins = UsersCollectionManager.getInstance().allAdmins();
+        assertEquals(1, admins.size());
+        for(User admin : admins) {
+            assertTrue(users.contains(admin));
         }
     }
 }
