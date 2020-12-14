@@ -140,4 +140,12 @@ public class UsersCollectionManager implements CollectionManager<User> {
         this.save(element);
         this.users.add(element);
     }
+
+    /**
+     * Clears the CollectionManager's local cache
+     */
+    @Override
+    public void clear() {
+        this.users.clear();
+    }
 }

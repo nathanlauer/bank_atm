@@ -55,4 +55,9 @@ public interface CollectionManager<T> {
      * @param element the Element to add to the Collection.
      */
     public void add(T element) throws IOException;
+
+    /**
+     * Clears the CollectionManager's local cache
+     */
+    public void clear();
 }

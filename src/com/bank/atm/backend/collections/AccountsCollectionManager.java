@@ -27,7 +27,7 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
      *
      * @return the singleton instance of this AccountsCollectionManager
      */
-    public AccountsCollectionManager getInstance() {
+    public static AccountsCollectionManager getInstance() {
         if(instance == null) {
             instance = new AccountsCollectionManager();
         }
@@ -49,9 +49,7 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
         try {
             // Create the file if it does not exist
             File outputFile = new File(AccountsCollectionManager.dataFileName);
-            if(!outputFile.createNewFile()) {
-                System.out.println("File does not exist!");
-            }
+            outputFile.createNewFile();
 
             FileInputStream fis = new FileInputStream(outputFile);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -143,5 +141,13 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
         // an erroneous Account in memory
         this.save(element);
         this.accounts.add(element);
+    }
+
+    /**
+     * Clears the CollectionManager's local cache
+     */
+    @Override
+    public void clear() {
+        this.accounts.clear();
     }
 }
