@@ -168,5 +168,4 @@ public class WithdrawUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return withdrawPanel;
     }
-
 }

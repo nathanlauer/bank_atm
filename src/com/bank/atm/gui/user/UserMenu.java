@@ -4,6 +4,9 @@ package com.bank.atm.gui.user;
  * @author Sandra Zhen
  * Class represents user menu interface when user first logs in
  */
+import com.bank.atm.gui.loans.PayLoanUI;
+import com.bank.atm.gui.loans.RequestLoansUI;
+import com.bank.atm.gui.loans.ViewLoansUI;
 import com.bank.atm.gui.transactions.DepositUI;
 import com.bank.atm.gui.transactions.TransferMoneyUI;
 import com.bank.atm.gui.transactions.WithdrawUI;
@@ -72,7 +75,27 @@ public class UserMenu extends JFrame {
                 transferMoneyUI.setVisible(true);
             }
         });
-
+        requestLoansButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RequestLoansUI requestLoansUI = new RequestLoansUI();
+                requestLoansUI.setVisible(true);
+            }
+        });
+        viewLoansButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewLoansUI viewLoansUI = new ViewLoansUI();
+                viewLoansUI.setVisible(true);
+            }
+        });
+        payLoansButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PayLoanUI payLoanUI = new PayLoanUI();
+                payLoanUI.setVisible(true);
+            }
+        });
     }
 
     /**

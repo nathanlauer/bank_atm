@@ -212,5 +212,4 @@ public class TransferMoneyUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return transferMoneyPanel;
     }
-
 }
