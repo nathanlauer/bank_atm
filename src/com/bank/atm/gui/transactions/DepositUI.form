@@ -55,7 +55,7 @@
           <text value="Make Deposit"/>
         </properties>
       </component>
-      <component id="31eb1" class="javax.swing.JComboBox" binding="chooseAccountComboBox">
+      <component id="31eb1" class="javax.swing.JComboBox" binding="chooseAccountComboBox" custom-create="true">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>

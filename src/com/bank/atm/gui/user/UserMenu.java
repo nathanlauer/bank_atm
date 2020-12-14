@@ -62,14 +62,14 @@ public class UserMenu extends JFrame {
         depositButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DepositUI depositUI = new DepositUI();
+                DepositUI depositUI = new DepositUI(getID());
                 depositUI.setVisible(true);
             }
         });
         withdrawButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                WithdrawUI withdrawUI = new WithdrawUI();
+                WithdrawUI withdrawUI = new WithdrawUI(getID());
                 withdrawUI.setVisible(true);
             }
         });

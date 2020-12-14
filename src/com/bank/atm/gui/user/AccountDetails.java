@@ -43,20 +43,20 @@ public class AccountDetails extends JFrame {
         balanceValueLabel.setText(account.displayAccountValue());
         dateOpenedTextField.setText("" + account.getOpened());
 
-        depositButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                DepositUI depositUI = new DepositUI();
-                depositUI.setVisible(true);
-            }
-        });
-        withdrawButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                WithdrawUI withdrawUI = new WithdrawUI();
-                withdrawUI.setVisible(true);
-            }
-        });
+//        depositButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                DepositUI depositUI = new DepositUI();
+//                depositUI.setVisible(true);
+//            }
+//        });
+//        withdrawButton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                WithdrawUI withdrawUI = new WithdrawUI();
+//                withdrawUI.setVisible(true);
+//            }
+//        });
     }
 
 

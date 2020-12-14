@@ -1,16 +1,23 @@
 package com.bank.atm.gui.transactions;
 
+import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.util.ID;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 public class WithdrawUI extends JFrame {
 
     private final int frameWidth = 500;
     private final int frameHeight = 500;
+    private ID userID;
+
     private JPanel withdrawPanel;
     private JComboBox accountComboBox;
     private JLabel currencyTypeLabel;
@@ -21,8 +28,8 @@ public class WithdrawUI extends JFrame {
     /**
      * TODO add field for choosing account to withdraw from and adjust currency format according to locale of that account
      */
-    public WithdrawUI() {
-
+    public WithdrawUI(ID userID) {
+        this.userID = userID;
         $$$setupUI$$$();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(withdrawPanel);//sets content to our menu panel
@@ -42,6 +49,16 @@ public class WithdrawUI extends JFrame {
     }
 
     private void createUIComponents() {
+        accountComboBox = new JComboBox<Account>(getUserAccounts());
+    }
+
+    private Account[] getUserAccounts() {
+        List<Account> accountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
+        Account[] accounts = new Account[accountList.size()];
+        for (int i = 0; i < accountList.size(); i++) {
+            accounts[i] = accountList.get(i);
+        }
+        return accounts;
     }
 
 
@@ -53,6 +70,7 @@ public class WithdrawUI extends JFrame {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
+        createUIComponents();
         withdrawPanel = new JPanel();
         withdrawPanel.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
@@ -69,7 +87,6 @@ public class WithdrawUI extends JFrame {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         withdrawPanel.add(spacer1, gbc);
-        accountComboBox = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -181,4 +198,5 @@ public class WithdrawUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return withdrawPanel;
     }
+
 }
