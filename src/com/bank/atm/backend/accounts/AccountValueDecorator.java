@@ -16,6 +16,7 @@ import java.io.Serializable;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class AccountValueDecorator implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final Account account;
 
     /**

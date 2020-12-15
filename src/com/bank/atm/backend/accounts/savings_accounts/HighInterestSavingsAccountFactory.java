@@ -3,6 +3,8 @@ package com.bank.atm.backend.accounts.savings_accounts;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactoryCreator;
 import com.bank.atm.backend.accounts.AccountsUtil;
+import com.bank.atm.backend.collections.InterestCollectionsManager;
+import com.bank.atm.backend.interest.Interest;
 import com.bank.atm.backend.interest.InterestCompoundedMonthly;
 import com.bank.atm.backend.interest.InterestEarnable;
 import com.bank.atm.backend.interest.InterestEarningExecutor;
@@ -11,6 +13,7 @@ import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -55,9 +58,17 @@ public class HighInterestSavingsAccountFactory implements AccountFactoryCreator 
 
         // This account earns interest: 3% interest per year
         double apy = 3;
-        InterestEarningExecutor interestEarningExecutor = new InterestCompoundedMonthly(account, new Date(), apy);
+        Interest interest = new InterestCompoundedMonthly(account, new Date(), apy);
         InterestEarnable earnable = (InterestEarnable)account;
-        earnable.setInterestEarningExecutor(interestEarningExecutor);
+        earnable.setInterestEarningExecutor(interest);
+
+        // Add the interest to the InterestCollectionsManager, so we can persist it
+        try {
+            InterestCollectionsManager.getInstance().add(interest);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Shouldn't happen
+        }
 
         return account;
     }

@@ -1,5 +1,6 @@
 package com.bank.atm.gui.login;
 
+import com.bank.atm.gui.banker.BankerMenu;
 import com.bank.atm.gui.user.UserMenu;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 /**
  * @author Navoneel Ghosh
@@ -35,12 +37,20 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent event) {
                 try {
                     String userName = usernameTextField.getText().trim();
-                    String password = passwordPasswordField.getPassword().toString().trim();
+                    String password = Arrays.toString(passwordPasswordField.getPassword()).trim();
                     com.bank.atm.backend.authentication.Login login = new com.bank.atm.backend.authentication.Login(userName, password);
-                    login.run();
-                    dispose();
-                    JFrame frame = new UserMenu("User Menu");
-                    frame.setVisible(true);
+                    String userType = login.run(true);
+                    if(userType.equals("ADMIN")){
+                        dispose();
+                        JFrame frame = new BankerMenu("Banker Menu");
+                        frame.setVisible(true);
+                    }
+                    if(userType.equals("CLIENT")){
+                        dispose();
+                        JFrame frame = new UserMenu("User Menu");
+                        frame.setVisible(true);
+                    }
+
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(loginPanel, e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);

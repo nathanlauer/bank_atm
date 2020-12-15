@@ -44,9 +44,9 @@ public class Register {
     public Register(String firstName, String lastName, String username, String password, String passwordConfirmation, UserType userType) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
-        this.password = password;
-        this.passwordConfirmation = passwordConfirmation;
+        this.username = username.trim();
+        this.password = password.trim();
+        this.passwordConfirmation = passwordConfirmation.trim();
         this.userType = userType;
     }
 

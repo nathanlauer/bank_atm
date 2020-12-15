@@ -16,6 +16,7 @@ import java.util.UUID;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class Credentials implements Identifiable, Serializable {
+    private static final long serialVersionUID = 1L;
     private final String username;
     private final String passwordHash;
     private final ID userId;
@@ -111,5 +112,4 @@ public class Credentials implements Identifiable, Serializable {
     public boolean hasCorrectCredentials(String inputUsername, String inputPassword) {
         return matchesUsername(inputUsername) && matchesPassword(inputPassword);
     }
-    // TODO: unique username on register
 }

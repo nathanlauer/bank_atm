@@ -22,6 +22,7 @@ import java.util.NoSuchElementException;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public abstract class Transaction implements Serializable, Identifiable {
+    private static final long serialVersionUID = 1L;
     private final ID transactionId;
     private final ID fromAccountId;
     private final ID toAccountId;
