@@ -6,6 +6,7 @@ import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 import com.bank.atm.util.Validations;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
@@ -58,7 +59,8 @@ public class Deposit extends Transaction {
         try {
             Account account = AccountsCollectionManager.getInstance().find(getToAccountId());
             account.addValue(getAmount());
-        } catch (NoSuchElementException e) {
+            AccountsCollectionManager.getInstance().save(account);
+        } catch (NoSuchElementException | IOException e) {
             throw new IllegalTransactionException(e.getMessage());
         }
     }
