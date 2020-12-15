@@ -146,7 +146,7 @@ public abstract class Transaction implements Serializable, Identifiable {
             }
         }
 
-        if(hasFromAccount()) {
+        if(hasToAccount()) {
             return getToAccountId().equals(accountId);
         }
 
