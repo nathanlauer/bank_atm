@@ -43,9 +43,7 @@ public class ViewTransactionsUI extends JFrame {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (i % 2 == 0) {//every click of list selection listener results in valueChanged being called twice. We use counter%2 to make sure the event is triggered only once
-                    Account account = (Account) (transactionsList.getSelectedValue());
-                    AccountDetails accountDetails = new AccountDetails(userID, account);
-                    accountDetails.setVisible(true);
+                    //code runs when item from transactions list is clicked
                 }
                 i++;
             }
