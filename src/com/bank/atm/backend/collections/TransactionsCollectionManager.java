@@ -2,6 +2,7 @@ package com.bank.atm.backend.collections;
 
 import com.bank.atm.backend.transactions.Transaction;
 import com.bank.atm.util.ID;
+import com.bank.atm.util.IllegalTransactionException;
 
 import java.io.*;
 import java.util.*;
@@ -167,5 +168,24 @@ public class TransactionsCollectionManager implements CollectionManager<Transact
      */
     public List<Transaction> allTransactionsForUser(ID userId) {
         return this.findByOwnerID(userId);
+    }
+
+    /**
+     * Attempts to execute the Transaction. If the Transaction is executed,
+     * then adds it to the cache and saves it
+     * @param transaction the Transaction to be executed
+     * @throws IllegalTransactionException if the Transaction cannot be executed
+     */
+    public void executeTransaction(Transaction transaction) throws IllegalTransactionException {
+        transaction.execute();
+        try {
+            this.add(transaction);
+        } catch (IOException e) {
+            // This should not happen. If it does, we're a bit stuck, as
+            // we don't really have a way of undoing a transaction.
+            // For now, this is ok, as it is a fair assumption that
+            // this Transaction will be successfully persisted to disk.
+            throw new IllegalTransactionException(e.getMessage());
+        }
     }
 }
