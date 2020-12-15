@@ -1,8 +1,13 @@
 package com.bank.atm;
 
+import com.bank.atm.gui.login.Login;
+
+import javax.swing.*;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
+        JFrame frame = new Login("Login");
+        frame.setVisible(true);
     }
 }
