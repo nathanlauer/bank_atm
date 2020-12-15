@@ -1,40 +1,126 @@
 package com.bank.atm.gui.transactions;
 
+import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.util.ID;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.Locale;
+import java.util.List;
 
 public class DepositUI extends JFrame {
 
     private final int frameWidth = 500;
     private final int frameHeight = 500;
 
+    private ID userID;
 
     private JPanel depositPanel;
     private JLabel amountLabel;
     private JFormattedTextField depositAmountField;
-    private JComboBox chooseAccountComboBox;
+    private JComboBox<? extends Account> chooseAccountComboBox;
     private JLabel currencyTypeLabel;
-    private JFormattedTextField currentBalanceTextField;
-    private JFormattedTextField newBalanceTextField;
+    private JTextField currentBalanceTextField;
+    private JButton makeDepositButton;
+    private JLabel currencyTypeLabel1;
 
     /**
      * TODO add field for choosing account to make deposit and adjust currency format according to locale of that account
      */
-    public DepositUI() {
-
+    public DepositUI(ID userID) {
+        this.userID = userID;
         $$$setupUI$$$();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(depositPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
         this.pack(); //packs frame to preferred size
+        depositAmountField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                //do not allow user to enter any characters besides digits and backspace/delete
+                if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '.')) {
+                    e.consume();
+                }
+                super.keyTyped(e);
+            }
+        });
+        chooseAccountComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                updateLabelsBasedOnSelectedAccount();
+            }
+        });
+        makeDepositButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                Account account = (Account) chooseAccountComboBox.getSelectedItem();
+                double amt = makeDeposit(account);
+                currentBalanceTextField.setText(account.displayAccountValue());
+
+                JOptionPane.showMessageDialog(DepositUI.this, amt + " has been deposited to Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
+            }
+        });
+        updateLabelsBasedOnSelectedAccount();
+    }
+
+    /**
+     * updates the labels of other components based on the account that is currently selected
+     */
+    private void updateLabelsBasedOnSelectedAccount() {
+        Account account = (Account) (chooseAccountComboBox.getSelectedItem());
+        if (account == null)
+            return;
+        currentBalanceTextField.setText(account.displayAccountValue());
+        currencyTypeLabel.setText(account.getCurrency().toString());
+        currencyTypeLabel1.setText(account.getCurrency().toString());
+    }
+
+    /**
+     * makes a deposit to the specified account
+     *
+     * @param account
+     * @return amount of money that has been deposited
+     */
+    private double makeDeposit(Account account) {
+        double depositAmt = 0;
+        try {
+            depositAmt = ((Number) depositAmountField.getValue()).doubleValue();
+        } catch (NullPointerException ignored) {
+        }
+        account.addValue(depositAmt);
+        try {
+            AccountsCollectionManager.getInstance().save(account);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "ERROR DEPOSITING");
+        }
+        return depositAmt;
     }
 
     private void createUIComponents() {
-        depositAmountField = new JFormattedTextField(NumberFormat.getCurrencyInstance(Locale.US));
-        amountLabel.setLabelFor(depositAmountField);
+        chooseAccountComboBox = new JComboBox<Account>(getUserAccounts());
+        chooseAccountComboBox.setRenderer(new AccountListRenderer());
+
+        depositAmountField = new JFormattedTextField(NumberFormat.getNumberInstance());
+        depositAmountField.setText("0");//default starting balance to 0
     }
+
+    private Account[] getUserAccounts() {
+        List<Account> accountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
+        Account[] accounts = new Account[accountList.size()];
+        for (int i = 0; i < accountList.size(); i++) {
+            accounts[i] = accountList.get(i);
+        }
+        return accounts;
+    }
+
 
     /**
      * Method generated by IntelliJ IDEA GUI Designer
@@ -44,6 +130,7 @@ public class DepositUI extends JFrame {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
+        createUIComponents();
         depositPanel = new JPanel();
         depositPanel.setLayout(new GridBagLayout());
         amountLabel = new JLabel();
@@ -51,25 +138,24 @@ public class DepositUI extends JFrame {
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         depositPanel.add(amountLabel, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         depositPanel.add(spacer1, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.insets = new Insets(0, 0, 50, 0);
         depositPanel.add(spacer2, gbc);
-        depositAmountField = new JFormattedTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         depositPanel.add(depositAmountField, gbc);
@@ -86,7 +172,6 @@ public class DepositUI extends JFrame {
         gbc.gridx = 2;
         gbc.gridy = 0;
         depositPanel.add(label2, gbc);
-        chooseAccountComboBox = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 2;
@@ -103,53 +188,9 @@ public class DepositUI extends JFrame {
         currencyTypeLabel.setText("USD");
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         depositPanel.add(currencyTypeLabel, gbc);
-        final JLabel label3 = new JLabel();
-        label3.setText("Current Balance:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        depositPanel.add(label3, gbc);
-        currentBalanceTextField = new JFormattedTextField();
-        currentBalanceTextField.setEditable(false);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        depositPanel.add(currentBalanceTextField, gbc);
-        final JLabel label4 = new JLabel();
-        label4.setText("New Balance:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        gbc.anchor = GridBagConstraints.WEST;
-        depositPanel.add(label4, gbc);
-        newBalanceTextField = new JFormattedTextField();
-        newBalanceTextField.setEditable(false);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 8;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        depositPanel.add(newBalanceTextField, gbc);
-        final JLabel label5 = new JLabel();
-        label5.setText("USD");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        depositPanel.add(label5, gbc);
-        final JLabel label6 = new JLabel();
-        label6.setText("USD");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 8;
-        gbc.anchor = GridBagConstraints.WEST;
-        depositPanel.add(label6, gbc);
         final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -168,6 +209,40 @@ public class DepositUI extends JFrame {
         gbc.gridy = 7;
         gbc.fill = GridBagConstraints.VERTICAL;
         depositPanel.add(spacer6, gbc);
+        makeDepositButton = new JButton();
+        makeDepositButton.setText("Make Deposit");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 9;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        depositPanel.add(makeDepositButton, gbc);
+        final JPanel spacer7 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 8;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        depositPanel.add(spacer7, gbc);
+        currentBalanceTextField = new JTextField();
+        currentBalanceTextField.setEditable(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        depositPanel.add(currentBalanceTextField, gbc);
+        currencyTypeLabel1 = new JLabel();
+        currencyTypeLabel1.setText("USD");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        depositPanel.add(currencyTypeLabel1, gbc);
+        final JLabel label3 = new JLabel();
+        label3.setText("Current Balance: ");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        depositPanel.add(label3, gbc);
     }
 
     /**
@@ -176,4 +251,5 @@ public class DepositUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return depositPanel;
     }
+
 }

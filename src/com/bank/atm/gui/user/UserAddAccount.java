@@ -1,15 +1,33 @@
 package com.bank.atm.gui.user;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 /**
  * Interface for users to add new account
  *
  * @author Sandra Zhen
  */
+import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.AccountFactory;
+import com.bank.atm.backend.accounts.AccountType;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.currency.Currency;
+import com.bank.atm.backend.currency.Euro;
+import com.bank.atm.backend.currency.JPY;
+import com.bank.atm.backend.currency.USD;
+import com.bank.atm.util.ID;
+
+import java.util.List;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+
+
 public class UserAddAccount extends JFrame {
     private final int frameWidth = 500;
     private final int frameHeight = 500;
@@ -25,113 +43,92 @@ public class UserAddAccount extends JFrame {
         createUIComponents();
         userAddAccountPanel = new JPanel();
         userAddAccountPanel.setLayout(new GridBagLayout());
-        final JLabel label1 = new JLabel();
-        label1.setText("Create New Account");
+        final JPanel spacer1 = new JPanel();
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        userAddAccountPanel.add(label1, gbc);
-        final JPanel spacer1 = new JPanel();
-        gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 0;
+        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userAddAccountPanel.add(spacer1, gbc);
-        final JPanel spacer2 = new JPanel();
+        final JLabel label1 = new JLabel();
+        label1.setText("Type of Account:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.insets = new Insets(20, 0, 0, 0);
-        userAddAccountPanel.add(spacer2, gbc);
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        userAddAccountPanel.add(label1, gbc);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userAddAccountPanel.add(accountTypeComboBox, gbc);
         final JLabel label2 = new JLabel();
-        label2.setText("Type of Account:");
+        label2.setText("Currency Type:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         userAddAccountPanel.add(label2, gbc);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        userAddAccountPanel.add(accountTypeComboBox, gbc);
-        final JLabel label3 = new JLabel();
-        label3.setText("Currency Type:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        gbc.anchor = GridBagConstraints.WEST;
-        userAddAccountPanel.add(label3, gbc);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 8;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userAddAccountPanel.add(currencyTypeComboBox, gbc);
-        final JLabel label4 = new JLabel();
-        label4.setText("Account Options:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        userAddAccountPanel.add(label4, gbc);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        userAddAccountPanel.add(accountOptionsComboBox, gbc);
-        final JLabel label5 = new JLabel();
-        label5.setText("Account Name:");
+        final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        userAddAccountPanel.add(label5, gbc);
-        accountNameTextArea = new JTextArea();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.BOTH;
-        userAddAccountPanel.add(accountNameTextArea, gbc);
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.insets = new Insets(20, 0, 0, 0);
+        userAddAccountPanel.add(spacer2, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.insets = new Insets(20, 0, 0, 0);
         userAddAccountPanel.add(spacer3, gbc);
         final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.insets = new Insets(20, 0, 0, 0);
         userAddAccountPanel.add(spacer4, gbc);
-        final JPanel spacer5 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.insets = new Insets(20, 0, 0, 0);
-        userAddAccountPanel.add(spacer5, gbc);
-        final JPanel spacer6 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 9;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        userAddAccountPanel.add(spacer6, gbc);
         createAccountButton = new JButton();
         createAccountButton.setText("Create Account");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 10;
+        gbc.gridy = 9;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         userAddAccountPanel.add(createAccountButton, gbc);
+        final JLabel label3 = new JLabel();
+        label3.setText("Create New Account");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        userAddAccountPanel.add(label3, gbc);
+        final JLabel label4 = new JLabel();
+        label4.setText("Initial Balance:");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        userAddAccountPanel.add(label4, gbc);
+        final JPanel spacer5 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        userAddAccountPanel.add(spacer5, gbc);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        userAddAccountPanel.add(initialBalanceTextField, gbc);
     }
 
     /**
@@ -141,23 +138,6 @@ public class UserAddAccount extends JFrame {
         return userAddAccountPanel;
     }
 
-    //list of available account types and their options. Add any new account types here.
-    private enum AccountType {
-        CHECKINGS("Standard"),
-        SAVINGS("Low-End", "High-End"),
-        SECURITY("Standard");
-
-        private String[] options;
-
-        AccountType(String... options) {
-            this.options = options;
-        }
-
-        public String[] getOptions() {
-            return options;
-        }
-    }
-
     private enum CurrencyType {
         USD, JPY, EURO
     }
@@ -165,14 +145,13 @@ public class UserAddAccount extends JFrame {
     private JPanel userAddAccountPanel;
     private JComboBox<AccountType> accountTypeComboBox;
     private JComboBox<CurrencyType> currencyTypeComboBox;
-    private JComboBox<String> accountOptionsComboBox;
-    private JTextArea accountNameTextArea;
     private JButton createAccountButton;
+    private JFormattedTextField initialBalanceTextField;
 
     /**
      * @param userID - ID of user to add account for
      */
-    public UserAddAccount(String userID) {
+    public UserAddAccount(ID userID) {
         $$$setupUI$$$();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(userAddAccountPanel);//sets content to our menu panel
@@ -182,54 +161,90 @@ public class UserAddAccount extends JFrame {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //todo when createAccount button is clicked, create account.
-//                createAccount();
-                System.out.println("Account is being created");
+                Account createdAccount = createAccount(userID);
+                if (createdAccount != null) {//if successfully created account, save it
+                    try {
+                        AccountsCollectionManager.getInstance().save(createdAccount);
+                        JOptionPane.showMessageDialog(UserAddAccount.this,
+                                "Account has been created with ID " + createdAccount.getID() + "");
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                    System.out.println("Account has been created.");
+                }
             }
         });
-        accountTypeComboBox.addActionListener(new ActionListener() {
+
+        initialBalanceTextField.addKeyListener(new KeyAdapter() {
             @Override
-            public void actionPerformed(ActionEvent event) {
-                JComboBox<AccountType> comboBox = (JComboBox<AccountType>) event.getSource();
-                //change the available account options based on selected account type
-                String[] accountOptions = ((AccountType) accountTypeComboBox.getSelectedItem()).getOptions();
-                DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(accountOptions);
-                accountOptionsComboBox.setModel(model);
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                //do not allow user to enter any characters besides digits and backspace/delete
+                if (!(Character.isDigit(c) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE || c == '.')) {
+                    e.consume();
+                }
+                super.keyTyped(e);
             }
         });
     }
 
+    /**
+     * returns the possible account types that the user can create
+     *
+     * @return
+     */
+    private AccountType[] getAvailableAccountTypes() {
+
+        List<AccountType> accountTypeList = new ArrayList<>();
+        for (AccountType accountType : AccountType.values()) {
+            if (accountType != AccountType.GENERIC_LOAN_ACCOUNT) {
+                accountTypeList.add(accountType);
+            }
+        }
+        //convert list to array
+        AccountType[] accountTypes = new AccountType[accountTypeList.size()];
+        for (int i = 0; i < accountTypeList.size(); i++) {
+            accountTypes[i] = accountTypeList.get(i);
+        }
+        return accountTypes;
+    }
 
     private void createUIComponents() {
-        accountTypeComboBox = new JComboBox<AccountType>(AccountType.values());
-        String[] accountOptions = ((AccountType) accountTypeComboBox.getSelectedItem()).getOptions();
-        accountOptionsComboBox = new JComboBox<>(accountOptions);
+        accountTypeComboBox = new JComboBox<AccountType>(getAvailableAccountTypes());
 
         currencyTypeComboBox = new JComboBox<>(CurrencyType.values());
+        //todo change locale to the currency type of account
+        initialBalanceTextField = new JFormattedTextField(NumberFormat.getNumberInstance());
+        initialBalanceTextField.setText("0");//default starting balance to 0
 
 
     }
-//    //TODO implement create account
-//    private Account createAccount(){
-//
-//        switch (accountTypeComboBox.getPrototypeDisplayValue()){
-//            case SAVINGS:
-//                //iterate through selected options for savings account and construct account
-//                break;
-//            case SECURITY:
-//                break;
-//            case CHECKINGS:
-//                break;
-//        }
-//        switch (currencyTypeComboBox.getPrototypeDisplayValue()){
-//            case USD:
-//                break;
-//            case JPY:
-//                break;
-//            case EURO:
-//                break;
-//        }
-//        return null;
-//    }
+
+    /**
+     * Calls the account factory to create the appropriate account
+     *
+     * @param userID - user to create account for
+     * @return created account
+     */
+    private Account createAccount(ID userID) {
+        double initBalance = 0;
+        try {
+            initBalance = ((Number) initialBalanceTextField.getValue()).doubleValue();
+        } catch (NullPointerException e) {
+        }
+        Currency currency = null;
+        switch ((CurrencyType) currencyTypeComboBox.getSelectedItem()) {
+            case USD:
+                currency = USD.getInstance();
+                break;
+            case JPY:
+                currency = JPY.getInstance();
+                break;
+            case EURO:
+                currency = Euro.getInstance();
+                break;
+        }
+        return AccountFactory.createAccount((AccountType) accountTypeComboBox.getSelectedItem(), currency, initBalance, userID);
+    }
 
 }

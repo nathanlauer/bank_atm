@@ -4,12 +4,15 @@ package com.bank.atm.gui.user;
  * @author Sandra Zhen
  * Class represents user menu interface when user first logs in
  */
+import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.collections.UsersCollectionManager;
 import com.bank.atm.gui.loans.PayLoanUI;
 import com.bank.atm.gui.loans.RequestLoansUI;
 import com.bank.atm.gui.loans.ViewLoansUI;
 import com.bank.atm.gui.transactions.DepositUI;
 import com.bank.atm.gui.transactions.TransferMoneyUI;
 import com.bank.atm.gui.transactions.WithdrawUI;
+import com.bank.atm.util.ID;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,6 +41,8 @@ public class UserMenu extends JFrame {
         this.setContentPane(userMenuPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
         this.pack(); //packs frame to preferred size
+
+
         usernameLabel.setText("Welcome " + getUserName() + "!");
         addNewAccountButton.addActionListener(new ActionListener() {
             @Override
@@ -57,14 +62,14 @@ public class UserMenu extends JFrame {
         depositButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DepositUI depositUI = new DepositUI();
+                DepositUI depositUI = new DepositUI(getID());
                 depositUI.setVisible(true);
             }
         });
         withdrawButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                WithdrawUI withdrawUI = new WithdrawUI();
+                WithdrawUI withdrawUI = new WithdrawUI(getID());
                 withdrawUI.setVisible(true);
             }
         });
@@ -108,9 +113,11 @@ public class UserMenu extends JFrame {
         return "Name";
     }
 
-    private String getID() {
+    private ID getID() {
         //TODO retrieve and return userID from oauth
-        return "98454598";
+        ID id = UsersCollectionManager.getInstance().all().get(0).getID();
+        System.out.println("This user has accounts: " + AccountsCollectionManager.getInstance().findByOwnerID(id));
+        return id;
     }
 
     //TODO delete later. this for testing purposes

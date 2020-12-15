@@ -108,7 +108,7 @@
           <text value="JPY"/>
         </properties>
       </component>
-      <component id="3a81c" class="javax.swing.JFormattedTextField" binding="transactionFeeTextField">
+      <component id="3a81c" class="javax.swing.JFormattedTextField" binding="transactionFeeTextField" custom-create="true">
         <constraints>
           <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -157,7 +157,7 @@
           <editable value="false"/>
         </properties>
       </component>
-      <component id="92ca0" class="javax.swing.JFormattedTextField" binding="fromAccountBalanceTextField">
+      <component id="92ca0" class="javax.swing.JFormattedTextField" binding="fromAccountBalanceTextField" custom-create="true">
         <constraints>
           <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -168,7 +168,7 @@
           <editable value="false"/>
         </properties>
       </component>
-      <component id="44085" class="javax.swing.JFormattedTextField" binding="toAccountBalanceTextField">
+      <component id="44085" class="javax.swing.JFormattedTextField" binding="toAccountBalanceTextField" custom-create="true">
         <constraints>
           <grid row="6" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
