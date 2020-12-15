@@ -6,6 +6,7 @@ import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 import com.bank.atm.util.Validations;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
@@ -61,7 +62,8 @@ public class Withdraw extends Transaction {
             // Performing the removeValue method will internally check that there is enough money
             // If there isn't, it will throw an IllegalTransactionException
             account.removeValue(getAmount());
-        } catch (NoSuchElementException e) {
+            AccountsCollectionManager.getInstance().save(account);
+        } catch (NoSuchElementException | IOException e) {
             throw new IllegalTransactionException(e.getMessage());
         }
     }

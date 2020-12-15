@@ -6,6 +6,7 @@ import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 import com.bank.atm.util.Validations;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
@@ -61,12 +62,14 @@ public class Transfer extends Transaction {
         try {
             Account fromAccount = AccountsCollectionManager.getInstance().find(getFromAccountId());
             Account toAccount = AccountsCollectionManager.getInstance().find(getToAccountId());
+            AccountsCollectionManager.getInstance().save(fromAccount);
+            AccountsCollectionManager.getInstance().save(toAccount);
 
             // Performing the removeValue method will internally check that there is enough money
             // If there isn't, it will throw an IllegalTransactionException
             fromAccount.removeValue(getAmount());
             toAccount.addValue(getAmount());
-        } catch (NoSuchElementException e) {
+        } catch (NoSuchElementException | IOException e) {
             throw new IllegalTransactionException(e.getMessage());
         }
     }
