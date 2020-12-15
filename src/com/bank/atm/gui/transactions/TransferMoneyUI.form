@@ -37,7 +37,7 @@
           <text value="From:"/>
         </properties>
       </component>
-      <component id="ec42c" class="javax.swing.JComboBox" binding="fromAccountComboBox">
+      <component id="ec42c" class="javax.swing.JComboBox" binding="fromAccountComboBox" custom-create="true">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
@@ -65,14 +65,14 @@
           <text value="To:"/>
         </properties>
       </component>
-      <component id="25f19" class="javax.swing.JComboBox" binding="toAccountComboBox">
+      <component id="25f19" class="javax.swing.JComboBox" binding="toAccountComboBox" custom-create="true">
         <constraints>
           <grid row="2" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties/>
       </component>
-      <component id="27e80" class="javax.swing.JFormattedTextField" binding="transferAmount">
+      <component id="27e80" class="javax.swing.JFormattedTextField" binding="transferAmount" custom-create="true">
         <constraints>
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -128,7 +128,7 @@
           <text value="transaction fee:"/>
         </properties>
       </component>
-      <component id="b58d4" class="javax.swing.JLabel">
+      <component id="b58d4" class="javax.swing.JLabel" binding="transactionFeeCurrencyLabel">
         <constraints>
           <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
@@ -146,7 +146,7 @@
           <text value="Balance:"/>
         </properties>
       </component>
-      <component id="aaec5" class="javax.swing.JFormattedTextField" binding="convertedTransferAmount">
+      <component id="aaec5" class="javax.swing.JFormattedTextField" binding="convertedTransferAmount" custom-create="true">
         <constraints>
           <grid row="4" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -197,6 +197,15 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
       </hspacer>
+      <component id="d3c65" class="javax.swing.JButton" binding="transferButton" default-binding="true">
+        <constraints>
+          <grid row="8" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Transfer"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

@@ -1,17 +1,32 @@
 package com.bank.atm.gui.transactions;
+/**
+ * UI for transferring money
+ * @author Sandra Zhen
+ */
+
+import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.currency.ExchangeRateTable;
+import com.bank.atm.backend.currency.UnknownExchangeRateException;
+import com.bank.atm.util.ID;
+import com.bank.atm.util.IllegalTransactionException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 public class TransferMoneyUI extends JFrame {
 
     private final int frameWidth = 500;
     private final int frameHeight = 500;
-
+    private ID userID;
     private JPanel transferMoneyPanel;
     private JComboBox fromAccountComboBox;
     private JComboBox toAccountComboBox;
@@ -22,10 +37,12 @@ public class TransferMoneyUI extends JFrame {
     private JFormattedTextField convertedTransferAmount;
     private JFormattedTextField fromAccountBalanceTextField;
     private JFormattedTextField toAccountBalanceTextField;
+    private JButton transferButton;
+    private JLabel transactionFeeCurrencyLabel;
 
 
-    public TransferMoneyUI() {
-
+    public TransferMoneyUI(ID userID) {
+        this.userID = userID;
         $$$setupUI$$$();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(transferMoneyPanel);//sets content to our menu panel
@@ -42,6 +59,131 @@ public class TransferMoneyUI extends JFrame {
                 super.keyTyped(e);
             }
         });
+        //when transfer button is pressed, money is transfered
+        transferButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Account fromAccount = (Account) fromAccountComboBox.getSelectedItem();
+                Account toAccount = (Account) toAccountComboBox.getSelectedItem();
+                double amt = 0;
+                try {
+                    amt = ((Number) transferAmount.getValue()).doubleValue();
+                } catch (NullPointerException exception) {
+                    exception.printStackTrace();
+                }
+                double fee = getTransferFee(fromAccount, toAccount);
+
+                if (transferMoney(fromAccount, toAccount, amt, fee)) {
+                    JOptionPane.showMessageDialog(TransferMoneyUI.this, "Transferred " + amt + "\nfrom Account " + fromAccount.getID() + "\nto Account " + toAccount.getID());
+                    updateLabels();
+                }
+            }
+        });
+        fromAccountComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                updateLabels();
+            }
+        });
+        toAccountComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateLabels();
+            }
+        });
+        updateLabels();
+    }
+
+    /**
+     * Updates labels of each component with associated values
+     * based on the two choices users selects for fromAccount and toAccount
+     */
+    private void updateLabels() {
+        Account fromAccount = (Account) fromAccountComboBox.getSelectedItem();
+        Account toAccount = (Account) toAccountComboBox.getSelectedItem();
+
+        //update currency labels
+        toAccountCurrencyType.setText(toAccount.getCurrency().toString());
+        fromAccountCurrencyType.setText(fromAccount.getCurrency().toString());
+        //update balances
+        toAccountBalanceTextField.setText(toAccount.displayAccountValue());
+        fromAccountBalanceTextField.setText(fromAccount.displayAccountValue());
+
+        //update transaction fee
+        double fee = getTransferFee(fromAccount, toAccount);
+        transactionFeeTextField.setText("" + fee);
+        transactionFeeCurrencyLabel.setText(fromAccount.getCurrency().toString());
+    }
+
+    /**
+     * Returns the fee necessary when transferring between the two accounts
+     *
+     * @param fromAccount
+     * @param toAccount
+     * @return
+     */
+    private double getTransferFee(Account fromAccount, Account toAccount) {
+        double fee = 0;
+        if (!fromAccount.getCurrency().equals(toAccount.getCurrency())) {
+            //if there's a different currency type between accounts, fee is the exchange rate
+            try {
+                fee = ExchangeRateTable.getInstance().getExchangeRate(fromAccount.getCurrency(), toAccount.getCurrency()).getRate();
+            } catch (UnknownExchangeRateException e) {
+
+            }
+        }
+        return fee;
+    }
+
+    /**
+     * transfers money from one account to another
+     *
+     * @param fromAccount - account from which to transfer money
+     * @param toAccount   - account to which money is transferred
+     * @param amount      - amount to transfer
+     *                    return whether or not transaction was successful
+     */
+    private boolean transferMoney(Account fromAccount, Account toAccount, double amount, double fee) {
+
+        try {
+            fromAccount.removeValue(amount + fee);
+        } catch (IllegalTransactionException e) {
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Unable to complete transfer: " + e.getMessage());
+            return false;
+        }
+        toAccount.addValue(amount);
+        try {
+            AccountsCollectionManager.getInstance().save(fromAccount);
+            AccountsCollectionManager.getInstance().save(toAccount);
+        } catch (IOException e) {
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "ERROR TRANSFERRING: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    private void createUIComponents() {
+        fromAccountComboBox = new JComboBox<Account>(getUserAccounts());
+        toAccountComboBox = new JComboBox<Account>(getUserAccounts());
+        fromAccountComboBox.setRenderer(new AccountListRenderer());
+        toAccountComboBox.setRenderer(new AccountListRenderer());
+        transferAmount = new JFormattedTextField(NumberFormat.getInstance());
+        transferAmount.setText("0");
+        fromAccountBalanceTextField = new JFormattedTextField(NumberFormat.getInstance());
+        transactionFeeTextField = new JFormattedTextField(NumberFormat.getInstance());//this should match the from account currency type
+        convertedTransferAmount = new JFormattedTextField(NumberFormat.getInstance());
+        toAccountBalanceTextField = new JFormattedTextField(NumberFormat.getInstance());
+    }
+
+    private Account[] getUserAccounts() {
+        List<Account> accountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
+        Account[] accounts = new Account[accountList.size()];
+        for (int i = 0; i < accountList.size(); i++) {
+            accounts[i] = accountList.get(i);
+        }
+        return accounts;
     }
 
     /**
@@ -82,7 +224,6 @@ public class TransferMoneyUI extends JFrame {
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         transferMoneyPanel.add(label2, gbc);
-        fromAccountComboBox = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 2;
@@ -108,14 +249,12 @@ public class TransferMoneyUI extends JFrame {
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         transferMoneyPanel.add(label3, gbc);
-        toAccountComboBox = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 7;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         transferMoneyPanel.add(toAccountComboBox, gbc);
-        transferAmount = new JFormattedTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 4;
@@ -157,21 +296,20 @@ public class TransferMoneyUI extends JFrame {
         gbc.gridy = 8;
         gbc.anchor = GridBagConstraints.WEST;
         transferMoneyPanel.add(label5, gbc);
-        final JLabel label6 = new JLabel();
-        label6.setText("USD");
+        transactionFeeCurrencyLabel = new JLabel();
+        transactionFeeCurrencyLabel.setText("USD");
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 8;
         gbc.anchor = GridBagConstraints.WEST;
-        transferMoneyPanel.add(label6, gbc);
-        final JLabel label7 = new JLabel();
-        label7.setText("Balance:");
+        transferMoneyPanel.add(transactionFeeCurrencyLabel, gbc);
+        final JLabel label6 = new JLabel();
+        label6.setText("Balance:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
-        transferMoneyPanel.add(label7, gbc);
-        convertedTransferAmount = new JFormattedTextField();
+        transferMoneyPanel.add(label6, gbc);
         convertedTransferAmount.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 7;
@@ -211,6 +349,13 @@ public class TransferMoneyUI extends JFrame {
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         transferMoneyPanel.add(spacer7, gbc);
+        transferButton = new JButton();
+        transferButton.setText("Transfer");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 7;
+        gbc.gridy = 8;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        transferMoneyPanel.add(transferButton, gbc);
     }
 
     /**
@@ -220,11 +365,4 @@ public class TransferMoneyUI extends JFrame {
         return transferMoneyPanel;
     }
 
-    private void createUIComponents() {
-        // TODO: replace withNumberFormat.getCurrencyInstance() and Locale of the fromAccount
-        fromAccountBalanceTextField = new JFormattedTextField(NumberFormat.getInstance());
-        transactionFeeTextField = new JFormattedTextField(NumberFormat.getInstance());//this should match the from account currency type
-
-        toAccountBalanceTextField = new JFormattedTextField(NumberFormat.getInstance());
-    }
 }

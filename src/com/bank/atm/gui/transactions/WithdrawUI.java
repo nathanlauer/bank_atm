@@ -104,8 +104,8 @@ public class WithdrawUI extends JFrame {
         double amt = 0;
         try {
             amt = ((Number) amountTextField.getValue()).doubleValue();
-        } catch (NullPointerException ignored) {
-            System.out.println("OH NULL POINTER");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
         System.out.println("Attempting to withdraw " + amt);
         try {
@@ -116,8 +116,8 @@ public class WithdrawUI extends JFrame {
         try {
             AccountsCollectionManager.getInstance().save(account);
         } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR WITHDRAWING");
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "ERROR WITHDRAWING: " + e.getMessage());
         }
         return amt;
     }

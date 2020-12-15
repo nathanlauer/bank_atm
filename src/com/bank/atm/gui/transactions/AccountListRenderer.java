@@ -10,9 +10,12 @@ import com.bank.atm.util.Formatter;
 import javax.swing.*;
 import java.awt.*;
 
-public class AccountListRenderer extends JLabel implements ListCellRenderer<Account> {
+public class AccountListRenderer extends JTextArea implements ListCellRenderer<Account> {
     public AccountListRenderer(){
+        super(5,15);
         setOpaque(true);
+        setLineWrap(true);
+
     }
 
     @Override
