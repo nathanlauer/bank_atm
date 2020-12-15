@@ -54,6 +54,10 @@ public class Transfer extends Transaction {
             throw new IllegalTransactionException("Cannot transfer negative amount of money!");
         }
 
+        if(!userCanExecute()) {
+            throw new IllegalTransactionException("User is not allowed to execute this Transaction!");
+        }
+
         try {
             Account fromAccount = AccountsCollectionManager.getInstance().find(getFromAccountId());
             Account toAccount = AccountsCollectionManager.getInstance().find(getToAccountId());

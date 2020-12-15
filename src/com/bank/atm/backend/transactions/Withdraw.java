@@ -51,6 +51,10 @@ public class Withdraw extends Transaction {
             throw new IllegalTransactionException("Cannot withdraw negative amount of money!");
         }
 
+        if(!userCanExecute()) {
+            throw new IllegalTransactionException("User is not allowed to execute this Transaction!");
+        }
+
         try {
             Account account = AccountsCollectionManager.getInstance().find(getFromAccountId());
 
