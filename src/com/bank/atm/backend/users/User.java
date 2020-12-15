@@ -15,6 +15,7 @@ import java.io.Serializable;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class User implements Serializable, Identifiable {
+    private static final long serialVersionUID = 1L;
     private String firstName;
     private String lastName;
     private final ID userID;

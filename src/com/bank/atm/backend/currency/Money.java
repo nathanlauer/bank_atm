@@ -17,6 +17,7 @@ import java.io.Serializable;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class Money implements Serializable, Comparable<Money> {
+    private static final long serialVersionUID = 1L;
     private double amount;
 
     /**

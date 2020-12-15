@@ -15,6 +15,7 @@ import java.util.UUID;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class ID implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final UUID uuid;
 
     /**

@@ -19,6 +19,7 @@ import java.util.Date;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public abstract class Interest implements Serializable, InterestEarningExecutor, Identifiable {
+    private static final long serialVersionUID = 1L;
     private final ID id;
     private final ID accountId;
     private Date lastCompounded;
