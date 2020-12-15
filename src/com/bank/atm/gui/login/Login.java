@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 
 /**
  * @author Navoneel Ghosh
@@ -35,8 +36,8 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent event) {
                 try {
                     String userName = usernameTextField.getText().trim();
-                    String password = passwordPasswordField.getPassword().toString().trim();
-                    com.bank.atm.backend.authentication.Login login = new com.bank.atm.backend.authentication.Login(userName,password);
+                    String password = Arrays.toString(passwordPasswordField.getPassword()).trim();
+                    com.bank.atm.backend.authentication.Login login = new com.bank.atm.backend.authentication.Login(userName, password);
                     login.run();
                     dispose();
                     JFrame frame = new UserMenu("User Menu");
@@ -194,4 +195,5 @@ public class Login extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return loginPanel;
     }
+
 }

@@ -27,8 +27,8 @@ public class Login {
      * @param password the password entered by the User
      */
     public Login(String username, String password) {
-        this.username = username;
-        this.password = password;
+        this.username = username.trim();
+        this.password = password.trim();
     }
 
     /**
