@@ -3,11 +3,16 @@ package com.bank.atm.gui.transactions;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.util.ID;
+import com.bank.atm.util.IllegalTransactionException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class WithdrawUI extends JFrame {
@@ -22,6 +27,7 @@ public class WithdrawUI extends JFrame {
     private JFormattedTextField amountTextField;
     private JTextField currentBalanceTextField;
     private JTextField newBalanceTextField;
+    private JButton withdrawButton;
 
     /**
      * TODO add field for choosing account to withdraw from and adjust currency format according to locale of that account
@@ -44,11 +50,21 @@ public class WithdrawUI extends JFrame {
                 super.keyTyped(e);
             }
         });
+        withdrawButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Account account = (Account) accountComboBox.getSelectedItem();
+                double amt = withdrawFromAccount(account);
+                JOptionPane.showMessageDialog(WithdrawUI.this, amt + " has been withdrawn from Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
+            }
+        });
     }
 
     private void createUIComponents() {
         accountComboBox = new JComboBox<Account>(getUserAccounts());
         accountComboBox.setRenderer(new AccountListRenderer());
+        amountTextField = new JFormattedTextField(NumberFormat.getInstance());
     }
 
     private Account[] getUserAccounts() {
@@ -58,6 +74,34 @@ public class WithdrawUI extends JFrame {
             accounts[i] = accountList.get(i);
         }
         return accounts;
+    }
+
+    /**
+     * withdraws money from the account
+     *
+     * @param account
+     * @return amount of money that has been withdrawn
+     */
+    private double withdrawFromAccount(Account account) {
+        double amt = 0;
+        try {
+            amt = ((Number) amountTextField.getValue()).doubleValue();
+        } catch (NullPointerException ignored) {
+            System.out.println("OH NULL POINTER");
+        }
+        System.out.println("Attempting to withdraw " + amt);
+        try {
+            account.removeValue(amt);
+        } catch (IllegalTransactionException e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+        try {
+            AccountsCollectionManager.getInstance().save(account);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "ERROR WITHDRAWING");
+        }
+        return amt;
     }
 
 
@@ -113,7 +157,6 @@ public class WithdrawUI extends JFrame {
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
         withdrawPanel.add(currencyTypeLabel, gbc);
-        amountTextField = new JFormattedTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 4;
@@ -189,6 +232,19 @@ public class WithdrawUI extends JFrame {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         withdrawPanel.add(spacer5, gbc);
+        final JPanel spacer6 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 9;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        withdrawPanel.add(spacer6, gbc);
+        withdrawButton = new JButton();
+        withdrawButton.setText("Withdraw");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 10;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        withdrawPanel.add(withdrawButton, gbc);
     }
 
     /**

@@ -57,7 +57,7 @@ public class DepositUI extends JFrame {
             public void actionPerformed(ActionEvent event) {
                 Account account = (Account) chooseAccountComboBox.getSelectedItem();
                 double amt = makeDeposit(account);
-                JOptionPane.showMessageDialog(DepositUI.this, amt + " has been deposited to Account ID " + account.getID()+".\nNew Balance: "+account.displayAccountValue());
+                JOptionPane.showMessageDialog(DepositUI.this, amt + " has been deposited to Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
             }
         });
     }
@@ -79,6 +79,7 @@ public class DepositUI extends JFrame {
             AccountsCollectionManager.getInstance().save(account);
         } catch (IOException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "ERROR DEPOSITING");
         }
         return depositAmt;
     }
