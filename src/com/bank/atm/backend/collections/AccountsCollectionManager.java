@@ -2,6 +2,7 @@ package com.bank.atm.backend.collections;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
+import com.bank.atm.backend.accounts.loan_accounts.LoanState;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 
@@ -160,5 +161,94 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
     public List<Account> allLoans() {
         Stream<Account> accountStream = accounts.stream().filter(account -> account instanceof LoanAccount);
         return accountStream.collect(Collectors.toList());
+    }
+
+    /**
+     * List of all loans that are for a certain state
+     * @param loanState the relevant loan state
+     * @return List of all such loans
+     */
+    public List<Account> allLoansInState(LoanState loanState) {
+        List<Account> loans = this.allLoans();
+        List<Account> relevantLoans = new ArrayList<>();
+        for(Account account : loans) {
+            LoanAccount loan = (LoanAccount)account;
+            if(loan.hasState(loanState)) {
+                relevantLoans.add(loan);
+            }
+        }
+        return relevantLoans;
+    }
+
+    /**
+     *
+     * @return List of all requested loans
+     */
+    public List<Account> allRequestLoans() {
+        return allLoansInState(LoanState.REQUESTED);
+    }
+
+    /**
+     *
+     * @return List of all approved loans
+     */
+    public List<Account> allApprovedLoans() {
+        return allLoansInState(LoanState.APPROVED);
+    }
+
+    /**
+     *
+     * @return List of all rejected loans
+     */
+    public List<Account> allRejectedLoans() {
+        return allLoansInState(LoanState.REJECTED);
+    }
+
+    /**
+     * Returns a list of all loans for the specified User that are in the relevant state
+     * @param userId the ID of the user
+     * @param loanState the loanState in question
+     * @return List of all such loans
+     */
+    public List<Account> userLoansInState(ID userId, LoanState loanState) {
+        User user = UsersCollectionManager.getInstance().find(userId);
+        List<Account> relevantLoans = new ArrayList<>();
+        for(Account account : allLoans()) {
+            LoanAccount loan = (LoanAccount)account;
+            if(loan.hasState(loanState) && loan.isAccountManager(user)) {
+                relevantLoans.add(loan);
+            }
+        }
+        return relevantLoans;
+    }
+
+    /**
+     * Approves the relevant loan
+     * @param loan the Loan to be approved
+     */
+    public void approveLoan(Account loan) {
+        LoanAccount loanAccount = (LoanAccount)loan;
+        loanAccount.approve();
+        try {
+            this.add(loanAccount);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Shouldn't happen
+        }
+    }
+
+    /**
+     * Rejects the relevant loan
+     * @param loan the Loan to be rejected
+     */
+    public void rejectLoan(Account loan) {
+        LoanAccount loanAccount = (LoanAccount)loan;
+        loanAccount.reject();
+        try {
+            this.add(loanAccount);
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Shouldn't happen
+        }
     }
 }

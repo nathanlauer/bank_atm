@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
- * Class Deposit is a class that represents a User's deposit of money into an Account.
+ * Class LoanPayment is a Transaction that represents a User's payment towards a loan.
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu
@@ -18,25 +18,25 @@ import java.util.NoSuchElementException;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class Deposit extends Transaction {
+public class LoanPayment extends Transaction {
     /**
      * Standard constructor
-     * @param userId the ID of the user associated with this Deposit Transaction
-     * @param toAccountId the ID of the Account for this Deposit Transaction
-     * @param amount the amount of Money to be deposited
+     * @param userId the ID of the user associated with this LoanPayment Transaction
+     * @param toAccountId the ID of the Account for this LoanPayment Transaction
+     * @param amount the amount of Money to be paid
      */
-    public Deposit(ID userId, ID toAccountId, double amount) {
+    public LoanPayment(ID userId, ID toAccountId, double amount) {
         this(userId, toAccountId, amount, new ID());
     }
 
     /**
      * Standard constructor with specified transactionId
-     * @param userId the ID of the user associated with this Deposit Transaction
-     * @param toAccountId the ID of the Account for this Deposit Transaction
-     * @param amount the amount of Money to be deposited
-     * @param transactionId the ID of this Deposit Transaction
+     * @param userId the ID of the user associated with this LoanPayment Transaction
+     * @param toAccountId the ID of the Account for this LoanPayment Transaction
+     * @param amount the amount of Money to be paid
+     * @param transactionId the ID of this LoanPayment Transaction
      */
-    public Deposit(ID userId, ID toAccountId, double amount, ID transactionId) {
+    public LoanPayment(ID userId, ID toAccountId, double amount, ID transactionId) {
         super(userId, null, toAccountId, amount, transactionId);
     }
 
@@ -58,7 +58,8 @@ public class Deposit extends Transaction {
 
         try {
             Account account = AccountsCollectionManager.getInstance().find(getToAccountId());
-            account.addValue(getAmount());
+            // For a loan payment, we actually reduce the value in the account, instead of adding to it.
+            account.removeValue(getAmount());
             AccountsCollectionManager.getInstance().save(account);
         } catch (NoSuchElementException | IOException e) {
             throw new IllegalTransactionException(e.getMessage());

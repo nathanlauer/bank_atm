@@ -213,5 +213,13 @@ public class Account implements Serializable, Identifiable {
         return getID().equals(id);
     }
 
+    /**
+     * Indicates whether or not money can be withdrawn from this Account
+     * @return true generally, false if this is a Loan account in a bad state.
+     * See that class for details
+     */
+    public boolean canWithdraw() {
+        return true;
+    }
 
 }

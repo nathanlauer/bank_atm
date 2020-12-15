@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
- * Class Withdraw
+ * Class Withdraw is a class that represents the withdrawal of money from an account.
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu
@@ -58,6 +58,12 @@ public class Withdraw extends Transaction {
 
         try {
             Account account = AccountsCollectionManager.getInstance().find(getFromAccountId());
+
+            // Ensure money can be withdrawn - specifically, this is mostly for loans that
+            // are in a requested or rejected state.
+            if(!account.canWithdraw()) {
+                throw new IllegalTransactionException("Cannot withdraw money from this Account!");
+            }
 
             // Performing the removeValue method will internally check that there is enough money
             // If there isn't, it will throw an IllegalTransactionException

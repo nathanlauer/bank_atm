@@ -26,8 +26,8 @@ public class GenericLoanAccount extends LoanAccount implements InterestEarnable 
      * @param money the initial Monetary value for this Account
      * @param managers list of Users that are managers for this Account.
      */
-    public GenericLoanAccount(Currency currency, Money money, List<ID> managers, ID accountId) {
-        super(currency, money, managers, accountId);
+    public GenericLoanAccount(Currency currency, Money money, List<ID> managers, ID accountId, String collateral, double collateralValue, int creditScore) {
+        super(currency, money, managers, accountId, collateral, collateralValue, creditScore);
     }
 
     /**
