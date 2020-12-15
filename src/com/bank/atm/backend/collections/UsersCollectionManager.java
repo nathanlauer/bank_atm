@@ -173,4 +173,18 @@ public class UsersCollectionManager implements CollectionManager<User> {
     public void clear() {
         this.users.clear();
     }
+
+    /**
+     * Indicates whether or not a default admin exists
+     * @return true if a default admin exists
+     */
+    public boolean defaultAdminExists() {
+        List<User> admins = this.allAdmins();
+        for(User admin : admins) {
+            if(admin.getFirstName().toLowerCase().equals("admin")) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

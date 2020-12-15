@@ -43,6 +43,7 @@ public class TransactionsCollectionManagerTest {
     private static Account firstAccount;
     private static Account secondAccount;
     private final static List<Transaction> transactions = new ArrayList<>();
+    private final static double firstAccountInitialValue = 50;
 
     @BeforeAll
     public static void init() throws IOException {
@@ -51,7 +52,7 @@ public class TransactionsCollectionManagerTest {
         UsersCollectionManager.getInstance().add(user);
 
         // Create a couple Accounts
-        firstAccount = AccountFactory.createAccount(AccountType.BASIC_CHECKING_ACCOUNT, USD.getInstance(), 50.0, user.getID());
+        firstAccount = AccountFactory.createAccount(AccountType.BASIC_CHECKING_ACCOUNT, USD.getInstance(), firstAccountInitialValue, user.getID());
         secondAccount = AccountFactory.createAccount(AccountType.LOW_INTEREST_SAVINGS_ACCOUNT, USD.getInstance(), 1000.0, user.getID());
         AccountsCollectionManager.getInstance().add(firstAccount);
         AccountsCollectionManager.getInstance().add(secondAccount);
@@ -126,7 +127,7 @@ public class TransactionsCollectionManagerTest {
     @Test
     @Order(5)
     public void executeTransaction() {
-        Transaction secondDeposit = new Deposit(user.getID(), firstAccount.getID(), 25, new ID());
+        Transaction secondDeposit = new Deposit(user.getID(), firstAccount.getID(), 25);
         try {
             TransactionsCollectionManager.getInstance().executeTransaction(secondDeposit);
         } catch (IllegalTransactionException e) {
@@ -137,5 +138,9 @@ public class TransactionsCollectionManagerTest {
         // There should now be one more transaction
         List<Transaction> allTransactions = TransactionsCollectionManager.getInstance().all();
         assertEquals(TransactionsCollectionManagerTest.transactions.size() + 1, allTransactions.size());
+
+        // The first account should now have more money
+        Account account = AccountsCollectionManager.getInstance().find(firstAccount.getID());
+        assertEquals(firstAccountInitialValue + 25, account.getMoney().getAmount());
     }
 }
