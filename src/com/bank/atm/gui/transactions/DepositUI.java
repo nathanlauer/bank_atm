@@ -2,8 +2,11 @@ package com.bank.atm.gui.transactions;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.collections.TransactionsCollectionManager;
+import com.bank.atm.backend.transactions.Deposit;
 import com.bank.atm.gui.util_gui.AccountListRenderer;
 import com.bank.atm.util.ID;
+import com.bank.atm.util.IllegalTransactionException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,7 +71,7 @@ public class DepositUI extends JFrame {
                 Account account = (Account) chooseAccountComboBox.getSelectedItem();
                 double amt = makeDeposit(account);
                 currentBalanceTextField.setText(account.displayAccountValue());
-
+                if(amt>0)
                 JOptionPane.showMessageDialog(DepositUI.this, amt + " has been deposited to Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
             }
         });
@@ -97,14 +100,15 @@ public class DepositUI extends JFrame {
         double depositAmt = 0;
         try {
             depositAmt = ((Number) depositAmountField.getValue()).doubleValue();
-        } catch (NullPointerException ignored) {
+        } catch (NullPointerException e) {
+            depositAmt=0;
         }
-        account.addValue(depositAmt);
+        //do deposit
         try {
-            AccountsCollectionManager.getInstance().save(account);
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR DEPOSITING");
+            TransactionsCollectionManager.getInstance().executeTransaction(new Deposit(userID,account.getID(),depositAmt));
+        } catch (IllegalTransactionException e) {
+            JOptionPane.showMessageDialog(this,e.getMessage());
+            depositAmt=0;
         }
         return depositAmt;
     }

@@ -2,6 +2,9 @@ package com.bank.atm.gui.transactions;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.collections.TransactionsCollectionManager;
+import com.bank.atm.backend.transactions.Transaction;
+import com.bank.atm.backend.transactions.Withdraw;
 import com.bank.atm.gui.util_gui.AccountListRenderer;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
@@ -113,18 +116,10 @@ public class WithdrawUI extends JFrame {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        System.out.println("Attempting to withdraw " + amt);
         try {
-            account.removeValue(amt);
+            TransactionsCollectionManager.getInstance().executeTransaction(new Withdraw(userID,account.getID(),amt));
         } catch (IllegalTransactionException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            amt = 0;
-        }
-        try {
-            AccountsCollectionManager.getInstance().save(account);
-        } catch (IOException e) {
-//            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR WITHDRAWING: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,e.getMessage());
             amt = 0;
         }
         return amt;
