@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
- * Class Deposit
+ * Class Deposit is a class that represents a User's deposit of money into an Account.
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu

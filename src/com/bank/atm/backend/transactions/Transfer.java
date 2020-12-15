@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
- * Class Transfer
+ * Class Transfer is a Transaction that represents the transferring of money from
+ * one account to another.
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 
 /**
- * Class Withdraw is a class that represents the withdrawal of money from an account.
+ * Class LoanPayment is a Transaction that represents a User's payment towards a loan.
  *
  * @author: Nathan Lauer
  * @email: lauern@bu.edu
@@ -18,26 +18,26 @@ import java.util.NoSuchElementException;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class Withdraw extends Transaction {
+public class LoanPayment extends Transaction {
     /**
      * Standard constructor
-     * @param userId the ID of the user associated with this Withdraw Transaction
-     * @param fromAccountId the ID of the Account for this Withdraw Transaction
-     * @param amount the amount of Money to be withdrawn
+     * @param userId the ID of the user associated with this LoanPayment Transaction
+     * @param toAccountId the ID of the Account for this LoanPayment Transaction
+     * @param amount the amount of Money to be paid
      */
-    public Withdraw(ID userId, ID fromAccountId, double amount) {
-        this(userId, fromAccountId, amount, new ID());
+    public LoanPayment(ID userId, ID toAccountId, double amount) {
+        this(userId, toAccountId, amount, new ID());
     }
 
     /**
      * Standard constructor with specified transactionId
-     * @param userId the ID of the user associated with this Withdraw Transaction
-     * @param fromAccountId the ID of the Account for this Withdraw Transaction
-     * @param amount the amount of Money to be withdrawn
-     * @param transactionId the ID of this Withdraw Transaction
+     * @param userId the ID of the user associated with this LoanPayment Transaction
+     * @param toAccountId the ID of the Account for this LoanPayment Transaction
+     * @param amount the amount of Money to be paid
+     * @param transactionId the ID of this LoanPayment Transaction
      */
-    public Withdraw(ID userId, ID fromAccountId, double amount, ID transactionId) {
-        super(userId, fromAccountId, null, amount, transactionId);
+    public LoanPayment(ID userId, ID toAccountId, double amount, ID transactionId) {
+        super(userId, null, toAccountId, amount, transactionId);
     }
 
     /**
@@ -49,7 +49,7 @@ public class Withdraw extends Transaction {
         try {
             Validations.nonNegative(getAmount());
         } catch (IllegalArgumentException e) {
-            throw new IllegalTransactionException("Cannot withdraw negative amount of money!");
+            throw new IllegalTransactionException("Cannot deposit negative amount of money!");
         }
 
         if(!userCanExecute()) {
@@ -57,10 +57,8 @@ public class Withdraw extends Transaction {
         }
 
         try {
-            Account account = AccountsCollectionManager.getInstance().find(getFromAccountId());
-
-            // Performing the removeValue method will internally check that there is enough money
-            // If there isn't, it will throw an IllegalTransactionException
+            Account account = AccountsCollectionManager.getInstance().find(getToAccountId());
+            // For a loan payment, we actually reduce the value in the account, instead of adding to it.
             account.removeValue(getAmount());
             AccountsCollectionManager.getInstance().save(account);
         } catch (NoSuchElementException | IOException e) {
