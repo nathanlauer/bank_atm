@@ -47,8 +47,7 @@ public class AccountFactory {
         AccountFactoryCreator factory;
         switch (accountType) {
             case GENERIC_LOAN_ACCOUNT:
-                factory = new GenericLoanAccountFactory(currency, initialValue, user, accountId);
-                break;
+                throw new UnknownAccountTypeException("Loan Accounts should be created in createLoanAccount method");
             case FOUR_OH_ONE_K_ACCOUNT:
                 factory = new FourOhOneKAccountFactory(currency, initialValue, user, accountId);
                 break;
@@ -67,6 +66,40 @@ public class AccountFactory {
             default:
                 throw new UnknownAccountTypeException("Unknown type of Account!");
         }
+        return factory.createAccount();
+    }
+
+    /**
+     * Creates a Loan Account
+     * @param currency the Currency for this Account
+     * @param initialValue the initialValue of this Account - that is, the amount of money being loaned
+     * @param userId the Id of the User
+     * @param collateral collateral for this Loan
+     * @param collateralValue value of the collateral for this Loan
+     * @param creditScore User's credit score
+     * @return Account representing the Loan
+     */
+    public static Account createLoanAccount(Currency currency, double initialValue, ID userId,
+                                            String collateral, double collateralValue, int creditScore) {
+        ID accountId = new ID();
+        return AccountFactory.createLoanAccount(currency, initialValue, userId, accountId, collateral, collateralValue, creditScore);
+    }
+
+    /**
+     * Creates a Loan Account
+     * @param currency the Currency for this Account
+     * @param initialValue the initialValue of this Account - that is, the amount of money being loaned
+     * @param userId the Id of the User
+     * @param accountId the Id of the Account
+     * @param collateral collateral for this Loan
+     * @param collateralValue value of the collateral for this Loan
+     * @param creditScore User's credit score
+     * @return Account representing the Loan
+     */
+    public static Account createLoanAccount(Currency currency, double initialValue, ID userId, ID accountId,
+                                            String collateral, double collateralValue, int creditScore) {
+        User user = UsersCollectionManager.getInstance().find(userId);
+        AccountFactoryCreator factory = new GenericLoanAccountFactory(currency, initialValue, user, accountId, collateral, collateralValue, creditScore);
         return factory.createAccount();
     }
 }
