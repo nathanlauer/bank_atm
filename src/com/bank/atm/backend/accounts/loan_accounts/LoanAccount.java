@@ -24,7 +24,6 @@ public class LoanAccount extends Account {
     private final int creditScore;
 
     // TODO: CollectionsManager allow banker to approve loan
-    // TODO: methods to set loan state
     // TODO: AccountsCollectionManager - view loans by state, also for user
     // TODO: Transaction to deposit money to Loan Account.
 
@@ -51,6 +50,14 @@ public class LoanAccount extends Account {
         this.collateralValue = collateralValue;
         this.creditScore = creditScore;
         this.loanState = LoanState.REQUESTED;
+    }
+
+    /**
+     *
+     * @return the loanState of this Account
+     */
+    public LoanState getLoanState() {
+        return loanState;
     }
 
     /**
@@ -97,5 +104,14 @@ public class LoanAccount extends Account {
      */
     public int getCreditScore() {
         return creditScore;
+    }
+
+    /**
+     * Indicates whether or not this Loan has the passed in state
+     * @param state the loanState in question
+     * @return true if this Loan has the same LoanState as that passed in, false otherwise.
+     */
+    public boolean hasState(LoanState state) {
+        return getLoanState().equals(state);
     }
 }
