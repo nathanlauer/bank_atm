@@ -22,6 +22,10 @@ public class UsersCollectionManager implements CollectionManager<User> {
     public static final String dataFileName = "data/users.ser";
     private final Set<User> users;
 
+    /**
+     *
+     * @return the Singleton instance of this class
+     */
     public static UsersCollectionManager getInstance() {
         if(instance == null) {
             instance = new UsersCollectionManager();
@@ -98,7 +102,7 @@ public class UsersCollectionManager implements CollectionManager<User> {
                 return user;
             }
         }
-        return null;
+        throw new NoSuchElementException("User with id " + id + " can't be found!");
     }
 
     /**

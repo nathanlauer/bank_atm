@@ -1,12 +1,9 @@
 package com.bank.atm.backend.users;
 
-import com.bank.atm.backend.authentication.Credentials;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.Identifiable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class User is an abstract class that represents someone interacting with the bank.
@@ -21,7 +18,6 @@ public class User implements Serializable, Identifiable {
     private String firstName;
     private String lastName;
     private final ID userID;
-    private final List<Credentials> credentialsList;
 
     /**
      * Standard constructor for a user
@@ -42,7 +38,6 @@ public class User implements Serializable, Identifiable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.userID = userID;
-        this.credentialsList = new ArrayList<>();
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.bank.atm.gui.login;
 
+import com.bank.atm.gui.user.UserMenu;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * @author Navoneel Ghosh
+ * Login GUI
+ */
 public class Login extends JFrame {
     private JPanel loginPanel;
     private JTextField usernameTextField;
@@ -27,11 +33,18 @@ public class Login extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //To-Do : Add authorisation and open "UserMenu"
-
-                System.out.println("enter the valid username and password");
-                JOptionPane.showMessageDialog(loginPanel, "Incorrect login or password",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                try {
+                    String userName = usernameTextField.getText().trim();
+                    String password = passwordPasswordField.getPassword().toString().trim();
+                    com.bank.atm.backend.authentication.Login login = new com.bank.atm.backend.authentication.Login(userName,password);
+                    login.run();
+                    dispose();
+                    JFrame frame = new UserMenu("User Menu");
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(loginPanel, e.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         signUpButton.addActionListener(new ActionListener() {
@@ -42,8 +55,8 @@ public class Login extends JFrame {
                 frame.setVisible(true);
             }
         });
-        forgotPasswordLabel.addMouseListener(new MouseAdapter() {
 
+        forgotPasswordLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent event) {
                 try {

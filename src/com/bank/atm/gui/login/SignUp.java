@@ -1,22 +1,31 @@
 package com.bank.atm.gui.login;
 
+import com.bank.atm.backend.authentication.Register;
+import com.bank.atm.backend.users.UserType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
 
 public class SignUp extends JFrame {
 
     private JPanel signUpPanel;
-    private JTextField nameTextField;
+    private JTextField firstNameTextField;
     private JTextField phoneNumberTextField;
     private JTextField userNameTextField;
-    private JLabel nameLabel;
+    private JLabel firstNameLabel;
     private JLabel phoneNumberLabel;
     private JLabel userNameLabel;
     private JLabel passwordLabel;
     private JPasswordField passwordPasswordField;
     private JButton signUpButton;
+    private JLabel lastNameLabel;
+    private JTextField lastNameTextField;
+    private JPasswordField confirmPasswordField;
+    private JLabel confirmPasswordLabel;
 
     public SignUp(String title) {
         super(title);
@@ -29,7 +38,22 @@ public class SignUp extends JFrame {
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // To-Do : Add user to file
+                try{
+                    String firstName, lastName, username, password, confirmPassword;
+                    firstName = firstNameTextField.getText().trim();
+                    lastName = lastNameTextField.getText().trim();
+                    username = userNameTextField.getText().trim();
+                    password = Arrays.toString(passwordPasswordField.getPassword()).trim();
+                    confirmPassword = Arrays.toString(confirmPasswordField.getPassword()).trim();
+                    Register reg = new Register(firstName,lastName,username,password,confirmPassword, UserType.CLIENT);
+                    reg.run();
+                    dispose();
+                    JFrame frame = new Login("Login");
+                    frame.setVisible(true);
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(signUpPanel, exception.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
@@ -52,14 +76,14 @@ public class SignUp extends JFrame {
         signUpPanel = new JPanel();
         signUpPanel.setLayout(new GridBagLayout());
         signUpPanel.setName("Sign Up");
-        nameLabel = new JLabel();
-        nameLabel.setText("Name");
+        firstNameLabel = new JLabel();
+        firstNameLabel.setText("Name");
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        signUpPanel.add(nameLabel, gbc);
+        signUpPanel.add(firstNameLabel, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -72,15 +96,15 @@ public class SignUp extends JFrame {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         signUpPanel.add(spacer2, gbc);
-        nameTextField = new JTextField();
-        nameTextField.setMinimumSize(new Dimension(100, 30));
-        nameTextField.setPreferredSize(new Dimension(100, 30));
-        nameTextField.setText("");
+        firstNameTextField = new JTextField();
+        firstNameTextField.setMinimumSize(new Dimension(100, 30));
+        firstNameTextField.setPreferredSize(new Dimension(100, 30));
+        firstNameTextField.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        signUpPanel.add(nameTextField, gbc);
+        signUpPanel.add(firstNameTextField, gbc);
         phoneNumberLabel = new JLabel();
         phoneNumberLabel.setText("Phone Number");
         gbc = new GridBagConstraints();
@@ -157,7 +181,7 @@ public class SignUp extends JFrame {
         gbc.gridy = 8;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         signUpPanel.add(signUpButton, gbc);
-        nameLabel.setLabelFor(nameTextField);
+        firstNameLabel.setLabelFor(firstNameTextField);
         phoneNumberLabel.setLabelFor(phoneNumberTextField);
         userNameLabel.setLabelFor(userNameTextField);
         passwordLabel.setLabelFor(passwordPasswordField);
