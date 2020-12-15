@@ -112,6 +112,12 @@
               <enabled value="true"/>
             </properties>
           </component>
+          <vspacer id="f4c67">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
       <component id="71515" class="javax.swing.JLabel" binding="accountNameLabel">
@@ -153,6 +159,15 @@
           <gridbag top="30" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
         </constraints>
       </vspacer>
+      <component id="760a1" class="javax.swing.JButton" binding="viewTransactionsButton" default-binding="true">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="View Transactions"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

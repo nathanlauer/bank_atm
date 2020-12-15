@@ -3,6 +3,7 @@ package com.bank.atm.gui.user;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.gui.transactions.DepositUI;
+import com.bank.atm.gui.transactions.ViewTransactionsUI;
 import com.bank.atm.gui.transactions.WithdrawUI;
 import com.bank.atm.util.Formatter;
 import com.bank.atm.util.ID;
@@ -33,6 +34,7 @@ public class AccountDetails extends JFrame {
     private JTextArea currencyTypeLabel;
     private JTextArea dateOpenedTextField;
     private JLabel accountNameLabel;
+    private JButton viewTransactionsButton;
 
     public AccountDetails(ID userID, Account account) {
         super(Formatter.splitCamelCase(account.getClass().getSimpleName()) + " " + account.getID() + " Details");
@@ -56,6 +58,13 @@ public class AccountDetails extends JFrame {
                 WithdrawUI withdrawUI = new WithdrawUI(userID, account);
                 withdrawUI.setVisible(true);
                 AccountDetails.this.dispose();
+            }
+        });
+        viewTransactionsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewTransactionsUI viewTransactionsUI = new ViewTransactionsUI(account);
+                viewTransactionsUI.setVisible(true);
             }
         });
     }
