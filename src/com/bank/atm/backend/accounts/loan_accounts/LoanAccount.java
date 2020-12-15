@@ -23,8 +23,6 @@ public class LoanAccount extends Account {
     private final double collateralValue;
     private final int creditScore;
 
-    // TODO: CollectionsManager allow banker to approve loan
-    // TODO: AccountsCollectionManager - view loans by state, also for user
     // TODO: Transaction to deposit money to Loan Account.
 
     /**
