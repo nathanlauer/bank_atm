@@ -23,8 +23,6 @@ public class LoanAccount extends Account {
     private final double collateralValue;
     private final int creditScore;
 
-    // TODO: Transaction to deposit money to Loan Account.
-
     /**
      * Constructor that creates a LoanAccount with open Date now.
      * @param currency the Currency for this Account
