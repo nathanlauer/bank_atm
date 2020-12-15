@@ -110,4 +110,13 @@ public class LoanAccount extends Account {
     public boolean hasState(LoanState state) {
         return getLoanState().equals(state);
     }
+
+    /**
+     * A Loan Account can be withdrawn from only if it is in an Approved state
+     * @return true if this Account is approved, false otherwise
+     */
+    @Override
+    public boolean canWithdraw() {
+        return getLoanState().equals(LoanState.APPROVED);
+    }
 }
