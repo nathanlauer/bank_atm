@@ -76,7 +76,7 @@ public class UserMenu extends JFrame {
         transferMoneyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                TransferMoneyUI transferMoneyUI = new TransferMoneyUI();
+                TransferMoneyUI transferMoneyUI = new TransferMoneyUI(getID());
                 transferMoneyUI.setVisible(true);
             }
         });

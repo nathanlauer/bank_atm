@@ -104,8 +104,8 @@ public class WithdrawUI extends JFrame {
         double amt = 0;
         try {
             amt = ((Number) amountTextField.getValue()).doubleValue();
-        } catch (NullPointerException ignored) {
-            System.out.println("OH NULL POINTER");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
         System.out.println("Attempting to withdraw " + amt);
         try {
