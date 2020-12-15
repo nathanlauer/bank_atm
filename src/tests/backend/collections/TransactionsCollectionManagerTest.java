@@ -3,7 +3,6 @@ package tests.backend.collections;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactory;
 import com.bank.atm.backend.accounts.AccountType;
-import com.bank.atm.backend.accounts.checking_accounts.CheckingAccount;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.collections.CollectionsUtil;
 import com.bank.atm.backend.collections.TransactionsCollectionManager;
@@ -15,6 +14,7 @@ import com.bank.atm.backend.transactions.Transfer;
 import com.bank.atm.backend.transactions.Withdraw;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
+import com.bank.atm.util.IllegalTransactionException;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
@@ -62,7 +62,6 @@ public class TransactionsCollectionManagerTest {
         // Note that this transfer is not technically legal, because the new user Id does not belong
         // to these accounts. Nonetheless, we are not executing the transaction, so for the purposes
         // of this test to differentiate users, this is fine.
-        // TODO: ensure that user is proper owner of account on transaction
         Transaction transfer = new Transfer(new ID(), secondAccount.getID(), firstAccount.getID(), 100, thirdId);
         transactions.addAll(Arrays.asList(deposit, withdraw, transfer));
 
@@ -122,5 +121,21 @@ public class TransactionsCollectionManagerTest {
         for(Transaction transaction : transactionsForAccount) {
             assertTrue(TransactionsCollectionManagerTest.transactions.contains(transaction));
         }
+    }
+
+    @Test
+    @Order(5)
+    public void executeTransaction() {
+        Transaction secondDeposit = new Deposit(user.getID(), firstAccount.getID(), 25, new ID());
+        try {
+            TransactionsCollectionManager.getInstance().executeTransaction(secondDeposit);
+        } catch (IllegalTransactionException e) {
+            e.printStackTrace();
+            fail();
+        }
+
+        // There should now be one more transaction
+        List<Transaction> allTransactions = TransactionsCollectionManager.getInstance().all();
+        assertEquals(TransactionsCollectionManagerTest.transactions.size() + 1, allTransactions.size());
     }
 }
