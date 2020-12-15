@@ -5,6 +5,7 @@ import com.bank.atm.util.Identifiable;
 import com.bank.atm.util.IllegalTransactionException;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Class Transaction
@@ -21,6 +22,7 @@ public abstract class Transaction implements Serializable, Identifiable {
     private final ID toAccountId;
     private final ID userId;
     private final double amount;
+    private final Date date;
 
     /**
      * Standard constructor
@@ -47,6 +49,7 @@ public abstract class Transaction implements Serializable, Identifiable {
         this.toAccountId = toAccountId;
         this.amount = amount;
         this.transactionId = transactionId;
+        date = new Date();
     }
 
     /**
@@ -123,12 +126,38 @@ public abstract class Transaction implements Serializable, Identifiable {
         }
 
         if(getToAccountId() != null) {
-            if(getToAccountId().equals(accountId)) {
-                return true;
-            }
+            return getToAccountId().equals(accountId);
         }
 
         return false;
+    }
+
+    /**
+     *
+     * @return the Date at which this Transaction occurred
+     */
+    public Date getDate() {
+        return date;
+    }
+
+    /**
+     * Indicates whether or not this Transaction happened after the passed in Date.
+     * @param other the other Date in question
+     * @return true if the Date associated with this Transaction is greater than
+     * the passed in Date
+     */
+    public boolean occurredAfterDate(Date other) {
+        return date.after(other);
+    }
+
+    /**
+     * Indicates whether or not this Transaction happened before the passed in Date
+     * @param other the other Date in question
+     * @return true if the Date associated with this Transaction is less than the
+     * passed in Date.
+     */
+    public boolean occurredBeforeDate(Date other) {
+        return date.before(other);
     }
 
     /**
