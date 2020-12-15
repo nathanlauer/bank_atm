@@ -1,6 +1,8 @@
 package com.bank.atm.backend.authentication;
 
 import com.bank.atm.backend.collections.CredentialsCollectionManager;
+import com.bank.atm.backend.collections.UsersCollectionManager;
+import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 
 import java.util.NoSuchElementException;
@@ -42,5 +44,21 @@ public class Login {
             throw new AuthenticationException(invalidCredentials);
         }
         return credentials.getUserId();
+    }
+
+    public String run(boolean getUser) throws AuthenticationException{
+        try{
+            ID userID = this.run();
+            UsersCollectionManager userManager = new UsersCollectionManager();
+            User user = userManager.findByOwnerID(userID).get(0);
+            if(user.isAnAdmin()){
+                return "ADMIN";
+            }
+            else{
+                return  "CLIENT";
+            }
+        } catch (AuthenticationException e) {
+            throw new AuthenticationException(invalidCredentials);
+        }
     }
 }
