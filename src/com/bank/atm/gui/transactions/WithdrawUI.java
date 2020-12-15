@@ -7,10 +7,7 @@ import com.bank.atm.util.IllegalTransactionException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
@@ -57,6 +54,14 @@ public class WithdrawUI extends JFrame {
                 Account account = (Account) accountComboBox.getSelectedItem();
                 double amt = withdrawFromAccount(account);
                 JOptionPane.showMessageDialog(WithdrawUI.this, amt + " has been withdrawn from Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
+            }
+        });
+        accountComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JComboBox<Account> comboBox = (JComboBox<Account>) event.getSource();
+                Account account = (Account) (accountComboBox.getSelectedItem());
+                currencyTypeLabel.setText(account.getCurrency().toString());
             }
         });
     }

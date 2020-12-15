@@ -51,7 +51,13 @@ public class DepositUI extends JFrame {
                 super.keyTyped(e);
             }
         });
-
+        chooseAccountComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                Account account = (Account) (chooseAccountComboBox.getSelectedItem());
+                currencyTypeLabel.setText(account.getCurrency().toString());
+            }
+        });
         makeDepositButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
