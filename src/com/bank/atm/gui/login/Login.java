@@ -36,7 +36,7 @@ public class Login extends JFrame {
                 try {
                     String userName = usernameTextField.getText().trim();
                     String password = passwordPasswordField.getPassword().toString().trim();
-                    com.bank.atm.backend.authentication.Login login = new com.bank.atm.backend.authentication.Login(userName,password);
+                    com.bank.atm.backend.authentication.Login login = new com.bank.atm.backend.authentication.Login(userName, password);
                     login.run();
                     dispose();
                     JFrame frame = new UserMenu("User Menu");
@@ -194,4 +194,5 @@ public class Login extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return loginPanel;
     }
+
 }
