@@ -3,6 +3,7 @@ package com.bank.atm.backend.interest;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.util.ID;
+import com.bank.atm.util.Identifiable;
 import com.bank.atm.util.Validations;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ import java.util.Date;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public abstract class Interest implements Serializable, InterestEarningExecutor {
+public abstract class Interest implements Serializable, InterestEarningExecutor, Identifiable {
     private final ID id;
     private final ID accountId;
     private Date lastCompounded;
@@ -43,6 +44,32 @@ public abstract class Interest implements Serializable, InterestEarningExecutor 
         this.intervalDays = intervalDays;
         this.numCompoundingsPerYear = numCompoundingsPerYear;
         this.apy = apy;
+    }
+
+    /**
+     *
+     * @return the ID of this Identifiable entity
+     */
+    public ID getID() {
+        return id;
+    }
+
+    /**
+     * Indicates whether or not this Identifiable has the passed in id.
+     * @param id the ID in question
+     * @return true if this entity has the same id, false otherwise
+     */
+    public boolean hasID(ID id) {
+        return getID().equals(id);
+    }
+
+    /**
+     * Indicates whether or not this Interest object is for the Account identified by accountId
+     * @param accountId the Account in question
+     * @return true if this Interest is for the Account
+     */
+    public boolean forAccount(ID accountId) {
+        return this.accountId.equals(accountId);
     }
 
     /**
