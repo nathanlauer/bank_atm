@@ -27,8 +27,8 @@ public class DepositUI extends JFrame {
     private JComboBox<? extends Account> chooseAccountComboBox;
     private JLabel currencyTypeLabel;
     private JTextField currentBalanceTextField;
-    private JTextField newBalanceTextField;
     private JButton makeDepositButton;
+    private JLabel currencyTypeLabel1;
 
     /**
      * TODO add field for choosing account to make deposit and adjust currency format according to locale of that account
@@ -54,8 +54,7 @@ public class DepositUI extends JFrame {
         chooseAccountComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                Account account = (Account) (chooseAccountComboBox.getSelectedItem());
-                currencyTypeLabel.setText(account.getCurrency().toString());
+                updateLabelsBasedOnSelectedAccount();
             }
         });
         makeDepositButton.addActionListener(new ActionListener() {
@@ -63,9 +62,24 @@ public class DepositUI extends JFrame {
             public void actionPerformed(ActionEvent event) {
                 Account account = (Account) chooseAccountComboBox.getSelectedItem();
                 double amt = makeDeposit(account);
+                currentBalanceTextField.setText(account.displayAccountValue());
+
                 JOptionPane.showMessageDialog(DepositUI.this, amt + " has been deposited to Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
             }
         });
+        updateLabelsBasedOnSelectedAccount();
+    }
+
+    /**
+     * updates the labels of other components based on the account that is currently selected
+     */
+    private void updateLabelsBasedOnSelectedAccount() {
+        Account account = (Account) (chooseAccountComboBox.getSelectedItem());
+        if (account == null)
+            return;
+        currentBalanceTextField.setText(account.displayAccountValue());
+        currencyTypeLabel.setText(account.getCurrency().toString());
+        currencyTypeLabel1.setText(account.getCurrency().toString());
     }
 
     /**
@@ -124,24 +138,24 @@ public class DepositUI extends JFrame {
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         depositPanel.add(amountLabel, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         depositPanel.add(spacer1, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.insets = new Insets(0, 0, 50, 0);
         depositPanel.add(spacer2, gbc);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         depositPanel.add(depositAmountField, gbc);
@@ -174,53 +188,9 @@ public class DepositUI extends JFrame {
         currencyTypeLabel.setText("USD");
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
         depositPanel.add(currencyTypeLabel, gbc);
-        final JLabel label3 = new JLabel();
-        label3.setText("Current Balance:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        depositPanel.add(label3, gbc);
-        currentBalanceTextField = new JTextField();
-        currentBalanceTextField.setEditable(false);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        depositPanel.add(currentBalanceTextField, gbc);
-        final JLabel label4 = new JLabel();
-        label4.setText("New Balance:");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        gbc.anchor = GridBagConstraints.WEST;
-        depositPanel.add(label4, gbc);
-        newBalanceTextField = new JTextField();
-        newBalanceTextField.setEditable(false);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 8;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        depositPanel.add(newBalanceTextField, gbc);
-        final JLabel label5 = new JLabel();
-        label5.setText("USD");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        depositPanel.add(label5, gbc);
-        final JLabel label6 = new JLabel();
-        label6.setText("USD");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 4;
-        gbc.gridy = 8;
-        gbc.anchor = GridBagConstraints.WEST;
-        depositPanel.add(label6, gbc);
         final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -243,15 +213,36 @@ public class DepositUI extends JFrame {
         makeDepositButton.setText("Make Deposit");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 10;
+        gbc.gridy = 9;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         depositPanel.add(makeDepositButton, gbc);
         final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridy = 9;
+        gbc.gridy = 8;
         gbc.fill = GridBagConstraints.VERTICAL;
         depositPanel.add(spacer7, gbc);
+        currentBalanceTextField = new JTextField();
+        currentBalanceTextField.setEditable(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        depositPanel.add(currentBalanceTextField, gbc);
+        currencyTypeLabel1 = new JLabel();
+        currencyTypeLabel1.setText("USD");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.WEST;
+        depositPanel.add(currencyTypeLabel1, gbc);
+        final JLabel label3 = new JLabel();
+        label3.setText("Current Balance: ");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        depositPanel.add(label3, gbc);
     }
 
     /**
