@@ -53,8 +53,8 @@ public class AccountsCollectionManagerTest {
         accounts.add(investment);
 
         // Clear the output file
-        CollectionsUtil.clearFileContents(UsersCollectionManager.dataFileName);
-        CollectionsUtil.clearFileContents(AccountsCollectionManager.dataFileName);
+        CollectionsUtil.deleteFile(UsersCollectionManager.dataFileName);
+        CollectionsUtil.deleteFile(AccountsCollectionManager.dataFileName);
     }
 
     @AfterAll
@@ -66,7 +66,7 @@ public class AccountsCollectionManagerTest {
     @Test
     @Order(1)
     public void testSaveAccounts() {
-        // Save each of the Users to disk
+        // Save each of the Accounts to disk
         for(Account account : AccountsCollectionManagerTest.accounts) {
             try {
                 AccountsCollectionManager.getInstance().save(account);
@@ -86,8 +86,8 @@ public class AccountsCollectionManagerTest {
         Account account = AccountsCollectionManager.getInstance().find(firstId);
         assertEquals(account, accounts.get(0));
 
+        // TODO: exchange rates
 //        account.switchCurrencies(JPY.getInstance());
-
 
         try {
             AccountsCollectionManager.getInstance().save(account);

@@ -1,6 +1,7 @@
 package com.bank.atm.backend.collections;
 
 import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 
@@ -150,5 +151,14 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
     @Override
     public void clear() {
         this.accounts.clear();
+    }
+
+    /**
+     *
+     * @return a List of all the Loans in the collection of Accounts
+     */
+    public List<Account> allLoans() {
+        Stream<Account> accountStream = accounts.stream().filter(account -> account instanceof LoanAccount);
+        return accountStream.collect(Collectors.toList());
     }
 }
