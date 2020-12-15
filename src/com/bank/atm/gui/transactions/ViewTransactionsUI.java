@@ -9,6 +9,7 @@ import com.bank.atm.backend.collections.TransactionsCollectionManager;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.backend.transactions.Transaction;
 import com.bank.atm.gui.util_gui.AccountListRenderer;
+import com.bank.atm.gui.util_gui.TransactionListRenderer;
 import com.bank.atm.util.Formatter;
 
 import javax.swing.*;
@@ -19,8 +20,8 @@ import java.awt.*;
 import java.util.List;
 
 public class ViewTransactionsUI extends JFrame {
-    private final int frameWidth = 100;
-    private final int frameHeight = 100;
+    private final int frameWidth = 600;
+    private final int frameHeight = 500;
     private JList transactionsList;
     private JPanel viewTransactionsPanel;
     private JLabel viewTransactionsLabel;
@@ -62,7 +63,7 @@ public class ViewTransactionsUI extends JFrame {
 
     private void initTransactionsList(List<Transaction> transactionList) {
         transactionsList.setListData(transactionList.toArray());
-        transactionsList.setCellRenderer(new AccountListRenderer(2, 15));
+        transactionsList.setCellRenderer(new TransactionListRenderer(2, 15));
         transactionsList.setBorder(new EmptyBorder(10, 10, 10, 10));
         transactionsList.addListSelectionListener(new ListSelectionListener() {
             int i = 0;

@@ -114,7 +114,7 @@ public class WithdrawUI extends JFrame {
         try {
             amt = ((Number) amountTextField.getValue()).doubleValue();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,"Invalid amount");
         }
         try {
             TransactionsCollectionManager.getInstance().executeTransaction(new Withdraw(userID,account.getID(),amt));

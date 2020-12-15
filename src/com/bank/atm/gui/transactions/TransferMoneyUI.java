@@ -6,8 +6,10 @@ package com.bank.atm.gui.transactions;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.collections.TransactionsCollectionManager;
 import com.bank.atm.backend.currency.ExchangeRateTable;
 import com.bank.atm.backend.currency.UnknownExchangeRateException;
+import com.bank.atm.backend.transactions.Transfer;
 import com.bank.atm.gui.util_gui.AccountListRenderer;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
@@ -146,19 +148,9 @@ public class TransferMoneyUI extends JFrame {
     private boolean transferMoney(Account fromAccount, Account toAccount, double amount, double fee) {
 
         try {
-            fromAccount.removeValue(amount + fee);
+            TransactionsCollectionManager.getInstance().executeTransaction(new Transfer(userID,fromAccount.getID(),toAccount.getID(),amount));
         } catch (IllegalTransactionException e) {
-//            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Unable to complete transfer: " + e.getMessage());
-            return false;
-        }
-        toAccount.addValue(amount);
-        try {
-            AccountsCollectionManager.getInstance().save(fromAccount);
-            AccountsCollectionManager.getInstance().save(toAccount);
-        } catch (IOException e) {
-//            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR TRANSFERRING: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,e.getMessage());
             return false;
         }
         return true;
