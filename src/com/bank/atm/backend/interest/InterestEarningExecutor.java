@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public interface InterestEarningExecutor extends Serializable {
+public interface InterestEarningExecutor {
     /**
      * Checks if the compounding period has passed, and if so,
      * calculates the amount of interest earned and updates the
