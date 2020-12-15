@@ -31,6 +31,9 @@ public class GenericLoanAccountFactory implements AccountFactoryCreator {
     private final double initialAmount;
     private final User user;
     private final ID accountId;
+    private final String collateral;
+    private final double collateralValue;
+    private final int creditScore;
 
     /**
      * Standard constructor
@@ -38,11 +41,14 @@ public class GenericLoanAccountFactory implements AccountFactoryCreator {
      * @param initialAmount the initial monetary value for this account
      * @param user the User creating this Account.
      */
-    public GenericLoanAccountFactory(Currency currency, double initialAmount, User user, ID accountId) {
+    public GenericLoanAccountFactory(Currency currency, double initialAmount, User user, ID accountId, String collateral, double collateralValue, int creditScore) {
         this.currency = currency;
         this.initialAmount = initialAmount;
         this.user = user;
         this.accountId = accountId;
+        this.collateral = collateral;
+        this.collateralValue = collateralValue;
+        this.creditScore = creditScore;
     }
 
     /**
@@ -54,7 +60,7 @@ public class GenericLoanAccountFactory implements AccountFactoryCreator {
     public Account createAccount() {
         // First, build the basic loan account
         List<ID> managers = AccountsUtil.buildManagerListFromUser(user);
-        Account account = new GenericLoanAccount(currency, new Money(initialAmount), managers, accountId);
+        Account account = new GenericLoanAccount(currency, new Money(initialAmount), managers, accountId, collateral, collateralValue, creditScore);
 
         // This account earns interest for the bank: 17% interest per year, and it's compounded daily.
         double apy = 17;
