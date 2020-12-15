@@ -8,6 +8,7 @@ import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.currency.ExchangeRateTable;
 import com.bank.atm.backend.currency.UnknownExchangeRateException;
+import com.bank.atm.gui.util_gui.AccountListRenderer;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 
@@ -20,7 +21,6 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class TransferMoneyUI extends JFrame {
 

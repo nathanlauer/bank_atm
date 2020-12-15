@@ -2,6 +2,7 @@ package com.bank.atm.gui.transactions;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.gui.util_gui.AccountListRenderer;
 import com.bank.atm.util.ID;
 
 import javax.swing.*;
@@ -30,9 +31,13 @@ public class DepositUI extends JFrame {
     private JButton makeDepositButton;
     private JLabel currencyTypeLabel1;
 
-    /**
-     * TODO add field for choosing account to make deposit and adjust currency format according to locale of that account
-     */
+    public DepositUI(ID userID, Account account) {
+        this(userID);
+        chooseAccountComboBox.setSelectedItem(account);
+        updateLabelsBasedOnSelectedAccount();
+    }
+
+    //creates the deposit ui
     public DepositUI(ID userID) {
         this.userID = userID;
         $$$setupUI$$$();

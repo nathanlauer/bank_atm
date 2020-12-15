@@ -1,17 +1,24 @@
 package com.bank.atm.gui.user;
 
 import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.gui.transactions.DepositUI;
+import com.bank.atm.gui.transactions.WithdrawUI;
 import com.bank.atm.util.Formatter;
+import com.bank.atm.util.ID;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.Format;
 
 /**
  * The UI for showing the full account details
  *
  * @author Sandra Zhen
  */
-public class AccountDetails extends JDialog {
+public class AccountDetails extends JFrame {
     private final int frameWidth = 500;
     private final int frameHeight = 500;
 
@@ -27,32 +34,43 @@ public class AccountDetails extends JDialog {
     private JTextArea dateOpenedTextField;
     private JLabel accountNameLabel;
 
-    public AccountDetails(JFrame owner, Account account) {
-        super(owner);
+    public AccountDetails(ID userID, Account account) {
+        super(Formatter.splitCamelCase(account.getClass().getSimpleName()) + " " + account.getID() + " Details");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(accountDetailsMainPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
         this.pack();
-        accountNameLabel.setText("Account " + account.getID() + " Details");
+        updateLabels(account);
+
+        depositButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DepositUI depositUI = new DepositUI(userID, account);
+                depositUI.setVisible(true);
+                AccountDetails.this.dispose();
+            }
+        });
+        withdrawButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WithdrawUI withdrawUI = new WithdrawUI(userID, account);
+                withdrawUI.setVisible(true);
+                AccountDetails.this.dispose();
+            }
+        });
+    }
+
+    /**
+     * updates labels of this UI based on the account
+     *
+     * @param account
+     */
+    private void updateLabels(Account account) {
+        accountNameLabel.setText(Formatter.splitCamelCase(account.getClass().getSimpleName()) + " " + account.getID() + " Details");
         accountTypeValueLabel.setText(Formatter.splitCamelCase(account.getClass().getSimpleName()));
         currencyTypeLabel.setText(account.getCurrency().toString());
         balanceValueLabel.setText(account.displayAccountValue());
         dateOpenedTextField.setText("" + account.getOpened());
-
-//        depositButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                DepositUI depositUI = new DepositUI();
-//                depositUI.setVisible(true);
-//            }
-//        });
-//        withdrawButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                WithdrawUI withdrawUI = new WithdrawUI();
-//                withdrawUI.setVisible(true);
-//            }
-//        });
     }
 
 

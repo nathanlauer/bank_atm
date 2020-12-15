@@ -7,7 +7,7 @@ package com.bank.atm.gui.user;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
-import com.bank.atm.gui.transactions.AccountListRenderer;
+import com.bank.atm.gui.util_gui.AccountListRenderer;
 import com.bank.atm.util.Formatter;
 import com.bank.atm.util.ID;
 
@@ -42,35 +42,39 @@ public class UserViewAccounts extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 UserAddAccount userAddAccount = new UserAddAccount(userID);
                 userAddAccount.setVisible(true);
+                UserViewAccounts.this.dispose();
             }
         });
         initAccountsPanel(userID);
     }
 
     private void initAccountsPanel(ID userID) {
-        accountsList.setListData(getAccounts(userID).toArray());
-        accountsList.setCellRenderer(new AccountListRenderer());
+        accountsList.setListData(getAccountsData(userID).toArray());
+        accountsList.setCellRenderer(new AccountListRenderer(2, 15));
         accountsList.setBorder(new EmptyBorder(10, 10, 10, 10));
         accountsList.addListSelectionListener(new ListSelectionListener() {
+            int i = 0;
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Account account = (Account) (accountsList.getSelectedValue());
-                System.out.println("Selected value is " + accountsList.getSelectedValue());
-                JOptionPane.showMessageDialog(UserViewAccounts.this,
-                        "Account " + account.getID() + "\nAccount Type: " + Formatter.splitCamelCase(account.getClass().getSimpleName())
-                                + "\nBalance: " + account.displayAccountValue() + "\nCurrency: " + account.getCurrency().toString() + "\nDate Opened: " + account.getOpened());
+                if (i % 2 == 0) {//every click of list selection listener results in valueChanged being called twice. We use counter%2 to make sure the event is triggered only once
+                    Account account = (Account) (accountsList.getSelectedValue());
+                    AccountDetails accountDetails = new AccountDetails(userID, account);
+                    accountDetails.setVisible(true);
+                }
+                i++;
             }
         });
     }
 
 
     /**
-     * Retrieves all accounts that the current user has
+     * Retrieves all accounts and their info that the current user has
      *
      * @param userID - id of user to get accounts for
      * @return list of accounts of the user
      */
-    private List<Account> getAccounts(ID userID) {
+    private List<Account> getAccountsData(ID userID) {
         return AccountsCollectionManager.getInstance().findByOwnerID(userID);
     }
 
