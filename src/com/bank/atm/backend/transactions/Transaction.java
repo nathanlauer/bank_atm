@@ -116,7 +116,19 @@ public abstract class Transaction implements Serializable, Identifiable {
      * @return true if one of the Accounts associated with this Transaction is identified by accountId, false otherwise
      */
     public boolean isForAccount(ID accountId) {
-        return getFromAccountId().equals(accountId) || getToAccountId().equals(accountId);
+        if(getFromAccountId() != null) {
+            if(getFromAccountId().equals(accountId)) {
+                return true;
+            }
+        }
+
+        if(getToAccountId() != null) {
+            if(getToAccountId().equals(accountId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
