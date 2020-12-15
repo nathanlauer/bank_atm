@@ -73,9 +73,10 @@ public class TransferMoneyUI extends JFrame {
                 }
                 double fee = getTransferFee(fromAccount, toAccount);
 
-                transferMoney(fromAccount, toAccount, amt, fee);
-                JOptionPane.showMessageDialog(TransferMoneyUI.this, "");
-                updateLabels();
+                if (transferMoney(fromAccount, toAccount, amt, fee)) {
+                    JOptionPane.showMessageDialog(TransferMoneyUI.this, "Transferred " + amt + "\nfrom Account " + fromAccount.getID() + "\nto Account " + toAccount.getID());
+                    updateLabels();
+                }
             }
         });
         fromAccountComboBox.addActionListener(new ActionListener() {
@@ -140,31 +141,36 @@ public class TransferMoneyUI extends JFrame {
      * @param fromAccount - account from which to transfer money
      * @param toAccount   - account to which money is transferred
      * @param amount      - amount to transfer
+     *                    return whether or not transaction was successful
      */
-    private void transferMoney(Account fromAccount, Account toAccount, double amount, double fee) {
+    private boolean transferMoney(Account fromAccount, Account toAccount, double amount, double fee) {
 
         try {
             fromAccount.removeValue(amount + fee);
         } catch (IllegalTransactionException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Unable to complete transfer");
-            return;
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Unable to complete transfer: " + e.getMessage());
+            return false;
         }
         toAccount.addValue(amount);
         try {
             AccountsCollectionManager.getInstance().save(fromAccount);
             AccountsCollectionManager.getInstance().save(toAccount);
         } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR TRANSFERRING");
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "ERROR TRANSFERRING: " + e.getMessage());
+            return false;
         }
-
+        return true;
     }
 
     private void createUIComponents() {
         fromAccountComboBox = new JComboBox<Account>(getUserAccounts());
         toAccountComboBox = new JComboBox<Account>(getUserAccounts());
+        fromAccountComboBox.setRenderer(new AccountListRenderer());
+        toAccountComboBox.setRenderer(new AccountListRenderer());
         transferAmount = new JFormattedTextField(NumberFormat.getInstance());
+        transferAmount.setText("0");
         fromAccountBalanceTextField = new JFormattedTextField(NumberFormat.getInstance());
         transactionFeeTextField = new JFormattedTextField(NumberFormat.getInstance());//this should match the from account currency type
         convertedTransferAmount = new JFormattedTextField(NumberFormat.getInstance());

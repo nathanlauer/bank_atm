@@ -116,8 +116,8 @@ public class WithdrawUI extends JFrame {
         try {
             AccountsCollectionManager.getInstance().save(account);
         } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR WITHDRAWING");
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "ERROR WITHDRAWING: " + e.getMessage());
         }
         return amt;
     }
