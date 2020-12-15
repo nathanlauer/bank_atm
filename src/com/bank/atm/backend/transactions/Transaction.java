@@ -1,11 +1,16 @@
 package com.bank.atm.backend.transactions;
 
+import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.collections.UsersCollectionManager;
+import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.Identifiable;
 import com.bank.atm.util.IllegalTransactionException;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 /**
  * Class Transaction
@@ -50,6 +55,22 @@ public abstract class Transaction implements Serializable, Identifiable {
         this.amount = amount;
         this.transactionId = transactionId;
         date = new Date();
+    }
+
+    /**
+     * Indicates whether or not this Transaction has a To Account
+     * @return true if toAccount is not null, false otherwise
+     */
+    public boolean hasToAccount() {
+        return getToAccountId() != null;
+    }
+
+    /**
+     * Indicates whether or not this Transaction has a From Account
+     * @return true if fromAccountId is not null, false otherwise
+     */
+    public boolean hasFromAccount() {
+        return getFromAccountId() != null;
     }
 
     /**
@@ -119,13 +140,13 @@ public abstract class Transaction implements Serializable, Identifiable {
      * @return true if one of the Accounts associated with this Transaction is identified by accountId, false otherwise
      */
     public boolean isForAccount(ID accountId) {
-        if(getFromAccountId() != null) {
+        if(hasFromAccount()) {
             if(getFromAccountId().equals(accountId)) {
                 return true;
             }
         }
 
-        if(getToAccountId() != null) {
+        if(hasFromAccount()) {
             return getToAccountId().equals(accountId);
         }
 
@@ -158,6 +179,45 @@ public abstract class Transaction implements Serializable, Identifiable {
      */
     public boolean occurredBeforeDate(Date other) {
         return date.before(other);
+    }
+
+    /**
+     * Protected helper function for use by concrete subclasses, to determine
+     * whether or not the User associated with this Transaction has access
+     * rights.
+     * @return true if the User associated with this Transaction is a manager
+     * for all the accounts associated with this Transaction.
+     */
+    protected boolean userCanExecute() {
+        boolean userManagesToAccount = false;
+        boolean userManagesFromAccount = false;
+
+        try {
+            User user = UsersCollectionManager.getInstance().find(getUserId());
+            if(hasToAccount()) {
+                Account toAccount = AccountsCollectionManager.getInstance().find(getToAccountId());
+                if(toAccount.isAccountManager(user)) {
+                    userManagesToAccount = true;
+                }
+            } else {
+                // There is no toAccount, so just simulate that the user has access to "it"
+                userManagesToAccount = true;
+            }
+
+            if(hasFromAccount()) {
+                Account fromAccount = AccountsCollectionManager.getInstance().find(getFromAccountId());
+                if(fromAccount.isAccountManager(user)) {
+                    userManagesFromAccount = true;
+                }
+            } else {
+                // There is no fromAccount, so just simulate that the user has access to "it"
+                userManagesFromAccount = true;
+            }
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+
+        return userManagesToAccount && userManagesFromAccount;
     }
 
     /**
