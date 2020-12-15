@@ -45,10 +45,10 @@ public class UserViewAccounts extends JFrame {
                 UserViewAccounts.this.dispose();
             }
         });
-        initAccountsPanel(userID);
+        initAccountsList(userID);
     }
 
-    private void initAccountsPanel(ID userID) {
+    private void initAccountsList(ID userID) {
         accountsList.setListData(getAccountsData(userID).toArray());
         accountsList.setCellRenderer(new AccountListRenderer(2, 15));
         accountsList.setBorder(new EmptyBorder(10, 10, 10, 10));
