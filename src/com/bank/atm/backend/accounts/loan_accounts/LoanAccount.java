@@ -19,11 +19,10 @@ import java.util.List;
  */
 public class LoanAccount extends Account {
     private LoanState loanState;
-    private String collateral;
-    private double collateralValue;
-    private int creditScore;
+    private final String collateral;
+    private final double collateralValue;
+    private final int creditScore;
 
-    // TODO: enum for loan state
     // TODO: CollectionsManager allow banker to approve loan
     // TODO: methods to set loan state
     // TODO: AccountsCollectionManager - view loans by state, also for user
@@ -52,5 +51,51 @@ public class LoanAccount extends Account {
         this.collateralValue = collateralValue;
         this.creditScore = creditScore;
         this.loanState = LoanState.REQUESTED;
+    }
+
+    /**
+     * Sets the loanState of this Loan Account to the passed in value
+     * @param loanState the new state for this loan
+     */
+    public void setLoanState(LoanState loanState) {
+        this.loanState = loanState;
+    }
+
+    /**
+     * Switches the state of this Loan to an approved state
+     */
+    public void approve() {
+        this.setLoanState(LoanState.APPROVED);
+    }
+
+    /**
+     * Switches the state of this Loan to a rejected state
+     */
+    public void reject() {
+        this.setLoanState(LoanState.REJECTED);
+    }
+
+    /**
+     *
+     * @return the collateral for this Loan
+     */
+    public String getCollateral() {
+        return collateral;
+    }
+
+    /**
+     *
+     * @return the value of the collateral for this Loan
+     */
+    public double getCollateralValue() {
+        return collateralValue;
+    }
+
+    /**
+     *
+     * @return the User's credit score
+     */
+    public int getCreditScore() {
+        return creditScore;
     }
 }
