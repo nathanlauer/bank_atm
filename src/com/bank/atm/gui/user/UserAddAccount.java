@@ -209,7 +209,7 @@ public class UserAddAccount extends JFrame {
         accountTypeComboBox = new JComboBox<AccountType>(getAvailableAccountTypes());
 
         currencyTypeComboBox = new JComboBox<>(CurrencyType.values());
-        //todo change locale to the currency type of account
+
         initialBalanceTextField = new JFormattedTextField(NumberFormat.getNumberInstance());
         initialBalanceTextField.setText("0");//default starting balance to 0
 
