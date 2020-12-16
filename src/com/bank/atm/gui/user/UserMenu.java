@@ -6,6 +6,7 @@ package com.bank.atm.gui.user;
  */
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.collections.UsersCollectionManager;
+import com.bank.atm.backend.users.User;
 import com.bank.atm.gui.loans.PayLoanUI;
 import com.bank.atm.gui.loans.RequestLoansUI;
 import com.bank.atm.gui.loans.ViewLoansUI;
@@ -37,16 +38,16 @@ public class UserMenu extends JFrame {
     private JButton requestLoansButton;
     private JButton viewTransactionsButton;
 
-    public UserMenu(String title, ID userID) {
+    public UserMenu(String title, User user) {
         super(title);
-        this.userID = userID;
+        this.userID = user.getID();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(userMenuPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
         this.pack(); //packs frame to preferred size
 
 
-        usernameLabel.setText("Welcome " + getUserName() + "!");
+        usernameLabel.setText("Welcome " + user.getFirstName() + "!");
         addNewAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,15 +114,7 @@ public class UserMenu extends JFrame {
         });
     }
 
-    /**
-     * Returns name of the user
-     *
-     * @return
-     */
-    private String getUserName() {
-        //TODO retrieve and return username from oauth
-        return UsersCollectionManager.getInstance().find(userID).getFirstName();
-    }
+
 
 
 

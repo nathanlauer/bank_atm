@@ -1,5 +1,6 @@
 package com.bank.atm.gui.login;
 
+import com.bank.atm.backend.users.User;
 import com.bank.atm.gui.banker.BankerMenu;
 import com.bank.atm.gui.user.UserMenu;
 import com.bank.atm.util.ID;
@@ -40,16 +41,16 @@ public class Login extends JFrame {
                     String userName = usernameTextField.getText().trim();
                     String password = Arrays.toString(passwordPasswordField.getPassword()).trim();
                     com.bank.atm.backend.authentication.Login login = new com.bank.atm.backend.authentication.Login(userName, password);
-                    String userType = login.run(true);
-                    ID userID = login.run();
-                    if(userType.equals("ADMIN")){
+                    User user = login.run(true);
+
+                    if(user.isAnAdmin()){
                         dispose();
                         JFrame frame = new BankerMenu("Banker Menu");
                         frame.setVisible(true);
                     }
-                    if(userType.equals("CLIENT")){
+                    if(user.isAClient()){
                         dispose();
-                        JFrame frame = new UserMenu("User Menu",userID);
+                        JFrame frame = new UserMenu("User Menu",user);
                         frame.setVisible(true);
                     }
 
