@@ -55,10 +55,10 @@ public interface Currency extends Serializable {
      */
     static void setExchangeRate(Currency from, Currency to, double rate) {
         ExchangeRate forward = new ExchangeRate(from, to, rate);
-        ExchangeRateTable.getInstance().addExchangeRate(from, forward);
+        ExchangeRateTable.getInstance().addExchangeRate(forward);
 
         ExchangeRate backward = new ExchangeRate(to, from, 1.0 / rate);
-        ExchangeRateTable.getInstance().addExchangeRate(to, backward);
+        ExchangeRateTable.getInstance().addExchangeRate(backward);
     }
 
     /**

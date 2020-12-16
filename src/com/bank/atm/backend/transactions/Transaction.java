@@ -29,6 +29,7 @@ public abstract class Transaction implements Serializable, Identifiable {
     private final ID userId;
     private final double amount;
     private final Date date;
+    private final TransactionType transactionType;
 
     /**
      * Standard constructor
@@ -37,8 +38,8 @@ public abstract class Transaction implements Serializable, Identifiable {
      * @param toAccountId the ID of the Account that this Transaction is to
      * @param amount the amount of money associated with this Transaction
      */
-    public Transaction(ID userId, ID fromAccountId, ID toAccountId, double amount) {
-        this(userId, fromAccountId, toAccountId, amount, new ID());
+    public Transaction(ID userId, ID fromAccountId, ID toAccountId, double amount, TransactionType transactionType) {
+        this(userId, fromAccountId, toAccountId, amount, new ID(), transactionType);
     }
 
     /**
@@ -49,13 +50,14 @@ public abstract class Transaction implements Serializable, Identifiable {
      * @param amount the amount of money associated with this Transaction
      * @param transactionId the ID of this transaction
      */
-    public Transaction(ID userId, ID fromAccountId, ID toAccountId, double amount, ID transactionId) {
+    public Transaction(ID userId, ID fromAccountId, ID toAccountId, double amount, ID transactionId, TransactionType transactionType) {
         this.userId = userId;
         this.fromAccountId = fromAccountId;
         this.toAccountId = toAccountId;
         this.amount = amount;
         this.transactionId = transactionId;
         date = new Date();
+        this.transactionType = transactionType;
     }
 
     /**
@@ -219,6 +221,23 @@ public abstract class Transaction implements Serializable, Identifiable {
         }
 
         return userManagesToAccount && userManagesFromAccount;
+    }
+
+    /**
+     *
+     * @return the Transaction transactionType of this Transaction
+     */
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    /**
+     * Indicates whether or not this Transaction has the indicated transactionType
+     * @param transactionType the transactionType of transaction
+     * @return true if this Transaction has the correct transactionType
+     */
+    public boolean hasTransactionType(TransactionType transactionType) {
+        return this.getTransactionType().equals(transactionType);
     }
 
     /**

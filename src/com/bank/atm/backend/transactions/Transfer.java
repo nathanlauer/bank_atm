@@ -2,6 +2,9 @@ package com.bank.atm.backend.transactions;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.currency.Currency;
+import com.bank.atm.backend.currency.ExchangeRate;
+import com.bank.atm.backend.currency.ExchangeRateTable;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 import com.bank.atm.util.Validations;
@@ -41,7 +44,7 @@ public class Transfer extends Transaction {
      * @param transactionId the ID of this Withdraw Transfer
      */
     public Transfer(ID userId, ID fromAccountId, ID toAccountId, double amount, ID transactionId) {
-        super(userId, fromAccountId, toAccountId, amount, transactionId);
+        super(userId, fromAccountId, toAccountId, amount, transactionId, TransactionType.TRANSFER);
     }
 
     /**
@@ -66,10 +69,21 @@ public class Transfer extends Transaction {
             AccountsCollectionManager.getInstance().save(fromAccount);
             AccountsCollectionManager.getInstance().save(toAccount);
 
+            // Check if the Accounts have different Currencies
+            Currency from = fromAccount.getCurrency();
+            Currency to = toAccount.getCurrency();
+            double amountFrom = getAmount();
+            double amountTo = amountFrom;
+            if(!from.equals(to)) {
+                // Translate the amount from one to the other
+                ExchangeRate exchangeRate = ExchangeRateTable.getInstance().getExchangeRate(from, to);
+                amountTo *= exchangeRate.getRate();
+            }
+
             // Performing the removeValue method will internally check that there is enough money
             // If there isn't, it will throw an IllegalTransactionException
-            fromAccount.removeValue(getAmount());
-            toAccount.addValue(getAmount());
+            fromAccount.removeValue(amountFrom);
+            toAccount.addValue(amountTo);
         } catch (NoSuchElementException | IOException e) {
             throw new IllegalTransactionException(e.getMessage());
         }

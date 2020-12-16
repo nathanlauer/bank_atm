@@ -37,7 +37,7 @@ public class Deposit extends Transaction {
      * @param transactionId the ID of this Deposit Transaction
      */
     public Deposit(ID userId, ID toAccountId, double amount, ID transactionId) {
-        super(userId, null, toAccountId, amount, transactionId);
+        super(userId, null, toAccountId, amount, transactionId, TransactionType.DEPOSIT);
     }
 
     /**

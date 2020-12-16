@@ -37,7 +37,7 @@ public class Withdraw extends Transaction {
      * @param transactionId the ID of this Withdraw Transaction
      */
     public Withdraw(ID userId, ID fromAccountId, double amount, ID transactionId) {
-        super(userId, fromAccountId, null, amount, transactionId);
+        super(userId, fromAccountId, null, amount, transactionId, TransactionType.WITHDRAW);
     }
 
     /**
