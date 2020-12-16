@@ -10,10 +10,20 @@ package com.bank.atm.backend.accounts;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public enum AccountType {
-    BASIC_CHECKING_ACCOUNT,
-    FOUR_OH_ONE_K_ACCOUNT,
-    GENERIC_LOAN_ACCOUNT,
-    HIGH_INTEREST_SAVINGS_ACCOUNT,
-    LOW_INTEREST_SAVINGS_ACCOUNT,
-    PREMIUM_CHECKING_ACCOUNT,
+    BASIC_CHECKING_ACCOUNT("Basic Checking"),
+    FOUR_OH_ONE_K_ACCOUNT("401K"),
+    GENERIC_LOAN_ACCOUNT("Generic Loan"),
+    HIGH_INTEREST_SAVINGS_ACCOUNT("High-Interest Savings"),
+    LOW_INTEREST_SAVINGS_ACCOUNT("Low-Interest Savings"),
+    PREMIUM_CHECKING_ACCOUNT("Premium Checking"),
+
+    private final String accountName;
+    private AccountType(String name) {
+        accountName = name;
+    }
+
+    @Override
+    public String toString() {
+        return accountName;
+    }
 }
