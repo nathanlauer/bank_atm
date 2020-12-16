@@ -32,7 +32,7 @@ public class InitExchangeRates {
                 Currency to = currencyFromString(items[1]);
                 double rate = Double.parseDouble(items[2]);
                 ExchangeRate exchangeRate = new ExchangeRate(from, to, rate);
-                ExchangeRateTable.getInstance().addExchangeRate(from, exchangeRate);
+                ExchangeRateTable.getInstance().addExchangeRate(exchangeRate);
             }
         }
     }
