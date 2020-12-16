@@ -47,6 +47,10 @@ public abstract class Account implements Serializable, Identifiable {
         this.decorator = new AccountValueDecorator(this);
     }
 
+    public List<ID> getManagers(){
+        return managers;
+    }
+
     /**
      *
      * @return the Type of Account

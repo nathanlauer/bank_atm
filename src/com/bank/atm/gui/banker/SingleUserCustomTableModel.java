@@ -1,5 +1,6 @@
 package com.bank.atm.gui.banker;
 
+import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.users.Client;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
@@ -7,12 +8,12 @@ import com.bank.atm.util.ID;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
-public class ViewUserCustomTableModel extends AbstractTableModel {
+public class SingleUserCustomTableModel extends AbstractTableModel {
 
-    private List<User> data;
+    private List<Account> data;
     private String[] columnNames;
 
-    public ViewUserCustomTableModel(List<User> data, String[] columnNames){
+    public SingleUserCustomTableModel(List<Account> data, String[] columnNames){
         super();
         this.data = data;
         this.columnNames = columnNames;
@@ -35,14 +36,18 @@ public class ViewUserCustomTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Client client = (Client)data.get(rowIndex);
+        Account account = data.get(rowIndex);
+        String emptyString = "";
         switch (columnIndex) {
             case 0:
-                return client.getID().toString().substring(0,5)+"...";
+                return account.getID();
             case 1:
-                return client.getFirstName();
+                if(account.getMoney()==null || account.getCurrency().displayMoney(account.getMoney())==null){
+                    return emptyString;
+                }
+                return account.getCurrency().displayMoney(account.getMoney());
             case 2:
-                return client.getLastName();
+                return "";
             default:
                 return null;
         }
@@ -64,6 +69,6 @@ public class ViewUserCustomTableModel extends AbstractTableModel {
     }
 
     public ID getIdAt(int rowIndex){
-        return ((Client)data.get(rowIndex)).getID();
+        return (data.get(rowIndex)).getID();
     }
 }

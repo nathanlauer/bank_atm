@@ -30,7 +30,8 @@ public class AccountListRenderer extends JTextArea implements ListCellRenderer<A
 
     @Override
     public Component getListCellRendererComponent(JList<? extends Account> list, Account value, int index, boolean isSelected, boolean cellHasFocus) {
-        setText(Formatter.splitCamelCase(value.getClass().getSimpleName())+" "+ value.getID());
+        if(value!=null)
+            setText(Formatter.splitCamelCase(value.getClass().getSimpleName())+" "+ value.getID());
         return this;
     }
 }
