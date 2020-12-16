@@ -32,7 +32,7 @@ public class Login extends JFrame {
         this.setContentPane(loginPanel);
         this.setPreferredSize(new Dimension(500, 500));//set width and height of our frame
         this.pack();
-
+        this.setLocationRelativeTo(null);
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
