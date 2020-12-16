@@ -13,5 +13,6 @@ package com.bank.atm.backend.accounts.loan_accounts;
 public enum LoanState {
     REQUESTED,
     APPROVED,
-    REJECTED
+    REJECTED,
+    COMPLETED
 }

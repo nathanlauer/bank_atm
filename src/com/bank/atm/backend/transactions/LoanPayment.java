@@ -1,6 +1,7 @@
 package com.bank.atm.backend.transactions;
 
 import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
@@ -58,8 +59,8 @@ public class LoanPayment extends Transaction {
 
         try {
             Account account = AccountsCollectionManager.getInstance().find(getToAccountId());
-            // For a loan payment, we actually reduce the value in the account, instead of adding to it.
-            account.removeValue(getAmount());
+            LoanAccount loanAccount = (LoanAccount)account;
+            loanAccount.makePayment(getAmount());
             AccountsCollectionManager.getInstance().save(account);
         } catch (NoSuchElementException | IOException e) {
             throw new IllegalTransactionException(e.getMessage());

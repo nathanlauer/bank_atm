@@ -4,6 +4,8 @@ import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.util.ID;
+import com.bank.atm.util.IllegalTransactionException;
+import com.bank.atm.util.Validations;
 
 import java.util.Date;
 import java.util.List;
@@ -22,6 +24,8 @@ public abstract class LoanAccount extends Account {
     private final String collateral;
     private final double collateralValue;
     private final int creditScore;
+    private final Money moneyPaid;
+    private final Money moneyOwed;
 
     /**
      * Constructor that creates a LoanAccount with open Date now.
@@ -46,6 +50,59 @@ public abstract class LoanAccount extends Account {
         this.collateralValue = collateralValue;
         this.creditScore = creditScore;
         this.loanState = LoanState.REQUESTED;
+        this.moneyOwed = new Money(money.getAmount());
+        this.moneyPaid = new Money(0);
+    }
+
+    /**
+     * Indicates whether or not this Loan has been completed
+     * @return true if this Account has state COMPLETED, false otherwise
+     */
+    public boolean finished() {
+        return this.getLoanState().equals(LoanState.COMPLETED);
+    }
+
+    /**
+     *
+     * @return the Amount of Money that still needs to be paid
+     */
+    public Money getMoneyPaid() {
+        return moneyPaid;
+    }
+
+    /**
+     *
+     * @return the Money that the User still owes in this Account
+     */
+    public Money getMoneyOwed() {
+        return moneyOwed;
+    }
+
+    /**
+     * Increases the Amount of Money owed on this Account by the specified Amount.
+     * @param amount the Amount of Money owed to increase
+     */
+    public void increaseMoneyOwedByAmount(double amount) {
+        Validations.nonNegative(amount);
+        if(this.hasState(LoanState.APPROVED)) {
+            this.getMoneyOwed().addAmount(amount);
+        }
+    }
+
+    /**
+     * Makes a payment of a certain amount of Money towards this Account
+     */
+    public void makePayment(double amount) throws IllegalTransactionException {
+        Validations.nonNegative(amount);
+
+        // Increase Money paid, and decrease Money owed
+        getMoneyPaid().addAmount(amount);
+        if(this.moneyOwed.getAmount() <= amount) {
+            this.moneyOwed.removeAmount(this.moneyOwed.getAmount());
+            this.setLoanState(LoanState.COMPLETED);
+        } else {
+            this.moneyOwed.removeAmount(amount);
+        }
     }
 
     /**
