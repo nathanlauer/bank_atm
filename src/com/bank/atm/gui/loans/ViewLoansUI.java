@@ -1,11 +1,16 @@
 package com.bank.atm.gui.loans;
 
 import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.AccountFactory;
+import com.bank.atm.backend.accounts.AccountType;
+import com.bank.atm.backend.accounts.loan_accounts.GenericLoanAccount;
 import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 import com.bank.atm.backend.accounts.loan_accounts.LoanState;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.currency.Money;
+import com.bank.atm.backend.currency.USD;
 import com.bank.atm.gui.user.AccountDetails;
-import com.bank.atm.gui.util_gui.AccountListRenderer;
+import com.bank.atm.gui.util_gui.LoansListRenderer;
 import com.bank.atm.util.ID;
 
 import javax.swing.*;
@@ -19,13 +24,11 @@ public class ViewLoansUI extends JFrame {
 
     private final int frameWidth = 400;
     private final int frameHeight = 800;
-    private final int ROWS_PER_LIST_ITEM = 2, COLS_PER_LIST_ITEM = 15;
+    private final int ROWS_PER_LIST_ITEM = 5, COLS_PER_LIST_ITEM = 15;
 
 
     private JPanel viewLoansPanel;
     private JList currentLoansList;
-    private JList pendingLoansList;
-    private JList rejectedLoansList;
 
     public ViewLoansUI(ID userID) {
 
@@ -36,20 +39,24 @@ public class ViewLoansUI extends JFrame {
         this.pack(); //packs frame to preferred size
 
         initCurrentLoansList(userID);
-        initPendingLoansList(userID);
-        initRejectedLoansList(userID);
     }
 
     private void createUIComponents() {
         currentLoansList = new JList<LoanAccount>();
-        pendingLoansList = new JList<LoanAccount>();
-        rejectedLoansList = new JList<LoanAccount>();
     }
 
     private void initCurrentLoansList(ID userID) {
         List<Account> loans = AccountsCollectionManager.getInstance().userLoansInState(userID, LoanState.APPROVED);
+        loans.addAll(AccountsCollectionManager.getInstance().userLoansInState(userID, LoanState.REQUESTED));
+        loans.addAll(AccountsCollectionManager.getInstance().userLoansInState(userID, LoanState.REJECTED));
+        loans.add(AccountFactory.createLoanAccount(USD.getInstance(), 0, userID,
+                "getCollateral()", 324, 432));
+        loans.add(AccountFactory.createLoanAccount(USD.getInstance(), 0, userID,
+                "getCollateral()", 324, 432));
+
         currentLoansList.setListData(loans.toArray());
-        currentLoansList.setCellRenderer(new AccountListRenderer(ROWS_PER_LIST_ITEM, COLS_PER_LIST_ITEM));
+        currentLoansList.setCellRenderer(new LoansListRenderer(ROWS_PER_LIST_ITEM, COLS_PER_LIST_ITEM));
+
         currentLoansList.setBorder(new EmptyBorder(10, 10, 10, 10));
         currentLoansList.addListSelectionListener(new ListSelectionListener() {
             int i = 0;
@@ -66,45 +73,6 @@ public class ViewLoansUI extends JFrame {
         });
     }
 
-    private void initPendingLoansList(ID userID) {
-        List<Account> loans = AccountsCollectionManager.getInstance().userLoansInState(userID, LoanState.REQUESTED);
-        pendingLoansList.setListData(loans.toArray());
-        pendingLoansList.setCellRenderer(new AccountListRenderer(ROWS_PER_LIST_ITEM, COLS_PER_LIST_ITEM));
-        pendingLoansList.setBorder(new EmptyBorder(10, 10, 10, 10));
-        pendingLoansList.addListSelectionListener(new ListSelectionListener() {
-            int i = 0;
-
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (i % 2 == 0) {//every click of list selection listener results in valueChanged being called twice. We use counter%2 to make sure the event is triggered only once
-                    LoanAccount account = (LoanAccount) (pendingLoansList.getSelectedValue());
-                    LoanDetails accountDetails = new LoanDetails(userID, account);
-                    accountDetails.setVisible(true);
-                }
-                i++;
-            }
-        });
-    }
-
-    private void initRejectedLoansList(ID userID) {
-        List<Account> loans = AccountsCollectionManager.getInstance().userLoansInState(userID, LoanState.REJECTED);
-        rejectedLoansList.setListData(loans.toArray());
-        rejectedLoansList.setCellRenderer(new AccountListRenderer(ROWS_PER_LIST_ITEM, COLS_PER_LIST_ITEM));
-        rejectedLoansList.setBorder(new EmptyBorder(10, 10, 10, 10));
-        rejectedLoansList.addListSelectionListener(new ListSelectionListener() {
-            int i = 0;
-
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (i % 2 == 0) {//every click of list selection listener results in valueChanged being called twice. We use counter%2 to make sure the event is triggered only once
-                    LoanAccount account = (LoanAccount) (rejectedLoansList.getSelectedValue());
-                    LoanDetails accountDetails = new LoanDetails(userID, account);
-                    accountDetails.setVisible(true);
-                }
-                i++;
-            }
-        });
-    }
 
     /**
      * Method generated by IntelliJ IDEA GUI Designer
@@ -114,7 +82,6 @@ public class ViewLoansUI extends JFrame {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        createUIComponents();
         viewLoansPanel = new JPanel();
         viewLoansPanel.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
@@ -137,72 +104,20 @@ public class ViewLoansUI extends JFrame {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         viewLoansPanel.add(spacer2, gbc);
-        final JLabel label2 = new JLabel();
-        label2.setText("Current Loans");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        viewLoansPanel.add(label2, gbc);
         final JPanel spacer3 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        viewLoansPanel.add(spacer3, gbc);
-        final JLabel label3 = new JLabel();
-        label3.setText("Pending Loans");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.anchor = GridBagConstraints.WEST;
-        viewLoansPanel.add(label3, gbc);
-        final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.VERTICAL;
-        viewLoansPanel.add(spacer4, gbc);
-        final JPanel spacer5 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        viewLoansPanel.add(spacer5, gbc);
-        final JPanel spacer6 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 9;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        viewLoansPanel.add(spacer6, gbc);
-        final JLabel label4 = new JLabel();
-        label4.setText("Rejected Loans");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 10;
-        gbc.anchor = GridBagConstraints.WEST;
-        viewLoansPanel.add(label4, gbc);
+        viewLoansPanel.add(spacer3, gbc);
         final JScrollPane scrollPane1 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         viewLoansPanel.add(scrollPane1, gbc);
+        currentLoansList = new JList();
         scrollPane1.setViewportView(currentLoansList);
-        final JScrollPane scrollPane2 = new JScrollPane();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 8;
-        gbc.fill = GridBagConstraints.BOTH;
-        viewLoansPanel.add(scrollPane2, gbc);
-        scrollPane2.setViewportView(pendingLoansList);
-        final JScrollPane scrollPane3 = new JScrollPane();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 11;
-        gbc.fill = GridBagConstraints.BOTH;
-        viewLoansPanel.add(scrollPane3, gbc);
-        scrollPane3.setViewportView(rejectedLoansList);
     }
 
     /**

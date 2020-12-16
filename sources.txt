@@ -95,3 +95,4 @@
 ./src/com/bank/atm/gui/login/SignUp.java
 ./src/com/bank/atm/gui/util_gui/TransactionListRenderer.java
 ./src/com/bank/atm/gui/util_gui/AccountListRenderer.java
+./src/com/bank/atm/gui/util_gui/LoansListRenderer.java
