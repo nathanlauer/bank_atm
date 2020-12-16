@@ -13,7 +13,6 @@ import com.bank.atm.backend.interest.InterestEarnable;
 import com.bank.atm.backend.interest.InterestEarningExecutor;
 import com.bank.atm.util.Formatter;
 import com.bank.atm.util.ID;
-import com.sun.istack.internal.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +35,7 @@ public class LoanDetails extends JFrame {
     private JButton payLoanButton;
 
 
-    public LoanDetails(ID userID, @NotNull LoanAccount loanAccount) {
+    public LoanDetails(ID userID, LoanAccount loanAccount) {
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(loanDetailsPanel);//sets content to our menu panel

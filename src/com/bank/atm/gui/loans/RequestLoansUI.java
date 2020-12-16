@@ -22,8 +22,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.NumberFormat;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class RequestLoansUI extends JFrame {
     private final int frameWidth = 500;
     private final int frameHeight = 500;
