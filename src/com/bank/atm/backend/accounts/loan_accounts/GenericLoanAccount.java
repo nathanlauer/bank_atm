@@ -51,4 +51,14 @@ public class GenericLoanAccount extends LoanAccount implements InterestEarnable 
     public void setInterestEarningExecutor(InterestEarningExecutor executor) {
         interestEarningExecutor = executor;
     }
+
+    /**
+     * Indicates whether or not this Account earns interest
+     *
+     * @return true if this Account earns interest, false otherwise
+     */
+    @Override
+    public boolean earnsInterest() {
+        return true;
+    }
 }
