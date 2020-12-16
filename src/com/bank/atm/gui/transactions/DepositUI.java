@@ -5,6 +5,7 @@ package com.bank.atm.gui.transactions;
  */
 
 import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.collections.TransactionsCollectionManager;
 import com.bank.atm.backend.transactions.Deposit;
@@ -20,6 +21,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DepositUI extends JFrame {
@@ -126,18 +128,28 @@ public class DepositUI extends JFrame {
         return depositAmt;
     }
     private void createUIComponents() {
-        chooseAccountComboBox = new JComboBox<Account>(getUserAccounts());
+        chooseAccountComboBox = new JComboBox<Account>(getUserNonLoanAccounts());
         chooseAccountComboBox.setRenderer(new AccountListRenderer());
 
         depositAmountField = new JFormattedTextField(NumberFormat.getNumberInstance());
         depositAmountField.setText("0");//default starting balance to 0
     }
 
-    private Account[] getUserAccounts() {
+    /**
+     * Returns all of user's non-loan accounts
+     * @return
+     */
+    private Account[] getUserNonLoanAccounts() {
         List<Account> accountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
+        List<Account> nonLoanAccounts = new ArrayList<>();
+        for(Account account: accountList){
+            if(!(account instanceof LoanAccount)){
+                nonLoanAccounts.add(account);
+            }
+        }
         Account[] accounts = new Account[accountList.size()];
-        for (int i = 0; i < accountList.size(); i++) {
-            accounts[i] = accountList.get(i);
+        for (int i = 0; i < nonLoanAccounts.size(); i++) {
+            accounts[i] = nonLoanAccounts.get(i);
         }
         return accounts;
     }
