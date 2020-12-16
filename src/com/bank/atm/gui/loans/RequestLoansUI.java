@@ -1,25 +1,143 @@
 package com.bank.atm.gui.loans;
+/**
+ * @author Sandra Zhen
+ * UI for requesting loan
+ */
+
+import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.AccountFactory;
+import com.bank.atm.backend.accounts.loan_accounts.GenericLoanAccount;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.currency.*;
+import com.bank.atm.backend.interest.InterestEarnable;
+import com.bank.atm.backend.interest.InterestEarningExecutor;
+import com.bank.atm.gui.user.UserAddAccount;
+import com.bank.atm.util.ID;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.text.NumberFormat;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RequestLoansUI extends JFrame {
     private final int frameWidth = 500;
     private final int frameHeight = 500;
+    
+    private ID userID;
+    private final int CREDIT_SCORE = 500;//default credit score
+
     private JFormattedTextField loanAmountRequested;
-    private JFormattedTextField formattedTextField1;
+    private JFormattedTextField interestTextField;
     private JButton requestLoanButton;
     private JPanel requestLoansPanel;
+    private JComboBox currencyTypeComboBox;
+    private JTextArea collateralTextArea;
+    private JFormattedTextField collateralValueTextField;
 
-    public RequestLoansUI() {
-
+    public RequestLoansUI(ID userID) {
         $$$setupUI$$$();
+        this.userID = userID;
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(requestLoansPanel);//sets content to our menu panel
         this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
         this.pack(); //packs frame to preferred size
+
+        requestLoanButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                requestLoan();
+            }
+        });
     }
 
+    /**
+     * creates a loan request based on the existing values in the gui components
+     */
+    private void requestLoan(){
+
+        Account createdAccount = AccountFactory.createLoanAccount(getCurrency(), getRequestedAmount(), userID,
+                getCollateral(), getCollateralValue(), CREDIT_SCORE);
+        setInterestTextField(createdAccount);
+        if (createdAccount != null) {//if successfully created account, save it
+            try {
+                AccountsCollectionManager.getInstance().save(createdAccount);
+                JOptionPane.showMessageDialog(RequestLoansUI.this,
+                        "Loans Account has been created with ID " + createdAccount.getID() + "");
+                RequestLoansUI.this.dispose();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Sets the text in the interest textfield
+     */
+    private void setInterestTextField(Account account){
+        if(account instanceof InterestEarnable) {
+            InterestEarnable earnable = (InterestEarnable) account;
+            InterestEarningExecutor executor = earnable.getInterestEarningExecutor();
+            interestTextField.setText(executor.getApy()+"");
+        }
+    }
+    /**
+     * Returns collateral that user entered in textbox
+     * @return
+     */
+    private String getCollateral(){
+        return collateralTextArea.getText();
+    }
+
+    /**
+     * Returns value of the collateral as entered by user
+     * @return
+     */
+    private double getCollateralValue(){
+        double amt = 0;
+        try {
+            amt = ((Number) collateralValueTextField.getValue()).doubleValue();
+        } catch (NullPointerException e) {
+            amt=0;
+        }
+        return amt;
+    }
+    /**
+     * returns the requested loan amount entered by user in the loanAmountRequested textfield
+     * @return loan amount
+     */
+    private double getRequestedAmount(){
+        double initBalance = 0;
+        try {
+            initBalance = ((Number) loanAmountRequested.getValue()).doubleValue();
+        } catch (NullPointerException e) {
+        }
+        return initBalance;
+    }
+
+    /**
+     * Returns the currency from the combobox
+     * @return
+     */
+    private Currency getCurrency(){
+        Currency currency = null;
+        switch ((CurrencyType) currencyTypeComboBox.getSelectedItem()) {
+            case USD:
+                currency = USD.getInstance();
+                break;
+            case JPY:
+                currency = JPY.getInstance();
+                break;
+            case EURO:
+                currency = Euro.getInstance();
+                break;
+        }
+        return currency;
+    }
     /**
      * Method generated by IntelliJ IDEA GUI Designer
      * >>> IMPORTANT!! <<<
@@ -77,14 +195,14 @@ public class RequestLoansUI extends JFrame {
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         requestLoansPanel.add(label3, gbc);
-        formattedTextField1 = new JFormattedTextField();
-        formattedTextField1.setEditable(false);
+        interestTextField = new JFormattedTextField();
+        interestTextField.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        requestLoansPanel.add(formattedTextField1, gbc);
+        requestLoansPanel.add(interestTextField, gbc);
         requestLoanButton = new JButton();
         requestLoanButton.setText("Request Loan");
         gbc = new GridBagConstraints();
@@ -118,5 +236,14 @@ public class RequestLoansUI extends JFrame {
      */
     public JComponent $$$getRootComponent$$$() {
         return requestLoansPanel;
+    }
+
+    private void createUIComponents() {
+        currencyTypeComboBox = new JComboBox<CurrencyType>(CurrencyType.values());
+        loanAmountRequested = new JFormattedTextField(NumberFormat.getInstance());
+        loanAmountRequested.setText("0");
+        interestTextField = new JFormattedTextField(NumberFormat.getInstance());
+        collateralValueTextField = new JFormattedTextField(NumberFormat.getInstance());
+        collateralValueTextField.setText("0");
     }
 }
