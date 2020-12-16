@@ -5,6 +5,7 @@ package com.bank.atm.gui.util_gui;
  */
 
 import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 import com.bank.atm.util.Formatter;
 
 import javax.swing.*;
@@ -30,8 +31,13 @@ public class LoansListRenderer extends JTextArea implements ListCellRenderer<Acc
 
     @Override
     public Component getListCellRendererComponent(JList<? extends Account> list, Account value, int index, boolean isSelected, boolean cellHasFocus) {
-        if(value!=null)
-            setText(Formatter.splitCamelCase(value.getClass().getSimpleName())+" "+ value.getID());
+        String s = "";
+        if(value!=null) {
+            s=Formatter.splitCamelCase(value.getClass().getSimpleName()) + " " + value.getID();
+            if(value instanceof LoanAccount)
+                s+=" STATUS: "+((LoanAccount) value).getLoanState();
+            setText(s);
+        }
         return this;
     }
 }

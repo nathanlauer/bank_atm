@@ -10,7 +10,7 @@ import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.backend.currency.USD;
 import com.bank.atm.gui.user.AccountDetails;
-import com.bank.atm.gui.util_gui.AccountListRenderer;
+import com.bank.atm.gui.util_gui.LoansListRenderer;
 import com.bank.atm.util.ID;
 
 import javax.swing.*;
@@ -24,7 +24,7 @@ public class ViewLoansUI extends JFrame {
 
     private final int frameWidth = 400;
     private final int frameHeight = 800;
-    private final int ROWS_PER_LIST_ITEM = 2, COLS_PER_LIST_ITEM=15;
+    private final int ROWS_PER_LIST_ITEM = 5, COLS_PER_LIST_ITEM=15;
     
     
     private JPanel viewLoansPanel;
@@ -53,7 +53,7 @@ public class ViewLoansUI extends JFrame {
                 "getCollateral()", 324, 432));
 
         currentLoansList.setListData(loans.toArray());
-        currentLoansList.setCellRenderer(new AccountListRenderer(ROWS_PER_LIST_ITEM, COLS_PER_LIST_ITEM));
+        currentLoansList.setCellRenderer(new LoansListRenderer(ROWS_PER_LIST_ITEM, COLS_PER_LIST_ITEM));
 
         currentLoansList.setBorder(new EmptyBorder(10, 10, 10, 10));
         currentLoansList.addListSelectionListener(new ListSelectionListener() {
