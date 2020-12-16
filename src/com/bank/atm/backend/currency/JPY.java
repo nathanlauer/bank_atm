@@ -51,4 +51,18 @@ public class JPY implements Currency {
     public String toString() {
         return "JPY";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) {
+            return false;
+        }
+
+        if(!(o instanceof JPY)) {
+            return false;
+        }
+
+        JPY other = (JPY)o;
+        return this.toString().equals(other.toString());
+    }
 }

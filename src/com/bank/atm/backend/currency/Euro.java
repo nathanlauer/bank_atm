@@ -51,4 +51,18 @@ public class Euro implements Currency {
     public String toString() {
         return "EUR";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) {
+            return false;
+        }
+
+        if(!(o instanceof Euro)) {
+            return false;
+        }
+
+        Euro other = (Euro)o;
+        return this.toString().equals(other.toString());
+    }
 }

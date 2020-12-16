@@ -53,4 +53,18 @@ public class USD implements Currency {
     public String toString() {
         return "USD";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == null) {
+            return false;
+        }
+
+        if(!(o instanceof USD)) {
+            return false;
+        }
+
+        USD other = (USD)o;
+        return this.toString().equals(other.toString());
+    }
 }

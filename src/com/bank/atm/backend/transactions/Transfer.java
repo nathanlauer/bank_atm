@@ -5,6 +5,7 @@ import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.ExchangeRate;
 import com.bank.atm.backend.currency.ExchangeRateTable;
+import com.bank.atm.backend.currency.UnknownExchangeRateException;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 import com.bank.atm.util.Validations;
@@ -77,8 +78,12 @@ public class Transfer extends Transaction {
             double amountTo = amountFrom;
             if(!from.equals(to)) {
                 // Translate the amount from one to the other
-                ExchangeRate exchangeRate = ExchangeRateTable.getInstance().getExchangeRate(from, to);
-                amountTo *= exchangeRate.getRate();
+                try{
+                    ExchangeRate exchangeRate = ExchangeRateTable.getInstance().getExchangeRate(from, to);
+                    amountTo *= exchangeRate.getRate();
+                } catch (UnknownExchangeRateException e) {
+                    System.out.println("Unable to find exchange rate");
+                }
             }
 
             // Performing the removeValue method will internally check that there is enough money
