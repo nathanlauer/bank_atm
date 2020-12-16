@@ -1,5 +1,6 @@
 package com.bank.atm.backend.accounts.loan_accounts;
 
+import com.bank.atm.backend.accounts.AccountType;
 import com.bank.atm.backend.interest.InterestEarnable;
 import com.bank.atm.backend.interest.InterestEarningExecutor;
 import com.bank.atm.backend.currency.Currency;
@@ -50,6 +51,14 @@ public class GenericLoanAccount extends LoanAccount implements InterestEarnable 
     @Override
     public void setInterestEarningExecutor(InterestEarningExecutor executor) {
         interestEarningExecutor = executor;
+    }
+
+    /**
+     * @return the Type of Account
+     */
+    @Override
+    public AccountType getAccountType() {
+        return AccountType.GENERIC_LOAN_ACCOUNT;
     }
 
     /**

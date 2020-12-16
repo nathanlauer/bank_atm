@@ -49,6 +49,12 @@ public abstract class Account implements Serializable, Identifiable {
 
     /**
      *
+     * @return the Type of Account
+     */
+    public abstract AccountType getAccountType();
+
+    /**
+     *
      * @return the Currency that this Account uses
      */
     public Currency getCurrency() {

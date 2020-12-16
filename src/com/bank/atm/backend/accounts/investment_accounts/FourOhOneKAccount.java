@@ -1,5 +1,6 @@
 package com.bank.atm.backend.accounts.investment_accounts;
 
+import com.bank.atm.backend.accounts.AccountType;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.currency.Money;
 import com.bank.atm.util.ID;
@@ -24,6 +25,14 @@ public class FourOhOneKAccount extends InvestmentAccount {
      */
     public FourOhOneKAccount(Currency currency, Money money, List<ID> managers, ID accountId) {
         super(currency, money, managers, accountId);
+    }
+
+    /**
+     * @return the Type of Account
+     */
+    @Override
+    public AccountType getAccountType() {
+        return AccountType.FOUR_OH_ONE_K_ACCOUNT;
     }
 
     /**

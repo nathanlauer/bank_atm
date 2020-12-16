@@ -1,5 +1,6 @@
 package com.bank.atm.backend.accounts.checking_accounts;
 
+import com.bank.atm.backend.accounts.AccountType;
 import com.bank.atm.backend.interest.InterestEarnable;
 import com.bank.atm.backend.interest.InterestEarningExecutor;
 import com.bank.atm.backend.currency.Currency;
@@ -49,6 +50,14 @@ public class PremiumCheckingAccount extends CheckingAccount implements InterestE
     @Override
     public void setInterestEarningExecutor(InterestEarningExecutor executor) {
         this.interestEarningExecutor = executor;
+    }
+
+    /**
+     * @return the Type of Account
+     */
+    @Override
+    public AccountType getAccountType() {
+        return AccountType.PREMIUM_CHECKING_ACCOUNT;
     }
 
     /**
