@@ -92,4 +92,41 @@ one collection.
 
 ##### Accounts
 We have a multiple level inheritance system for Accounts. It generally goes as follows:
-- asdf
+There is an abstract class Account, with subclasses SavingsAccount, CheckingAccount, LoanAccount, and InvestmentAccount.
+Each of these are themselves abstract classes. Then, we provide a number of concrete sublcasses: 
+- basic checking account
+- premium checking account: earns a small amount of interest
+- low interest savings account
+- high interest savings account
+- generic loan account: earns high interest rate for the bank.
+- 401K account
+
+Securities Accounts: As of now, the only securities account we have is the 401K investment account. 
+There are no particular rules about these types of Accounts at the moment. The idea is primarily
+to demonstrate that this architecture easily expands to these types of accounts.
+
+#### Collections and Data Persistence
+One of the fundamental design concepts in this architecture are the CollectionManager classes.
+The idea is that these classes provide a uniform interface for persisting collections to disk. 
+
+Each CollectionManager implements the generic interface CollectionManager<T>, which includes the following methods:
+- public void save(T obj) throws IOException;
+- public T find(ID id) throws NoSuchElementException;
+- public List<T> findByOwnerID(ID ownerId);
+- public List<T> all();
+- public void add(T element) throws IOException;
+- public void clear();
+
+There are five classes that implement this interface. They are:
+- AccountsCollectionManager, responsible for handling all accounts.
+- CredentialsCollectionManager, responsible for handling user login credentials
+- InterestCollectionManager, which persists interest objects to disk, and attaches them to accounts
+- TransactionsCollectionManager, which provides access methods for all transactions
+- UsersCollectionManager, which contains each user.
+
+The goal of each of these classes is to provide a facade of sorts that acts as
+a liaison between the gui and the various backend classes. Thus, these classes provide a uniform
+methodology for finding, updating, and saving data on the backend.
+
+The actual data persistence is done by serializing objects to files in the data folder.
+ 
