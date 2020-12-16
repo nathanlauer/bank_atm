@@ -1,5 +1,9 @@
 package com.bank.atm.gui.user;
-
+/**
+ * The UI for showing the full account details
+ *
+ * @author Sandra Zhen
+ */
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.gui.transactions.DepositUI;
@@ -14,11 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.Format;
 
-/**
- * The UI for showing the full account details
- *
- * @author Sandra Zhen
- */
+
 public class AccountDetails extends JFrame {
     private final int frameWidth = 500;
     private final int frameHeight = 500;

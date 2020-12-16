@@ -1,4 +1,8 @@
 package com.bank.atm.gui.loans;
+/**
+ * @author Sandra Zhen
+ * UI for paying loan
+ */
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;

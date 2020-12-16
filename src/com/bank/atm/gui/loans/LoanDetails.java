@@ -6,6 +6,7 @@ package com.bank.atm.gui.loans;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
+import com.bank.atm.backend.accounts.loan_accounts.LoanState;
 import com.bank.atm.backend.currency.CurrencyType;
 import com.bank.atm.backend.currency.JPY;
 import com.bank.atm.backend.interest.InterestEarnable;
@@ -43,6 +44,8 @@ public class LoanDetails extends JFrame {
         this.pack();
 
         setLabels(loanAccount);
+        //ENABLE LOAN PAYMENT ONLY WHEN LOAN HAS BEEN APPROVED
+        payLoanButton.setEnabled(loanAccount.hasState(LoanState.APPROVED));
         payLoanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

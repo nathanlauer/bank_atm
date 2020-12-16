@@ -1,4 +1,8 @@
 package com.bank.atm.gui.transactions;
+/**
+ * @author Sandra Zhen
+ * UI for user deposit
+ */
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
