@@ -68,7 +68,7 @@ public class UserViewAccounts extends JFrame {
 
 
     /**
-     * Retrieves all accounts and their info that the current user has
+     * Retrieves all accounts that the current user has
      *
      * @param userID - id of user to get accounts for
      * @return list of accounts of the user
