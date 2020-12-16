@@ -22,8 +22,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UserMenu extends JFrame {
-    private final int frameWidth = 500;
-    private final int frameHeight = 500;
+    private final int frameWidth = 600;
+    private final int frameHeight = 600;
     private ID userID;
 
     private JPanel userMenuPanel;
@@ -87,21 +87,21 @@ public class UserMenu extends JFrame {
         requestLoansButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RequestLoansUI requestLoansUI = new RequestLoansUI();
+                RequestLoansUI requestLoansUI = new RequestLoansUI(userID);
                 requestLoansUI.setVisible(true);
             }
         });
         viewLoansButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ViewLoansUI viewLoansUI = new ViewLoansUI();
+                ViewLoansUI viewLoansUI = new ViewLoansUI(userID);
                 viewLoansUI.setVisible(true);
             }
         });
         payLoansButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PayLoanUI payLoanUI = new PayLoanUI();
+                PayLoanUI payLoanUI = new PayLoanUI(userID);
                 payLoanUI.setVisible(true);
             }
         });

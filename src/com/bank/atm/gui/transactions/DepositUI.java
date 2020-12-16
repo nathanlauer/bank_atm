@@ -1,4 +1,8 @@
 package com.bank.atm.gui.transactions;
+/**
+ * @author Sandra Zhen
+ * UI for user deposit
+ */
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
@@ -97,12 +101,7 @@ public class DepositUI extends JFrame {
      * @return amount of money that has been deposited
      */
     private double makeDeposit(Account account) {
-        double depositAmt = 0;
-        try {
-            depositAmt = ((Number) depositAmountField.getValue()).doubleValue();
-        } catch (NullPointerException e) {
-            depositAmt=0;
-        }
+        double depositAmt = getDepositAmount();
         //do deposit
         try {
             TransactionsCollectionManager.getInstance().executeTransaction(new Deposit(userID,account.getID(),depositAmt));
@@ -113,6 +112,19 @@ public class DepositUI extends JFrame {
         return depositAmt;
     }
 
+    /**
+     * Returns deposit amount entered by user
+     * @return
+     */
+    private double getDepositAmount(){
+        double depositAmt = 0;
+        try {
+            depositAmt = ((Number) depositAmountField.getValue()).doubleValue();
+        } catch (NullPointerException e) {
+            depositAmt=0;
+        }
+        return depositAmt;
+    }
     private void createUIComponents() {
         chooseAccountComboBox = new JComboBox<Account>(getUserAccounts());
         chooseAccountComboBox.setRenderer(new AccountListRenderer());
