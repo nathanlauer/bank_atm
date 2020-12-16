@@ -55,11 +55,29 @@ public class ExchangeRate {
     }
 
     /**
+     * Indicates whether or no this ExchangeRate has the From Currency
+     * @param currency the relevant Currency
+     * @return true if this Exchange has this Currency as its From Currency, false otherwise.
+     */
+    public boolean hasFromCurrency(Currency currency) {
+        return getFrom().equals(currency);
+    }
+
+    /**
      *
      * @return the Currency being exchanged to
      */
     public Currency getTo() {
         return to;
+    }
+
+    /**
+     * Indicates whether or no this ExchangeRate has the To Currency
+     * @param currency the relevant Currency
+     * @return true if this Exchange has this Currency as its To Currency, false otherwise.
+     */
+    public boolean hasToCurrency(Currency currency) {
+        return getTo().equals(currency);
     }
 
     /**
