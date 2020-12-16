@@ -50,7 +50,7 @@ public class ViewLoans extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 int rows[] = viewLoansTable.getSelectedRows();
                 for(int i = 0; i<rows.length;i++){
-                    LoanAccount loanAccount = (LoanAccount) (loanCustomTableModel.getAccountAt(i));
+                    LoanAccount loanAccount = (LoanAccount) (loanCustomTableModel.getAccountAt(rows[i]));
                     if(loanAccount.getLoanState().equals(REQUESTED)){
                         AccountsCollectionManager.getInstance().approveLoan(loanAccount);
                     }
@@ -63,7 +63,7 @@ public class ViewLoans extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 int rows[] = viewLoansTable.getSelectedRows();
                 for(int i = 0; i<rows.length;i++){
-                    LoanAccount loanAccount = (LoanAccount) (loanCustomTableModel.getAccountAt(i));
+                    LoanAccount loanAccount = (LoanAccount) (loanCustomTableModel.getAccountAt(rows[i]));
                     if(loanAccount.getLoanState().equals(REQUESTED)){
                         AccountsCollectionManager.getInstance().rejectLoan(loanAccount);
                     }
