@@ -10,6 +10,8 @@ import com.bank.atm.backend.accounts.loan_accounts.LoanState;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.collections.TransactionsCollectionManager;
 import com.bank.atm.backend.transactions.LoanPayment;
+import com.bank.atm.gui.util_gui.AccountListRenderer;
+import com.bank.atm.gui.util_gui.LoansListRenderer;
 import com.bank.atm.util.Formatter;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
@@ -239,6 +241,7 @@ public class PayLoanUI extends JFrame {
         amountToPayTextField = new JFormattedTextField(NumberFormat.getInstance());
         amountToPayTextField.setText("0");
         loansComboBox = new JComboBox<LoanAccount>(getLoanAccounts(userID));
+        loansComboBox.setRenderer(new AccountListRenderer());
     }
 
 }
