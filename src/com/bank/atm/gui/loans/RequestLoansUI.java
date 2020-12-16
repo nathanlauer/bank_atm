@@ -2,8 +2,12 @@ package com.bank.atm.gui.loans;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactory;
+import com.bank.atm.backend.accounts.loan_accounts.GenericLoanAccount;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.currency.*;
+import com.bank.atm.backend.interest.InterestEarnable;
+import com.bank.atm.backend.interest.InterestEarningExecutor;
 import com.bank.atm.gui.user.UserAddAccount;
 import com.bank.atm.util.ID;
 
@@ -13,6 +17,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.NumberFormat;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RequestLoansUI extends JFrame {
     private final int frameWidth = 500;
@@ -52,6 +58,7 @@ public class RequestLoansUI extends JFrame {
 
         Account createdAccount = AccountFactory.createLoanAccount(getCurrency(), getRequestedAmount(), userID,
                 getCollateral(), getCollateralValue(), CREDIT_SCORE);
+        setInterestTextField(createdAccount);
         if (createdAccount != null) {//if successfully created account, save it
             try {
                 AccountsCollectionManager.getInstance().save(createdAccount);
@@ -63,6 +70,21 @@ public class RequestLoansUI extends JFrame {
             }
         }
     }
+
+    /**
+     * Sets the text in the interest textfield
+     */
+    private void setInterestTextField(Account account){
+        if(account instanceof InterestEarnable) {
+            InterestEarnable earnable = (InterestEarnable) account;
+            InterestEarningExecutor executor = earnable.getInterestEarningExecutor();
+            interestTextField.setText(executor.getApy()+"");
+        }
+    }
+    /**
+     * Returns collateral that user entered in textbox
+     * @return
+     */
     private String getCollateral(){
         return collateralTextArea.getText();
     }

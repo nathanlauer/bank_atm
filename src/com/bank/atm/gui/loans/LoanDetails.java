@@ -1,14 +1,42 @@
 package com.bank.atm.gui.loans;
+/**
+ * @author Sandra Zhen
+ * UI for viewing details on loan
+ */
 
 import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
+import com.bank.atm.backend.currency.CurrencyType;
+import com.bank.atm.util.Formatter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.Format;
 
 public class LoanDetails extends JFrame {
+    private final int frameWidth = 500;
+    private final int frameHeight = 500;
+
     private JPanel loanDetailsPanel;
+    private JLabel loanNameLabel;
+    private JTextArea interestTextField;
+    private JTextArea balanceTextField;
+    private JTextArea collateralTextField;
+    private JTextArea currencyTypeTextField;
+    private JTextArea collateralValueTextField;
 
     public LoanDetails(LoanAccount loanAccount) {
+
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setContentPane(loanDetailsPanel);//sets content to our menu panel
+        this.setPreferredSize(new Dimension(frameWidth, frameHeight));//set width and height of our frame
+        this.pack();
+
+        loanNameLabel.setText(Formatter.splitCamelCase(loanAccount.getClass().getSimpleName())+" "+loanAccount.getID());
+        balanceTextField.setText(loanAccount.displayAccountValue());
+        currencyTypeTextField.setText(loanAccount.getCurrency()+"");
+        collateralTextField.setText(loanAccount.getCollateral());
+        collateralValueTextField.setText(loanAccount.getCollateralValue()+"");
+
 
     }
 
@@ -36,5 +64,8 @@ public class LoanDetails extends JFrame {
      */
     public JComponent $$$getRootComponent$$$() {
         return loanDetailsPanel;
+    }
+
+    private void createUIComponents() {
     }
 }

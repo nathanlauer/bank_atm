@@ -6,6 +6,7 @@ package com.bank.atm.gui.user;
  */
 
 import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.gui.util_gui.AccountListRenderer;
 import com.bank.atm.util.Formatter;
@@ -18,6 +19,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserViewAccounts extends JFrame {
@@ -68,13 +70,20 @@ public class UserViewAccounts extends JFrame {
 
 
     /**
-     * Retrieves all accounts that the current user has
+     * Retrieves all accounts that the current user has, excluding loans
      *
      * @param userID - id of user to get accounts for
      * @return list of accounts of the user
      */
     private List<Account> getAccountsData(ID userID) {
-        return AccountsCollectionManager.getInstance().findByOwnerID(userID);
+        List<Account> nonLoanAccounts = new ArrayList<>();
+        List<Account> allAccounts = AccountsCollectionManager.getInstance().findByOwnerID(userID);
+        for(Account account: allAccounts){
+            if(!(account instanceof LoanAccount)){
+                nonLoanAccounts.add(account);
+            }
+        }
+        return nonLoanAccounts;
     }
 
 
