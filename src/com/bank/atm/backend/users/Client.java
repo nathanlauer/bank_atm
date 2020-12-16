@@ -12,6 +12,7 @@ import com.bank.atm.util.ID;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class Client extends User {
+    private static final long serialVersionUID = 1L;
     /**
      * Standard constructor for a Client
      * @param firstName the first name of this Client

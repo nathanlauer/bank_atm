@@ -23,6 +23,7 @@ import java.util.NoSuchElementException;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class Transfer extends Transaction {
+    private static final long serialVersionUID = 1L;
 
     /**
      * Standard constructor

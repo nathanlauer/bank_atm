@@ -20,6 +20,7 @@ import java.util.NoSuchElementException;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class LoanPayment extends Transaction {
+    private static final long serialVersionUID = 1L;
     /**
      * Standard constructor
      * @param userId the ID of the user associated with this LoanPayment Transaction

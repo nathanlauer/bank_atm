@@ -7,7 +7,11 @@ import com.bank.atm.backend.users.User;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
-
+/**
+ * @author Navoneel Ghosh
+ *Custom table model to show transactions for the day
+ * Future Implementation - Going to implement a date picker
+ */
 public class TxnCustomTableModel extends AbstractTableModel {
 
     private List<Transaction> data;

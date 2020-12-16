@@ -6,7 +6,10 @@ import com.bank.atm.util.ID;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
-
+/**
+ * @author Navoneel Ghosh
+ *Custom table model to show all users
+ */
 public class ViewUserCustomTableModel extends AbstractTableModel {
 
     private List<User> data;

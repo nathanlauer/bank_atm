@@ -17,7 +17,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * @author Navoneel Ghosh
+ *GUI for banker. Enables banker to see details of the selected client.
+ */
 public class ViewSingleUserDetails extends JFrame {
     private JPanel viewSingleUserDetailsPanel;
     private JTable singleUserTable;

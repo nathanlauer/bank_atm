@@ -15,6 +15,7 @@ import java.util.Date;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class InterestCompoundedMonthly extends Interest {
+    private static final long serialVersionUID = 1L;
     /**
      * Standard constructor
      * @param account the Account that will receive the calculated interest
