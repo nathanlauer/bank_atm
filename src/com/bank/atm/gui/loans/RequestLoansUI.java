@@ -64,14 +64,10 @@ public class RequestLoansUI extends JFrame {
                 getCollateral(), getCollateralValue(), CREDIT_SCORE);
         setInterestTextField(createdAccount);
         if (createdAccount != null) {//if successfully created account, save it
-            try {
-                AccountsCollectionManager.getInstance().save(createdAccount);
-                JOptionPane.showMessageDialog(RequestLoansUI.this,
-                        "Loans Account has been created with ID " + createdAccount.getID() + "");
-                RequestLoansUI.this.dispose();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            JOptionPane.showMessageDialog(RequestLoansUI.this,
+                    "Loans Account has been created with ID " + createdAccount.getID() + "");
+            RequestLoansUI.this.dispose();
+
         }
     }
 
