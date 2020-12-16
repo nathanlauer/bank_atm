@@ -125,6 +125,26 @@ public class UsersCollectionManager implements CollectionManager<User> {
         return output;
     }
 
+    public List<User> findByFirstName(String firstName){
+        List<User> output = new ArrayList<>();
+        for(User user : users) {
+            if(user.getFirstName().equalsIgnoreCase(firstName)) {
+                output.add(user);
+            }
+        }
+        return output;
+    }
+
+    public List<User> findByLastName(String lastName){
+        List<User> output = new ArrayList<>();
+        for(User user : users) {
+            if(user.getLastName().equalsIgnoreCase(lastName)) {
+                output.add(user);
+            }
+        }
+        return output;
+    }
+
     /**
      * @return a List of every Object in this Collection.
      */

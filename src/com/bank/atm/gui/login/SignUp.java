@@ -33,7 +33,7 @@ public class SignUp extends JFrame {
         this.setContentPane(signUpPanel);
         this.setPreferredSize(new Dimension(500, 500));//set width and height of our frame
         this.pack();
-
+        this.setLocationRelativeTo(null);
 
         signUpButton.addActionListener(new ActionListener() {
             @Override

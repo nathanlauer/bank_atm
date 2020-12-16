@@ -20,7 +20,7 @@ public class ViewUserCustomTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        if(data.isEmpty() || data == null){
+        if(data == null || data.isEmpty()){
             return 0;
         }
         else{
@@ -38,8 +38,10 @@ public class ViewUserCustomTableModel extends AbstractTableModel {
         Client client = (Client)data.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return client.getFirstName();
+                return client.getID().toString().substring(0,5)+"...";
             case 1:
+                return client.getFirstName();
+            case 2:
                 return client.getLastName();
             default:
                 return null;

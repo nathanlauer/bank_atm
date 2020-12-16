@@ -1,21 +1,31 @@
 package com.bank.atm.gui.banker;
 
+import com.bank.atm.backend.collections.UsersCollectionManager;
+import com.bank.atm.backend.users.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BankerMenu extends JFrame {
     private JPanel bankerMenuPanel;
     private JButton viewUsersButton;
     private JButton viewLoansButton;
     private JButton dailyTransactionReportsButton;
+    private JTextField searchUserTextField;
+    private JButton searchUserButton;
+    private JPanel buttonPanel;
+    private JPanel searchPanel;
 
     public BankerMenu(String title) {
         super(title);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(bankerMenuPanel);
-        this.setPreferredSize(new Dimension(300, 300));//set width and height of our frame
+        this.setPreferredSize(new Dimension(500, 300));//set width and height of our frame
         this.pack();
         this.setLocationRelativeTo(null);
 
@@ -23,7 +33,7 @@ public class BankerMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                JFrame frame = new ViewUser("View Users");
+                JFrame frame = new ViewUser("View Users",new ArrayList<>());
                 frame.setVisible(true);
             }
         });
@@ -38,7 +48,22 @@ public class BankerMenu extends JFrame {
         dailyTransactionReportsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
+                JFrame frame = new DailyTransactionReports("Daily Transaction Report");
+                frame.setVisible(true);
+            }
+        });
+        searchUserButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String searchString = searchUserTextField.getText().trim();
+                UsersCollectionManager usersCollectionManager = UsersCollectionManager.getInstance();
+                List<User> searchedUsers = new ArrayList<User>();
+                searchedUsers.addAll(usersCollectionManager.findByFirstName(searchString));
+                searchedUsers.addAll(usersCollectionManager.findByLastName(searchString));
+                dispose();
+                JFrame frame = new ViewUser("View Users",searchedUsers);
+                frame.setVisible(true);
             }
         });
     }
