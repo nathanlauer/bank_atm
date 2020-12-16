@@ -12,7 +12,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Navoneel Ghosh
+ *GUI for the banker. Enables the banker to get the list of all clients and get further details of a particular client
+ * by double clicking the row in the table.
+ */
 public class ViewUser extends JFrame {
     private JPanel viewUserPanel;
     private JScrollPane viewUserScrollPane;

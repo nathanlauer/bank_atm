@@ -10,6 +10,10 @@ import com.bank.atm.util.ID;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
+/**
+ * @author Navoneel Ghosh
+ * Custom table model for showing the Loans in the UI
+ */
 public class LoanCustomTableModel extends AbstractTableModel {
 
     private List<Account> data;

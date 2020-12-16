@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.bank.atm.backend.accounts.loan_accounts.LoanState.REQUESTED;
-
+/**
+ * @author Navoneel Ghosh
+ *GUI for banker. Enables the banker to see the details of Loans and Approve/Reject loans in "Requested" state.
+ */
 public class ViewLoans extends JFrame{
     private JTable viewLoansTable;
     private JPanel viewLoansPanel;

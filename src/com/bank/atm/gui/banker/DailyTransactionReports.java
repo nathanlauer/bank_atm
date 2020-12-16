@@ -12,7 +12,11 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.*;
-
+/**
+ * @author Navoneel Ghosh
+ *GUI for the banker. Banker is able to see the daily transactions.
+ * Future Implementation - Will implement datepicker to enable the banker to get transactions for the date of choice.
+ */
 public class DailyTransactionReports extends JFrame{
     private JPanel dailyTransactionReportPanel;
     private JScrollPane dailyTxnScrollPane;

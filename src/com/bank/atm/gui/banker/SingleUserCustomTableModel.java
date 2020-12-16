@@ -8,6 +8,10 @@ import com.bank.atm.util.ID;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
+/**
+ * @author Navoneel Ghosh
+ * Custom table model to show the selected users details
+ */
 public class SingleUserCustomTableModel extends AbstractTableModel {
 
     private List<Account> data;
@@ -47,7 +51,10 @@ public class SingleUserCustomTableModel extends AbstractTableModel {
                 }
                 return account.getCurrency().displayMoney(account.getMoney());
             case 2:
-                return "";
+                if(account.getAccountType()==null){
+                    return emptyString;
+                }
+                return account.getAccountType().toString();
             default:
                 return null;
         }
