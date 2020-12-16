@@ -8,10 +8,7 @@ import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.AccountFactory;
 import com.bank.atm.backend.accounts.AccountType;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
-import com.bank.atm.backend.currency.Currency;
-import com.bank.atm.backend.currency.Euro;
-import com.bank.atm.backend.currency.JPY;
-import com.bank.atm.backend.currency.USD;
+import com.bank.atm.backend.currency.*;
 import com.bank.atm.util.ID;
 
 import java.util.List;
@@ -138,9 +135,7 @@ public class UserAddAccount extends JFrame {
         return userAddAccountPanel;
     }
 
-    private enum CurrencyType {
-        USD, JPY, EURO
-    }
+
 
     private JPanel userAddAccountPanel;
     private JComboBox<AccountType> accountTypeComboBox;
@@ -228,11 +223,28 @@ public class UserAddAccount extends JFrame {
      * @return created account
      */
     private Account createAccount(ID userID) {
+
+
+        return AccountFactory.createAccount((AccountType) accountTypeComboBox.getSelectedItem(), getCurrency(), getInitialBalance(), userID);
+    }
+
+    /**
+     * returns the initial balance entered by user in the initialBalanceTextField
+     * @return
+     */
+    private double getInitialBalance(){
         double initBalance = 0;
         try {
             initBalance = ((Number) initialBalanceTextField.getValue()).doubleValue();
         } catch (NullPointerException e) {
         }
+        return initBalance;
+    }
+    /**
+     * Returns the currency from the combobox
+     * @return
+     */
+    private Currency getCurrency(){
         Currency currency = null;
         switch ((CurrencyType) currencyTypeComboBox.getSelectedItem()) {
             case USD:
@@ -245,7 +257,7 @@ public class UserAddAccount extends JFrame {
                 currency = Euro.getInstance();
                 break;
         }
-        return AccountFactory.createAccount((AccountType) accountTypeComboBox.getSelectedItem(), currency, initBalance, userID);
+        return currency;
     }
 
 }
