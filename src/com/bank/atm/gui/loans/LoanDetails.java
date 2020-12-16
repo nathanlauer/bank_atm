@@ -11,6 +11,8 @@ import com.bank.atm.backend.currency.JPY;
 import com.bank.atm.backend.interest.InterestEarnable;
 import com.bank.atm.backend.interest.InterestEarningExecutor;
 import com.bank.atm.util.Formatter;
+import com.bank.atm.util.ID;
+import com.sun.istack.internal.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +35,7 @@ public class LoanDetails extends JFrame {
     private JButton payLoanButton;
 
 
-    public LoanDetails(LoanAccount loanAccount) {
+    public LoanDetails(ID userID, @NotNull LoanAccount loanAccount) {
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(loanDetailsPanel);//sets content to our menu panel
@@ -44,7 +46,7 @@ public class LoanDetails extends JFrame {
         payLoanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PayLoanUI payLoanUI = new PayLoanUI(loanAccount);
+                PayLoanUI payLoanUI = new PayLoanUI(userID,loanAccount);
                 payLoanUI.setVisible(true);
                 setLabels(loanAccount);
             }

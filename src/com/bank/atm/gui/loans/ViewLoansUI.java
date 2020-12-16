@@ -55,7 +55,7 @@ public class ViewLoansUI extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 if (i % 2 == 0) {//every click of list selection listener results in valueChanged being called twice. We use counter%2 to make sure the event is triggered only once
                     LoanAccount account = (LoanAccount) (currentLoansList.getSelectedValue());
-                    LoanDetails accountDetails = new LoanDetails(account);
+                    LoanDetails accountDetails = new LoanDetails(userID,account);
                     accountDetails.setVisible(true);
                 }
                 i++;
@@ -73,7 +73,7 @@ public class ViewLoansUI extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 if (i % 2 == 0) {//every click of list selection listener results in valueChanged being called twice. We use counter%2 to make sure the event is triggered only once
                     LoanAccount account = (LoanAccount) (pendingLoansList.getSelectedValue());
-                    LoanDetails accountDetails = new LoanDetails(account);
+                    LoanDetails accountDetails = new LoanDetails(userID,account);
                     accountDetails.setVisible(true);
                 }
                 i++;
@@ -91,7 +91,7 @@ public class ViewLoansUI extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 if (i % 2 == 0) {//every click of list selection listener results in valueChanged being called twice. We use counter%2 to make sure the event is triggered only once
                     LoanAccount account = (LoanAccount) (rejectedLoansList.getSelectedValue());
-                    LoanDetails accountDetails = new LoanDetails(account);
+                    LoanDetails accountDetails = new LoanDetails(userID,account);
                     accountDetails.setVisible(true);
                 }
                 i++;

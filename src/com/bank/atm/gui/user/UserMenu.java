@@ -101,7 +101,7 @@ public class UserMenu extends JFrame {
         payLoansButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PayLoanUI payLoanUI = new PayLoanUI();
+                PayLoanUI payLoanUI = new PayLoanUI(userID);
                 payLoanUI.setVisible(true);
             }
         });
