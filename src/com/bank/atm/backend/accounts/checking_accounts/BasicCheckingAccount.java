@@ -17,6 +17,7 @@ import java.util.List;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class BasicCheckingAccount extends CheckingAccount {
+    private static final long serialVersionUID = 1L;
     /**
      * Standard constructor for a BasicCheckingAccount
      * @param currency the Currency for this Account

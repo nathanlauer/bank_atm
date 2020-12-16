@@ -15,7 +15,9 @@ import java.util.Arrays;
 
 /**
  * @author Navoneel Ghosh
- * Login GUI
+ * Login GUI. Opens the proper landing window based on the credentials of the user.
+ * If the user is an admin, the Banker menu is opened.
+ * If the user is a customer, the client user menu is opened.
  */
 public class Login extends JFrame {
     private JPanel loginPanel;
@@ -91,6 +93,8 @@ public class Login extends JFrame {
                 forgotPasswordLabel.setText("Forgot Password?");
             }
         });
+
+        forgotPasswordLabel.setVisible(false);
     }
 
     public static void main(String[] args) {

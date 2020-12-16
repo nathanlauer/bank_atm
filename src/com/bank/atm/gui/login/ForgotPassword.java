@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * @author Navoneel Ghosh
+ *[PLACEHOLDER] To be implemented in the future. Could be done by setting up a SMTP server and emailing the reset
+ * password.
+ */
 public class ForgotPassword extends JFrame {
     private JPanel forgotPasswordPanel;
     private JLabel recoveryPhoneNumberLabel;

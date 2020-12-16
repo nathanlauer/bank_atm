@@ -19,6 +19,7 @@ import java.util.List;
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
 public class GenericLoanAccount extends LoanAccount implements InterestEarnable {
+    private static final long serialVersionUID = 1L;
     private InterestEarningExecutor interestEarningExecutor;
 
     /**
