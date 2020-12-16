@@ -2,6 +2,7 @@ package com.bank.atm.gui.login;
 
 import com.bank.atm.gui.banker.BankerMenu;
 import com.bank.atm.gui.user.UserMenu;
+import com.bank.atm.util.ID;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,6 +41,7 @@ public class Login extends JFrame {
                     String password = Arrays.toString(passwordPasswordField.getPassword()).trim();
                     com.bank.atm.backend.authentication.Login login = new com.bank.atm.backend.authentication.Login(userName, password);
                     String userType = login.run(true);
+                    ID userID = login.run();
                     if(userType.equals("ADMIN")){
                         dispose();
                         JFrame frame = new BankerMenu("Banker Menu");
@@ -47,7 +49,7 @@ public class Login extends JFrame {
                     }
                     if(userType.equals("CLIENT")){
                         dispose();
-                        JFrame frame = new UserMenu("User Menu");
+                        JFrame frame = new UserMenu("User Menu",userID);
                         frame.setVisible(true);
                     }
 
