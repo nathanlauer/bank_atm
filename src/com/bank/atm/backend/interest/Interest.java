@@ -74,6 +74,14 @@ public abstract class Interest implements Serializable, InterestEarningExecutor,
     }
 
     /**
+     *
+     * @return the AccountID of this Interest object
+     */
+    public ID getAccountId() {
+        return this.accountId;
+    }
+
+    /**
      * Checks if the compounding period has passed, and if so,
      * calculates the amount of interest earned and updates the
      * associated account.

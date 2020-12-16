@@ -20,7 +20,7 @@ import java.util.List;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class Account implements Serializable, Identifiable {
+public abstract class Account implements Serializable, Identifiable {
     private static final long serialVersionUID = 1L;
     private final ID accountId;
     private final Date opened;
@@ -221,5 +221,11 @@ public class Account implements Serializable, Identifiable {
     public boolean canWithdraw() {
         return true;
     }
+
+    /**
+     * Indicates whether or not this Account earns interest
+     * @return true if this Account earns interest, false otherwise
+     */
+    public abstract boolean earnsInterest();
 
 }

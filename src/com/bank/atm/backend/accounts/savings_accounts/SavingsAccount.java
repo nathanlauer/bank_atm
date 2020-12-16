@@ -17,7 +17,7 @@ import java.util.List;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class SavingsAccount extends Account {
+public abstract class SavingsAccount extends Account {
     /**
      * Constructor that creates a SavingsAccount with open Date now.
      * @param currency the Currency for this Account

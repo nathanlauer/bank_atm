@@ -1,6 +1,7 @@
 package com.bank.atm.backend.interest;
 
 import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -115,7 +116,13 @@ public interface InterestEarningExecutor {
         // Otherwise, we need to calculate the interest earned.
         Account account = executor.getAccount();
         double interestEarned = InterestEarningExecutor.calculateInterestEarned(account, executor.getApy(), executor.getNumCompoundingsPerYear());
-        account.addValue(interestEarned);
+        if(account instanceof LoanAccount) {
+            // For loans, increase the amount of Money owed
+            LoanAccount loanAccount = (LoanAccount)account;
+            loanAccount.increaseMoneyOwedByAmount(interestEarned);
+        } else {
+            account.addValue(interestEarned);
+        }
         executor.setLastCompoundedDate(new Date());
     }
 }
