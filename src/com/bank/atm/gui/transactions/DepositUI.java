@@ -147,7 +147,7 @@ public class DepositUI extends JFrame {
                 nonLoanAccounts.add(account);
             }
         }
-        Account[] accounts = new Account[accountList.size()];
+        Account[] accounts = new Account[nonLoanAccounts.size()];
         for (int i = 0; i < nonLoanAccounts.size(); i++) {
             accounts[i] = nonLoanAccounts.get(i);
         }
