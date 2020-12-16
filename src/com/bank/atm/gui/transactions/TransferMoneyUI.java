@@ -26,7 +26,7 @@ import java.util.List;
 
 public class TransferMoneyUI extends JFrame {
 
-    private final int frameWidth = 500;
+    private final int frameWidth = 800;
     private final int frameHeight = 500;
     private ID userID;
     private JPanel transferMoneyPanel;
@@ -71,7 +71,7 @@ public class TransferMoneyUI extends JFrame {
                 try {
                     amt = ((Number) transferAmount.getValue()).doubleValue();
                 } catch (NullPointerException exception) {
-                    exception.printStackTrace();
+
                 }
                 double fee = getTransferFee(fromAccount, toAccount);
 
@@ -146,7 +146,10 @@ public class TransferMoneyUI extends JFrame {
      *                    return whether or not transaction was successful
      */
     private boolean transferMoney(Account fromAccount, Account toAccount, double amount, double fee) {
-
+        if(amount<=0){
+            JOptionPane.showMessageDialog(this,"Amount must be greater than 0");
+            return false;
+        }
         try {
             TransactionsCollectionManager.getInstance().executeTransaction(new Transfer(userID,fromAccount.getID(),toAccount.getID(),amount));
         } catch (IllegalTransactionException e) {
