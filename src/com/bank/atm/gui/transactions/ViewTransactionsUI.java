@@ -98,20 +98,20 @@ public class ViewTransactionsUI extends JFrame {
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         viewTransactionsPanel.add(scrollPane1, gbc);
         scrollPane1.setViewportView(transactionsList);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         viewTransactionsPanel.add(spacer1, gbc);
         final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.fill = GridBagConstraints.VERTICAL;
         viewTransactionsPanel.add(spacer2, gbc);
         viewTransactionsLabel = new JLabel();
@@ -121,6 +121,12 @@ public class ViewTransactionsUI extends JFrame {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         viewTransactionsPanel.add(viewTransactionsLabel, gbc);
+        final JPanel spacer3 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        viewTransactionsPanel.add(spacer3, gbc);
     }
 
     /**
@@ -129,4 +135,5 @@ public class ViewTransactionsUI extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return viewTransactionsPanel;
     }
+
 }

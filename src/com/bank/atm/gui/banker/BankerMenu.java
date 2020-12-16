@@ -9,9 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * @author Navoneel Ghosh
- *GUI for the banker. Acts as the landing window for the banker after logging in.
+ * GUI for the banker. Acts as the landing window for the banker after logging in.
  */
 public class BankerMenu extends JFrame {
     private JPanel bankerMenuPanel;
@@ -35,7 +36,7 @@ public class BankerMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                JFrame frame = new ViewUser("View Users",new ArrayList<>());
+                JFrame frame = new ViewUser("View Users", new ArrayList<>());
                 frame.setVisible(true);
             }
         });
@@ -66,7 +67,7 @@ public class BankerMenu extends JFrame {
                 searchedUsers.addAll(usersCollectionManager.findByFirstName(searchString));
                 searchedUsers.addAll(usersCollectionManager.findByLastName(searchString));
                 dispose();
-                JFrame frame = new ViewUser("View Users",searchedUsers);
+                JFrame frame = new ViewUser("View Users", searchedUsers);
                 frame.setVisible(true);
             }
         });
@@ -95,46 +96,88 @@ public class BankerMenu extends JFrame {
     private void $$$setupUI$$$() {
         bankerMenuPanel = new JPanel();
         bankerMenuPanel.setLayout(new GridBagLayout());
-        viewUsersButton = new JButton();
-        viewUsersButton.setText("View Users");
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        bankerMenuPanel.add(viewUsersButton, gbc);
-        final JPanel spacer1 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        bankerMenuPanel.add(spacer1, gbc);
-        final JPanel spacer2 = new JPanel();
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        bankerMenuPanel.add(buttonPanel, gbc);
+        viewUsersButton = new JButton();
+        viewUsersButton.setText("View Users");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        buttonPanel.add(viewUsersButton, gbc);
+        final JPanel spacer1 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.VERTICAL;
-        bankerMenuPanel.add(spacer2, gbc);
+        buttonPanel.add(spacer1, gbc);
         viewLoansButton = new JButton();
         viewLoansButton.setText("View Loans");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        bankerMenuPanel.add(viewLoansButton, gbc);
+        buttonPanel.add(viewLoansButton, gbc);
         dailyTransactionReportsButton = new JButton();
         dailyTransactionReportsButton.setText("Daily Transaction Reports");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        bankerMenuPanel.add(dailyTransactionReportsButton, gbc);
+        buttonPanel.add(dailyTransactionReportsButton, gbc);
+        final JPanel spacer2 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        buttonPanel.add(spacer2, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 0;
         gbc.fill = GridBagConstraints.VERTICAL;
-        bankerMenuPanel.add(spacer3, gbc);
+        buttonPanel.add(spacer3, gbc);
+        searchPanel = new JPanel();
+        searchPanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        bankerMenuPanel.add(searchPanel, gbc);
+        searchUserTextField = new JTextField();
+        searchUserTextField.setMinimumSize(new Dimension(100, 30));
+        searchUserTextField.setPreferredSize(new Dimension(200, 30));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        searchPanel.add(searchUserTextField, gbc);
+        final JPanel spacer4 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        searchPanel.add(spacer4, gbc);
+        final JPanel spacer5 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        searchPanel.add(spacer5, gbc);
+        searchUserButton = new JButton();
+        searchUserButton.setText("Search User");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        searchPanel.add(searchUserButton, gbc);
     }
 
     /**
@@ -143,4 +186,5 @@ public class BankerMenu extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return bankerMenuPanel;
     }
+
 }

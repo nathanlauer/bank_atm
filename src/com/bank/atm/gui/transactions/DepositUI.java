@@ -77,8 +77,8 @@ public class DepositUI extends JFrame {
                 Account account = (Account) chooseAccountComboBox.getSelectedItem();
                 double amt = makeDeposit(account);
                 currentBalanceTextField.setText(account.displayAccountValue());
-                if(amt>0)
-                JOptionPane.showMessageDialog(DepositUI.this, amt + " has been deposited to Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
+                if (amt > 0)
+                    JOptionPane.showMessageDialog(DepositUI.this, amt + " has been deposited to Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
             }
         });
         updateLabelsBasedOnSelectedAccount();
@@ -106,27 +106,29 @@ public class DepositUI extends JFrame {
         double depositAmt = getDepositAmount();
         //do deposit
         try {
-            TransactionsCollectionManager.getInstance().executeTransaction(new Deposit(userID,account.getID(),depositAmt));
+            TransactionsCollectionManager.getInstance().executeTransaction(new Deposit(userID, account.getID(), depositAmt));
         } catch (IllegalTransactionException e) {
-            JOptionPane.showMessageDialog(this,e.getMessage());
-            depositAmt=0;
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            depositAmt = 0;
         }
         return depositAmt;
     }
 
     /**
      * Returns deposit amount entered by user
+     *
      * @return
      */
-    private double getDepositAmount(){
+    private double getDepositAmount() {
         double depositAmt = 0;
         try {
             depositAmt = ((Number) depositAmountField.getValue()).doubleValue();
         } catch (NullPointerException e) {
-            depositAmt=0;
+            depositAmt = 0;
         }
         return depositAmt;
     }
+
     private void createUIComponents() {
         chooseAccountComboBox = new JComboBox<Account>(getUserNonLoanAccounts());
         chooseAccountComboBox.setRenderer(new AccountListRenderer());
@@ -137,13 +139,14 @@ public class DepositUI extends JFrame {
 
     /**
      * Returns all of user's non-loan accounts
+     *
      * @return
      */
     private Account[] getUserNonLoanAccounts() {
         List<Account> accountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
         List<Account> nonLoanAccounts = new ArrayList<>();
-        for(Account account: accountList){
-            if(!(account instanceof LoanAccount)){
+        for (Account account : accountList) {
+            if (!(account instanceof LoanAccount)) {
                 nonLoanAccounts.add(account);
             }
         }
