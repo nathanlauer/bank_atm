@@ -50,6 +50,7 @@ public class Login extends JFrame {
                         JFrame frame = new UserMenu("User Menu");
                         frame.setVisible(true);
                     }
+
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(loginPanel, e.getMessage(),
                             "Error", JOptionPane.ERROR_MESSAGE);

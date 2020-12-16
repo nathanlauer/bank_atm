@@ -2,6 +2,10 @@ package com.bank.atm.gui.transactions;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.collections.TransactionsCollectionManager;
+import com.bank.atm.backend.transactions.Transaction;
+import com.bank.atm.backend.transactions.Withdraw;
+import com.bank.atm.gui.util_gui.AccountListRenderer;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 
@@ -26,9 +30,13 @@ public class WithdrawUI extends JFrame {
     private JButton withdrawButton;
     private JLabel currencyTypeLabel1;
 
-    /**
-     * TODO add field for choosing account to withdraw from and adjust currency format according to locale of that account
-     */
+
+    public WithdrawUI(ID userID, Account account) {
+        this(userID);
+        accountComboBox.setSelectedItem(account);
+        updateLabelsBasedOnSelectedAccount();
+    }
+
     public WithdrawUI(ID userID) {
         this.userID = userID;
         $$$setupUI$$$();
@@ -54,7 +62,8 @@ public class WithdrawUI extends JFrame {
                 Account account = (Account) accountComboBox.getSelectedItem();
                 double amt = withdrawFromAccount(account);
                 currentBalanceTextField.setText(account.displayAccountValue());
-                JOptionPane.showMessageDialog(WithdrawUI.this, amt + " has been withdrawn from Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
+                if (amt > 0)
+                    JOptionPane.showMessageDialog(WithdrawUI.this, amt + " has been withdrawn from Account ID " + account.getID() + ".\nNew Balance: " + account.displayAccountValue());
             }
         });
         accountComboBox.addActionListener(new ActionListener() {
@@ -105,19 +114,13 @@ public class WithdrawUI extends JFrame {
         try {
             amt = ((Number) amountTextField.getValue()).doubleValue();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,"Invalid amount");
         }
-        System.out.println("Attempting to withdraw " + amt);
         try {
-            account.removeValue(amt);
+            TransactionsCollectionManager.getInstance().executeTransaction(new Withdraw(userID,account.getID(),amt));
         } catch (IllegalTransactionException e) {
-            JOptionPane.showMessageDialog(this, e);
-        }
-        try {
-            AccountsCollectionManager.getInstance().save(account);
-        } catch (IOException e) {
-//            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR WITHDRAWING: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,e.getMessage());
+            amt = 0;
         }
         return amt;
     }

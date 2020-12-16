@@ -6,8 +6,11 @@ package com.bank.atm.gui.transactions;
 
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
+import com.bank.atm.backend.collections.TransactionsCollectionManager;
 import com.bank.atm.backend.currency.ExchangeRateTable;
 import com.bank.atm.backend.currency.UnknownExchangeRateException;
+import com.bank.atm.backend.transactions.Transfer;
+import com.bank.atm.gui.util_gui.AccountListRenderer;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 
@@ -20,11 +23,10 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 public class TransferMoneyUI extends JFrame {
 
-    private final int frameWidth = 500;
+    private final int frameWidth = 800;
     private final int frameHeight = 500;
     private ID userID;
     private JPanel transferMoneyPanel;
@@ -69,7 +71,7 @@ public class TransferMoneyUI extends JFrame {
                 try {
                     amt = ((Number) transferAmount.getValue()).doubleValue();
                 } catch (NullPointerException exception) {
-                    exception.printStackTrace();
+
                 }
                 double fee = getTransferFee(fromAccount, toAccount);
 
@@ -144,21 +146,14 @@ public class TransferMoneyUI extends JFrame {
      *                    return whether or not transaction was successful
      */
     private boolean transferMoney(Account fromAccount, Account toAccount, double amount, double fee) {
-
-        try {
-            fromAccount.removeValue(amount + fee);
-        } catch (IllegalTransactionException e) {
-//            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Unable to complete transfer: " + e.getMessage());
+        if(amount<=0){
+            JOptionPane.showMessageDialog(this,"Amount must be greater than 0");
             return false;
         }
-        toAccount.addValue(amount);
         try {
-            AccountsCollectionManager.getInstance().save(fromAccount);
-            AccountsCollectionManager.getInstance().save(toAccount);
-        } catch (IOException e) {
-//            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR TRANSFERRING: " + e.getMessage());
+            TransactionsCollectionManager.getInstance().executeTransaction(new Transfer(userID,fromAccount.getID(),toAccount.getID(),amount));
+        } catch (IllegalTransactionException e) {
+            JOptionPane.showMessageDialog(this,e.getMessage());
             return false;
         }
         return true;

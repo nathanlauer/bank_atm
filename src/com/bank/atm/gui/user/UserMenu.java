@@ -11,6 +11,7 @@ import com.bank.atm.gui.loans.RequestLoansUI;
 import com.bank.atm.gui.loans.ViewLoansUI;
 import com.bank.atm.gui.transactions.DepositUI;
 import com.bank.atm.gui.transactions.TransferMoneyUI;
+import com.bank.atm.gui.transactions.ViewTransactionsUI;
 import com.bank.atm.gui.transactions.WithdrawUI;
 import com.bank.atm.util.ID;
 
@@ -33,6 +34,7 @@ public class UserMenu extends JFrame {
     private JButton addNewAccountButton;
     private JButton payLoansButton;
     private JButton requestLoansButton;
+    private JButton viewTransactionsButton;
 
     public UserMenu(String title) {
         super(title);
@@ -99,6 +101,13 @@ public class UserMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 PayLoanUI payLoanUI = new PayLoanUI();
                 payLoanUI.setVisible(true);
+            }
+        });
+        viewTransactionsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ViewTransactionsUI viewTransactionsUI = new ViewTransactionsUI(UsersCollectionManager.getInstance().find(getID()));
+                viewTransactionsUI.setVisible(true);
             }
         });
     }
