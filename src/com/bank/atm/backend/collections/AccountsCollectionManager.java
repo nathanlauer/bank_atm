@@ -3,6 +3,8 @@ package com.bank.atm.backend.collections;
 import com.bank.atm.backend.accounts.Account;
 import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 import com.bank.atm.backend.accounts.loan_accounts.LoanState;
+import com.bank.atm.backend.interest.Interest;
+import com.bank.atm.backend.interest.InterestEarnable;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
 
@@ -57,12 +59,29 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
             ObjectInputStream ois = new ObjectInputStream(fis);
             Set<Account> readInAccounts = (HashSet<Account>)ois.readObject();
             accounts.addAll(readInAccounts);
+
+            // Once we have read in all Accounts, we also need to attach
+            // the associated Interest objects to each of them, as necessary
+            attachInterestToAccounts();
         } catch (EOFException e) {
             // This is fine, just means we read EOF (end of file)
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("Failed to read in all accounts from serialized file");
             System.exit(-1);
+        }
+    }
+
+    /**
+     * Helper method which attaches each Interest object to the correct Account
+     */
+    private void attachInterestToAccounts() {
+        List<Interest> interestList = InterestCollectionsManager.getInstance().all();
+        for(Interest interest : interestList) {
+            ID accountId = interest.getAccountId();
+            Account account = this.find(accountId);
+            InterestEarnable earnable = (InterestEarnable)account;
+            earnable.setInterestEarningExecutor(interest);
         }
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
  * <p>
  * Please feel free to ask me any questions. I hope you're having a nice day!
  */
-public class LoanAccount extends Account {
+public abstract class LoanAccount extends Account {
     private LoanState loanState;
     private final String collateral;
     private final double collateralValue;

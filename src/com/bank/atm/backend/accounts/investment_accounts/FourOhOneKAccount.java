@@ -25,4 +25,14 @@ public class FourOhOneKAccount extends InvestmentAccount {
     public FourOhOneKAccount(Currency currency, Money money, List<ID> managers, ID accountId) {
         super(currency, money, managers, accountId);
     }
+
+    /**
+     * Indicates whether or not this Account earns interest
+     *
+     * @return true if this Account earns interest, false otherwise
+     */
+    @Override
+    public boolean earnsInterest() {
+        return false;
+    }
 }
