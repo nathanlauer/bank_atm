@@ -5,6 +5,7 @@ package com.bank.atm.gui.transactions;
  */
 
 import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.collections.TransactionsCollectionManager;
 import com.bank.atm.backend.currency.ExchangeRateTable;
@@ -22,6 +23,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TransferMoneyUI extends JFrame {
@@ -172,8 +174,20 @@ public class TransferMoneyUI extends JFrame {
         toAccountBalanceTextField = new JFormattedTextField(NumberFormat.getInstance());
     }
 
+    /**
+     * Gets all non-loan accounts of user
+     * @return
+     */
     private Account[] getUserAccounts() {
-        List<Account> accountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
+        List<Account> accountList = new ArrayList<>();
+        List<Account> fullAccountList = AccountsCollectionManager.getInstance().findByOwnerID(userID);
+
+        for(Account account:fullAccountList){
+            if(!(account instanceof LoanAccount)){
+                accountList.add(account);
+            }
+        }
+
         Account[] accounts = new Account[accountList.size()];
         for (int i = 0; i < accountList.size(); i++) {
             accounts[i] = accountList.get(i);

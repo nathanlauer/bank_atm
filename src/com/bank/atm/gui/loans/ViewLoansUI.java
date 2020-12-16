@@ -49,10 +49,6 @@ public class ViewLoansUI extends JFrame {
         List<Account> loans = AccountsCollectionManager.getInstance().userLoansInState(userID, LoanState.APPROVED);
         loans.addAll(AccountsCollectionManager.getInstance().userLoansInState(userID, LoanState.REQUESTED));
         loans.addAll(AccountsCollectionManager.getInstance().userLoansInState(userID, LoanState.REJECTED));
-        loans.add(AccountFactory.createLoanAccount(USD.getInstance(), 0, userID,
-                "getCollateral()", 324, 432));
-        loans.add(AccountFactory.createLoanAccount(USD.getInstance(), 0, userID,
-                "getCollateral()", 324, 432));
 
         currentLoansList.setListData(loans.toArray());
         currentLoansList.setCellRenderer(new LoansListRenderer(ROWS_PER_LIST_ITEM, COLS_PER_LIST_ITEM));
