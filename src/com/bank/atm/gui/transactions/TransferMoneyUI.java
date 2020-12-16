@@ -146,14 +146,14 @@ public class TransferMoneyUI extends JFrame {
      *                    return whether or not transaction was successful
      */
     private boolean transferMoney(Account fromAccount, Account toAccount, double amount, double fee) {
-        if(amount<=0){
-            JOptionPane.showMessageDialog(this,"Amount must be greater than 0");
+        if (amount <= 0) {
+            JOptionPane.showMessageDialog(this, "Amount must be greater than 0");
             return false;
         }
         try {
-            TransactionsCollectionManager.getInstance().executeTransaction(new Transfer(userID,fromAccount.getID(),toAccount.getID(),amount));
+            TransactionsCollectionManager.getInstance().executeTransaction(new Transfer(userID, fromAccount.getID(), toAccount.getID(), amount));
         } catch (IllegalTransactionException e) {
-            JOptionPane.showMessageDialog(this,e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
             return false;
         }
         return true;

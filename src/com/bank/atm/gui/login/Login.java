@@ -45,14 +45,14 @@ public class Login extends JFrame {
                     com.bank.atm.backend.authentication.Login login = new com.bank.atm.backend.authentication.Login(userName, password);
                     User user = login.run(true);
 
-                    if(user.isAnAdmin()){
+                    if (user.isAnAdmin()) {
                         dispose();
                         JFrame frame = new BankerMenu("Banker Menu");
                         frame.setVisible(true);
                     }
-                    if(user.isAClient()){
+                    if (user.isAClient()) {
                         dispose();
-                        JFrame frame = new UserMenu("User Menu",user);
+                        JFrame frame = new UserMenu("User Menu", user);
                         frame.setVisible(true);
                     }
 

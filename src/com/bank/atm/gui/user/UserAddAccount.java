@@ -136,7 +136,6 @@ public class UserAddAccount extends JFrame {
     }
 
 
-
     private JPanel userAddAccountPanel;
     private JComboBox<AccountType> accountTypeComboBox;
     private JComboBox<CurrencyType> currencyTypeComboBox;
@@ -230,9 +229,10 @@ public class UserAddAccount extends JFrame {
 
     /**
      * returns the initial balance entered by user in the initialBalanceTextField
+     *
      * @return
      */
-    private double getInitialBalance(){
+    private double getInitialBalance() {
         double initBalance = 0;
         try {
             initBalance = ((Number) initialBalanceTextField.getValue()).doubleValue();
@@ -240,11 +240,13 @@ public class UserAddAccount extends JFrame {
         }
         return initBalance;
     }
+
     /**
      * Returns the currency from the combobox
+     *
      * @return
      */
-    private Currency getCurrency(){
+    private Currency getCurrency() {
         Currency currency = null;
         switch ((CurrencyType) currencyTypeComboBox.getSelectedItem()) {
             case USD:

@@ -191,6 +191,12 @@ public class AccountDetails extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         accountDetailsPanel.add(dateOpenedTextField, gbc);
+        final JPanel spacer4 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        accountDetailsPanel.add(spacer4, gbc);
         accountNameLabel = new JLabel();
         accountNameLabel.setHorizontalAlignment(2);
         accountNameLabel.setHorizontalTextPosition(0);
@@ -213,13 +219,26 @@ public class AccountDetails extends JFrame {
         withdrawButton = new JButton();
         withdrawButton.setText("Withdraw");
         transactionPanel.add(withdrawButton);
-        final JPanel spacer4 = new JPanel();
+        final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.insets = new Insets(30, 0, 0, 0);
-        accountDetailsMainPanel.add(spacer4, gbc);
+        accountDetailsMainPanel.add(spacer5, gbc);
+        viewTransactionsButton = new JButton();
+        viewTransactionsButton.setText("View Transactions");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        accountDetailsMainPanel.add(viewTransactionsButton, gbc);
+        final JPanel spacer6 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        accountDetailsMainPanel.add(spacer6, gbc);
     }
 
     /**

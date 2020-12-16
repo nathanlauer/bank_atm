@@ -56,6 +56,7 @@ public class UserViewAccounts extends JFrame {
         accountsList.setBorder(new EmptyBorder(10, 10, 10, 10));
         accountsList.addListSelectionListener(new ListSelectionListener() {
             int i = 0;
+
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (i % 2 == 0) {//every click of list selection listener results in valueChanged being called twice. We use counter%2 to make sure the event is triggered only once
@@ -78,8 +79,8 @@ public class UserViewAccounts extends JFrame {
     private List<Account> getAccountsData(ID userID) {
         List<Account> nonLoanAccounts = new ArrayList<>();
         List<Account> allAccounts = AccountsCollectionManager.getInstance().findByOwnerID(userID);
-        for(Account account: allAccounts){
-            if(!(account instanceof LoanAccount)){
+        for (Account account : allAccounts) {
+            if (!(account instanceof LoanAccount)) {
                 nonLoanAccounts.add(account);
             }
         }

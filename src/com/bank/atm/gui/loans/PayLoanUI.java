@@ -24,10 +24,10 @@ import java.util.List;
 public class PayLoanUI extends JFrame {
     private final int frameWidth = 500;
     private final int frameHeight = 500;
-    
+
     private ID userID;
     private JFrame viewLoanFrame;
-    
+
     private JComboBox loansComboBox;
     private JFormattedTextField amountToPayTextField;
     private JFormattedTextField loanAmountLeft;
@@ -35,13 +35,14 @@ public class PayLoanUI extends JFrame {
     private JPanel payLoanPanel;
     private JButton payLoanButton;
 
-    public PayLoanUI(ID userID,LoanAccount loanAccount){
+    public PayLoanUI(ID userID, LoanAccount loanAccount) {
         this(userID);
         loansComboBox.setSelectedItem(loanAccount);
         updateLoanAmountLeft(loanAccount);
     }
+
     public PayLoanUI(ID userID) {
-        this.userID=userID;
+        this.userID = userID;
         $$$setupUI$$$();
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setContentPane(payLoanPanel);//sets content to our menu panel
@@ -50,8 +51,8 @@ public class PayLoanUI extends JFrame {
         viewLoanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LoanAccount loanAccount=getSelectedLoanAccount();
-                if(loanAccount!=null) {
+                LoanAccount loanAccount = getSelectedLoanAccount();
+                if (loanAccount != null) {
                     viewLoanFrame = new LoanDetails(userID, loanAccount);
                     viewLoanFrame.setVisible(true);
                 }
@@ -60,55 +61,59 @@ public class PayLoanUI extends JFrame {
         payLoanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                payLoan(userID,getSelectedLoanAccount());
-                if(viewLoanFrame!=null)
+                payLoan(userID, getSelectedLoanAccount());
+                if (viewLoanFrame != null)
                     viewLoanFrame.dispose();
                 updateLoanAmountLeft(getSelectedLoanAccount());
             }
         });
         updateLoanAmountLeft(getSelectedLoanAccount());
     }
-    
-    private void updateLoanAmountLeft(LoanAccount loanAccount){
-        if(loanAccount!=null)
-            loanAmountLeft.setText(loanAccount.getMoneyOwed()+"");
+
+    private void updateLoanAmountLeft(LoanAccount loanAccount) {
+        if (loanAccount != null)
+            loanAmountLeft.setText(loanAccount.getMoneyOwed() + "");
     }
-    private void payLoan(ID userID, LoanAccount loanAccount){
-        if(loanAccount==null)
+
+    private void payLoan(ID userID, LoanAccount loanAccount) {
+        if (loanAccount == null)
             return;
         try {
-            TransactionsCollectionManager.getInstance().executeTransaction(new LoanPayment(userID,loanAccount.getID(),getPayAmt()));
+            TransactionsCollectionManager.getInstance().executeTransaction(new LoanPayment(userID, loanAccount.getID(), getPayAmt()));
 
-            JOptionPane.showMessageDialog(PayLoanUI.this,"Paid "+getPayAmt()+"to Loan "+loanAccount.getID());
+            JOptionPane.showMessageDialog(PayLoanUI.this, "Paid " + getPayAmt() + "to Loan " + loanAccount.getID());
         } catch (IllegalTransactionException e) {
-            JOptionPane.showMessageDialog(this,e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
-    
-    private LoanAccount getSelectedLoanAccount(){
+
+    private LoanAccount getSelectedLoanAccount() {
         return (LoanAccount) loansComboBox.getSelectedItem();
     }
+
     /**
      * returns payment amt entered by user
+     *
      * @return
      */
-    private double getPayAmt(){
+    private double getPayAmt() {
         double amt = 0;
         try {
             amt = ((Number) amountToPayTextField.getValue()).doubleValue();
         } catch (NullPointerException e) {
-            amt=0;
+            amt = 0;
         }
         return amt;
     }
-    private LoanAccount[] getLoanAccounts(ID userID){
+
+    private LoanAccount[] getLoanAccounts(ID userID) {
         List<Account> loanActList = AccountsCollectionManager.getInstance().userLoansInState(userID, LoanState.APPROVED);
-        LoanAccount[] loanAccounts=new LoanAccount[loanActList.size()];
-        for (int i = 0; i<loanAccounts.length;i++){
-            loanAccounts[i]=(LoanAccount) loanActList.get(i);
+        LoanAccount[] loanAccounts = new LoanAccount[loanActList.size()];
+        for (int i = 0; i < loanAccounts.length; i++) {
+            loanAccounts[i] = (LoanAccount) loanActList.get(i);
         }
         return loanAccounts;
-        
+
     }
 
     /**
@@ -119,6 +124,7 @@ public class PayLoanUI extends JFrame {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
+        createUIComponents();
         payLoanPanel = new JPanel();
         payLoanPanel.setLayout(new GridBagLayout());
         final JLabel label1 = new JLabel();
@@ -148,14 +154,12 @@ public class PayLoanUI extends JFrame {
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         payLoanPanel.add(label2, gbc);
-        loansComboBox = new JComboBox();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         payLoanPanel.add(loansComboBox, gbc);
-        amountToPayTextField = new JFormattedTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 4;
@@ -203,12 +207,19 @@ public class PayLoanUI extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         payLoanPanel.add(spacer5, gbc);
         final JLabel label4 = new JLabel();
-        label4.setText("Loan Amount Left:");
+        label4.setText("Loan Amount Left to Pay:");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.anchor = GridBagConstraints.WEST;
         payLoanPanel.add(label4, gbc);
+        payLoanButton = new JButton();
+        payLoanButton.setText("Pay Loan");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 4;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        payLoanPanel.add(payLoanButton, gbc);
     }
 
     /**
@@ -219,9 +230,9 @@ public class PayLoanUI extends JFrame {
     }
 
     private void createUIComponents() {
-        amountToPayTextField=new JFormattedTextField(NumberFormat.getInstance());
+        amountToPayTextField = new JFormattedTextField(NumberFormat.getInstance());
         amountToPayTextField.setText("0");
-        loansComboBox=new JComboBox<LoanAccount>(getLoanAccounts(userID));
+        loansComboBox = new JComboBox<LoanAccount>(getLoanAccounts(userID));
     }
-    
+
 }

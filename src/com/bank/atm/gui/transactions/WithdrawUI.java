@@ -118,12 +118,12 @@ public class WithdrawUI extends JFrame {
         try {
             amt = ((Number) amountTextField.getValue()).doubleValue();
         } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(this,"Invalid amount");
+            JOptionPane.showMessageDialog(this, "Invalid amount");
         }
         try {
-            TransactionsCollectionManager.getInstance().executeTransaction(new Withdraw(userID,account.getID(),amt));
+            TransactionsCollectionManager.getInstance().executeTransaction(new Withdraw(userID, account.getID(), amt));
         } catch (IllegalTransactionException e) {
-            JOptionPane.showMessageDialog(this,e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
             amt = 0;
         }
         return amt;
