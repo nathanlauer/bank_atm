@@ -2,6 +2,7 @@ package com.bank.atm.gui.banker;
 
 import com.bank.atm.backend.collections.UsersCollectionManager;
 import com.bank.atm.backend.users.User;
+import com.bank.atm.util.ID;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,8 +80,9 @@ public class ViewUser extends JFrame {
                 if (e.getClickCount() == 2 && viewUserTable.getSelectedRow() != -1) {
                     System.out.println("Double Click done");
                     System.out.println(viewUserCustomTableModel.getIdAt(viewUserTable.getSelectedRow()));
+                    ID selectedUserID = viewUserCustomTableModel.getIdAt(viewUserTable.getSelectedRow());
                     dispose();
-                    JFrame frame = new ViewSingleUserDetails("User Details");
+                    JFrame frame = new ViewSingleUserDetails("User Details",selectedUserID);
                     frame.setVisible(true);
                 }
             }
