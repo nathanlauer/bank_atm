@@ -22,7 +22,7 @@ import java.text.NumberFormat;
 import java.util.List;
 
 public class PayLoanUI extends JFrame {
-    private final int frameWidth = 500;
+    private final int frameWidth = 800;
     private final int frameHeight = 500;
 
     private ID userID;
@@ -65,6 +65,12 @@ public class PayLoanUI extends JFrame {
                 if (viewLoanFrame != null)
                     viewLoanFrame.dispose();
                 updateLoanAmountLeft(getSelectedLoanAccount());
+            }
+        });
+        loansComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateLoanAmountLeft((LoanAccount)loansComboBox.getSelectedItem());
             }
         });
         updateLoanAmountLeft(getSelectedLoanAccount());
