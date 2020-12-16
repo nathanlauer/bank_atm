@@ -167,6 +167,7 @@ public class UserAddAccount extends JFrame {
                         AccountsCollectionManager.getInstance().save(createdAccount);
                         JOptionPane.showMessageDialog(UserAddAccount.this,
                                 "Account has been created with ID " + createdAccount.getID() + "");
+                        UserAddAccount.this.dispose();
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
