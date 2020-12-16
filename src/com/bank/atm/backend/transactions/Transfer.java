@@ -41,7 +41,7 @@ public class Transfer extends Transaction {
      * @param transactionId the ID of this Withdraw Transfer
      */
     public Transfer(ID userId, ID fromAccountId, ID toAccountId, double amount, ID transactionId) {
-        super(userId, fromAccountId, toAccountId, amount, transactionId);
+        super(userId, fromAccountId, toAccountId, amount, transactionId, TransactionType.TRANSFER);
     }
 
     /**
