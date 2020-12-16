@@ -15,7 +15,7 @@ public enum AccountType {
     GENERIC_LOAN_ACCOUNT("Generic Loan"),
     HIGH_INTEREST_SAVINGS_ACCOUNT("High-Interest Savings"),
     LOW_INTEREST_SAVINGS_ACCOUNT("Low-Interest Savings"),
-    PREMIUM_CHECKING_ACCOUNT("Premium Checking"),
+    PREMIUM_CHECKING_ACCOUNT("Premium Checking");
 
     private final String accountName;
     private AccountType(String name) {
