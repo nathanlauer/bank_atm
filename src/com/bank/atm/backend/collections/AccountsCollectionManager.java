@@ -78,10 +78,14 @@ public class AccountsCollectionManager implements CollectionManager<Account>  {
     private void attachInterestToAccounts() {
         List<Interest> interestList = InterestCollectionsManager.getInstance().all();
         for(Interest interest : interestList) {
-            ID accountId = interest.getAccountId();
-            Account account = this.find(accountId);
-            InterestEarnable earnable = (InterestEarnable)account;
-            earnable.setInterestEarningExecutor(interest);
+            try {
+                ID accountId = interest.getAccountId();
+                Account account = this.find(accountId);
+                InterestEarnable earnable = (InterestEarnable)account;
+                earnable.setInterestEarningExecutor(interest);
+            } catch (NoSuchElementException e) {
+                // Ignore
+            }
         }
     }
 
