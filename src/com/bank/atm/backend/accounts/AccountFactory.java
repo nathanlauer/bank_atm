@@ -6,10 +6,13 @@ import com.bank.atm.backend.accounts.investment_accounts.FourOhOneKAccountFactor
 import com.bank.atm.backend.accounts.loan_accounts.GenericLoanAccountFactory;
 import com.bank.atm.backend.accounts.savings_accounts.HighInterestSavingsAccountFactory;
 import com.bank.atm.backend.accounts.savings_accounts.LowInterestSavingsAccountFactory;
+import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.collections.UsersCollectionManager;
 import com.bank.atm.backend.currency.Currency;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
+
+import java.io.IOException;
 
 /**
  * Class AccountFactory is a Factory that constructs an appropriate type of Account.
@@ -66,7 +69,13 @@ public class AccountFactory {
             default:
                 throw new UnknownAccountTypeException("Unknown type of Account!");
         }
-        return factory.createAccount();
+        Account account = factory.createAccount();
+        try {
+            AccountsCollectionManager.getInstance().add(account);
+        } catch (IOException e) {
+            throw new UnknownAccountTypeException(e.getMessage());
+        }
+        return account;
     }
 
     /**
@@ -100,6 +109,12 @@ public class AccountFactory {
                                             String collateral, double collateralValue, int creditScore) {
         User user = UsersCollectionManager.getInstance().find(userId);
         AccountFactoryCreator factory = new GenericLoanAccountFactory(currency, initialValue, user, accountId, collateral, collateralValue, creditScore);
-        return factory.createAccount();
+        Account account = factory.createAccount();
+        try {
+            AccountsCollectionManager.getInstance().add(account);
+        } catch (IOException e) {
+            throw new UnknownAccountTypeException(e.getMessage());
+        }
+        return account;
     }
 }
