@@ -68,18 +68,12 @@ public class ViewUser extends JFrame {
 
         }
 
-        for (User tempClient : this.clientList) {
-            System.out.println(tempClient.getID());
-        }
-
         ViewUserCustomTableModel viewUserCustomTableModel = new ViewUserCustomTableModel(this.clientList, columnNames);
         viewUserTable.setModel(viewUserCustomTableModel);
         viewUserTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && viewUserTable.getSelectedRow() != -1) {
-                    System.out.println("Double Click done");
-                    System.out.println(viewUserCustomTableModel.getIdAt(viewUserTable.getSelectedRow()));
                     ID selectedUserID = viewUserCustomTableModel.getIdAt(viewUserTable.getSelectedRow());
                     dispose();
                     JFrame frame = new ViewSingleUserDetails("User Details",selectedUserID);

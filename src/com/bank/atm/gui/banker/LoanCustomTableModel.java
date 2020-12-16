@@ -1,5 +1,8 @@
 package com.bank.atm.gui.banker;
 
+import com.bank.atm.backend.accounts.Account;
+import com.bank.atm.backend.accounts.loan_accounts.LoanAccount;
+import com.bank.atm.backend.collections.UsersCollectionManager;
 import com.bank.atm.backend.users.Client;
 import com.bank.atm.backend.users.User;
 import com.bank.atm.util.ID;
@@ -9,10 +12,10 @@ import java.util.List;
 
 public class LoanCustomTableModel extends AbstractTableModel {
 
-    private List<User> data;
+    private List<Account> data;
     private String[] columnNames;
 
-    public LoanCustomTableModel(List<User> data, String[] columnNames){
+    public LoanCustomTableModel(List<Account> data, String[] columnNames){
         super();
         this.data = data;
         this.columnNames = columnNames;
@@ -35,16 +38,21 @@ public class LoanCustomTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Client client = (Client)data.get(rowIndex);
+        LoanAccount loanAccount = (LoanAccount)data.get(rowIndex);
+        User user = UsersCollectionManager.getInstance().findByOwnerID(loanAccount.getManagers().get(0)).get(0);
         switch (columnIndex) {
             case 0:
-                return client.getID().toString().substring(0,5)+"...";
+                return user.getID().toString().substring(0,5)+"...";
             case 1:
-                return client.getFirstName();
+                return user.getFirstName();
             case 2:
-                return client.getLastName();
+                return user.getLastName();
             case 3:
-
+                return loanAccount.getID();
+            case 4:
+                return loanAccount.getCurrency().displayMoney(loanAccount.getMoneyOwed());
+            case 5:
+                return loanAccount.getLoanState().toString();
             default:
                 return null;
         }
@@ -65,7 +73,7 @@ public class LoanCustomTableModel extends AbstractTableModel {
         return getValueAt(0, c).getClass();
     }
 
-    public ID getIdAt(int rowIndex){
-        return ((Client)data.get(rowIndex)).getID();
+    public Account getAccountAt(int rowIndex){
+        return data.get(rowIndex);
     }
 }

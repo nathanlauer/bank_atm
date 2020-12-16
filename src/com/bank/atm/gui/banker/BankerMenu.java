@@ -40,7 +40,9 @@ public class BankerMenu extends JFrame {
         viewLoansButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
+                JFrame frame = new ViewLoans("Loans");
+                frame.setVisible(true);
             }
         });
 
