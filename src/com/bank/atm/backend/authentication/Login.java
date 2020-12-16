@@ -46,17 +46,12 @@ public class Login {
         return credentials.getUserId();
     }
 
-    public String run(boolean getUser) throws AuthenticationException{
+    public User run(boolean getUser) throws AuthenticationException{
         try{
             ID userID = this.run();
             UsersCollectionManager userManager = new UsersCollectionManager();
             User user = userManager.findByOwnerID(userID).get(0);
-            if(user.isAnAdmin()){
-                return "ADMIN";
-            }
-            else{
-                return  "CLIENT";
-            }
+            return user;
         } catch (AuthenticationException e) {
             throw new AuthenticationException(invalidCredentials);
         }

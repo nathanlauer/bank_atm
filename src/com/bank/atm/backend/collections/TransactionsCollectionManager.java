@@ -1,6 +1,7 @@
 package com.bank.atm.backend.collections;
 
 import com.bank.atm.backend.transactions.Transaction;
+import com.bank.atm.backend.transactions.TransactionType;
 import com.bank.atm.util.ID;
 import com.bank.atm.util.IllegalTransactionException;
 
@@ -187,5 +188,20 @@ public class TransactionsCollectionManager implements CollectionManager<Transact
             // this Transaction will be successfully persisted to disk.
             throw new IllegalTransactionException(e.getMessage());
         }
+    }
+
+    /**
+     * List of all Transactions that are of a certain type
+     * @param transactionType the desired type of Transaction
+     * @return List of all such Transactions
+     */
+    public List<Transaction> transactionsOfType(TransactionType transactionType) {
+        List<Transaction> relevantTransactions = new ArrayList<>();
+        for(Transaction transaction : all()) {
+            if(transaction.hasTransactionType(transactionType)) {
+                relevantTransactions.add(transaction);
+            }
+        }
+        return relevantTransactions;
     }
 }

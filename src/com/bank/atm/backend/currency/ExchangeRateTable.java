@@ -2,7 +2,8 @@ package com.bank.atm.backend.currency;
 
 import com.bank.atm.util.Validations;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 public class ExchangeRateTable {
     private static ExchangeRateTable instance;
-    private final HashMap<Currency, ExchangeRate> exchangeRateTable;
+    private final List<ExchangeRate> exchangeRates;
 
     /**
      *
@@ -34,18 +35,32 @@ public class ExchangeRateTable {
      * Private constructor
      */
     private ExchangeRateTable() {
-        exchangeRateTable = new HashMap<>();
+        exchangeRates = new ArrayList<>();
     }
 
     /**
      * Adds the passed in ExchangeRate for the passed in Currency.
-     * Note that the Currency exchanged to is contained within the
-     * exchangeRate object.
-     * @param from the from Currency
      * @param exchangeRate object encapsulating the exchange rate
      */
-    public void addExchangeRate(Currency from, ExchangeRate exchangeRate) {
-        this.exchangeRateTable.put(from, exchangeRate);
+    public void addExchangeRate(ExchangeRate exchangeRate) {
+        this.exchangeRates.add(exchangeRate);
+    }
+
+    /**
+     * Private helper function which traverses the List of known exchanges rates, and
+     * finds the desired one for the passed in Currencies
+     * @param from the Currency from
+     * @param to the Currency to
+     * @return the ExchangeRate between from and to
+     * @throws UnknownExchangeRateException if no such exchange rate is found
+     */
+    private ExchangeRate findExchangeRate(Currency from, Currency to) throws UnknownExchangeRateException {
+        for(ExchangeRate exchangeRate : exchangeRates) {
+            if(exchangeRate.hasFromCurrency(from) && exchangeRate.hasToCurrency(to)) {
+                return exchangeRate;
+            }
+        }
+        throw new UnknownExchangeRateException("No Exchange Rate found between " + from.toString() + " and " + to.toString());
     }
 
     /**
@@ -57,16 +72,7 @@ public class ExchangeRateTable {
      * @return the ExchangeRate between the two Currencies.
      */
     public ExchangeRate getExchangeRate(Currency from, Currency to) throws UnknownExchangeRateException {
-        for(Map.Entry<Currency, ExchangeRate> entry : exchangeRateTable.entrySet()) {
-            Currency currency = entry.getKey();
-            if(currency.equals(from)) {
-                ExchangeRate exchangeRate = entry.getValue();
-                if(exchangeRate.getTo().equals(to)) {
-                    return exchangeRate;
-                }
-            }
-        }
-        throw new UnknownExchangeRateException("No Exchange Rate found between " + from.toString() + " and " + to.toString());
+        return findExchangeRate(from, to);
     }
 
     /**
@@ -97,21 +103,8 @@ public class ExchangeRateTable {
      * @throws UnknownExchangeRateException if this table does not have an ExchangeRate for the two Currencies.
      */
     private void updateExchangeRateHelper(Currency from, Currency to, double rate) throws UnknownExchangeRateException {
-        boolean found = false;
-        for(Map.Entry<Currency, ExchangeRate> entry : exchangeRateTable.entrySet()) {
-            Currency currency = entry.getKey();
-            if(currency.equals(from)) {
-                ExchangeRate exchangeRate = entry.getValue();
-                if(exchangeRate.getTo().equals(to)) {
-                    found = true;
-                    exchangeRate.setRate(rate);
-                    break;
-                }
-            }
-        }
-        if(!found) {
-            throw new UnknownExchangeRateException("No Exchange Rate found between " + from.toString() + " and " + to.toString());
-        }
+        ExchangeRate exchangeRate = findExchangeRate(from, to);
+        exchangeRate.setRate(rate);
     }
 
     /**
@@ -120,8 +113,8 @@ public class ExchangeRateTable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        for(Map.Entry<Currency, ExchangeRate> entry : exchangeRateTable.entrySet()) {
-            builder.append(entry.getValue().toString());
+        for(ExchangeRate exchangeRate : exchangeRates) {
+            builder.append(exchangeRate.toString());
             builder.append("\n"); // newline
         }
         return builder.toString();

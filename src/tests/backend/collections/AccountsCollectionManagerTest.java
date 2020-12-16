@@ -6,6 +6,7 @@ import com.bank.atm.backend.accounts.AccountType;
 import com.bank.atm.backend.collections.AccountsCollectionManager;
 import com.bank.atm.backend.collections.CollectionsUtil;
 import com.bank.atm.backend.collections.UsersCollectionManager;
+import com.bank.atm.backend.currency.InitExchangeRates;
 import com.bank.atm.backend.currency.JPY;
 import com.bank.atm.backend.currency.USD;
 import com.bank.atm.backend.currency.UnknownExchangeRateException;
@@ -41,6 +42,9 @@ public class AccountsCollectionManagerTest {
 
     @BeforeAll
     public static void init() throws IOException {
+        // Initialize exchange rates
+        InitExchangeRates.run();
+
         user = new User("Nathan", "Lauer", userId);
         UsersCollectionManager.getInstance().add(user);
 
@@ -85,9 +89,7 @@ public class AccountsCollectionManagerTest {
         // Find the first Account
         Account account = AccountsCollectionManager.getInstance().find(firstId);
         assertEquals(account, accounts.get(0));
-
-        // TODO: exchange rates
-//        account.switchCurrencies(JPY.getInstance());
+        account.switchCurrencies(JPY.getInstance());
 
         try {
             AccountsCollectionManager.getInstance().save(account);
